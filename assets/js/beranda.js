@@ -23,12 +23,9 @@ JN.mulai = () => {
      saat titik itu mendekat. Titik terakhir di tong kecil pada langkah Setor: botol "masuk" ke tong. */
   const botol = $('#botol-jalan'), singgah = $$('[data-singgah]'), tong = $('#tong-mini');
   botol.innerHTML = svg('botol');
-  if (JN.kurangGerak) {
-    singgah.slice(0, -1).forEach(s => { s.innerHTML = svg('botol'); });
-    tong.classList.add('terisi'); botol.hidden = true;
-    gambarGaris(); addEventListener('resize', gambarGaris);
-    return;
-  }
+  /* Pengguna "kurangi gerakan": tetap satu botol yang mengikuti scroll, tapi lurus saja
+     (tanpa lambung, putaran, atau goyang tong) supaya ceritanya tetap sampai. */
+  const tenang = JN.kurangGerak;
   const batas = t => Math.min(1, Math.max(0, t)), halus = t => t * t * (3 - 2 * t);
   let menunggu = false, sudahMasuk = false;
   function gambar() {
@@ -44,8 +41,8 @@ JN.mulai = () => {
       const a = titik[i], b = titik[i + 1];
       const t = halus(batas(((s - a.doc) / (b.doc - a.doc) - 0.3) / 0.5)); // 30% diam, 50% pindah, 20% menunggu
       x = a.x + (b.x - a.x) * t;
-      yy = a.y + (b.y - a.y) * t - Math.sin(Math.PI * t) * 70;
-      putar = Math.sin(Math.PI * t) * 30;
+      yy = a.y + (b.y - a.y) * t - (tenang ? 0 : Math.sin(Math.PI * t) * 70);
+      putar = tenang ? 0 : Math.sin(Math.PI * t) * 30;
       akhir = i + 1 === n && t >= 1;
     }
     const uk = botol.offsetWidth;
@@ -53,7 +50,7 @@ JN.mulai = () => {
     botol.classList.toggle('masuk', akhir);
     tong.classList.toggle('terisi', akhir);
     if (akhir && !sudahMasuk) {
-      tong.classList.remove('goyang'); tong.getBoundingClientRect(); tong.classList.add('goyang');
+      if (!tenang) { tong.classList.remove('goyang'); tong.getBoundingClientRect(); tong.classList.add('goyang'); }
       JN.eks('senang', 2200); JN.lompat();
     }
     sudahMasuk = akhir;
