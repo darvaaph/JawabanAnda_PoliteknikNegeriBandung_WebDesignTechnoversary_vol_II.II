@@ -13,12 +13,13 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 | **Pilah** (`pilah.html`) | Pencarian barang, jelajah ruangan (dapur, kamar mandi, kos & kampus, belanja), isi empat tong, arti kode plastik 1–7 |
 | **Kurangi** (`kurangi.html`) | Kalkulator barang sekali pakai yang bisa dicegah per tahun, perbandingan tumpukan sebelum dan sesudah, cara menghitung, daftar pengganti |
 | **Olah** (`olah.html`) | Panduan kompos ember dan eco-enzyme, galeri daur ulang dengan filter “saya punya…”, tombol simpan ide, Mitos vs Fakta |
-| **Setor** (`setor.html`) | Checklist persiapan sebelum menyetor, jenis tempat setor, direktori lokasi di Kuningan, dan akhir perjalanan: **Kartu Jejak-ku** |
+| **Setor** (`setor.html`) | Checklist persiapan sebelum menyetor, jenis tempat setor, direktori lokasi di Kuningan |
+| **Kartu Jejak-ku** (`kartu.html`) | Akhir perjalanan: rangkuman keempat langkah yang bisa **diunduh sebagai gambar 1080×1920** (pas untuk Instagram Story) atau dibagikan langsung dari HP |
 
 ### Alur pengunjung
 
 - **Butuh jawaban cepat:** ketik barang di pencarian Beranda atau Pilah, langsung tahu tongnya.
-- **Pengunjung baru:** Beranda → *Mulai perjalanan* → Pilah → Kurangi → Olah → Setor → Kartu Jejak-ku.
+- **Pengunjung baru:** Beranda → *Mulai perjalanan* → Pilah → Kurangi → Olah → Setor → Kartu Jejak-ku (`kartu.html`).
 - **Pengunjung lama:** langsung lewat menu.
 
 Setiap langkah punya satu aksi kecil yang meninggalkan **jejak** (buka 3 barang, pilih 1 barang yang sanggup diganti, simpan 1 ide, centang 5 persiapan). Titik berwarna di menu terisi saat jejak langkah itu tercatat. Kemajuan disimpan di browser, dan urutan langkah hanya saran: semua halaman tetap bisa dibuka kapan saja.
@@ -38,7 +39,7 @@ Fitur pendukung: maskot **Kardi** yang bereaksi terhadap aksi pengguna, tampilan
 
 ```
 webdesign_JawabanAnda_technoversary_vol.II/
-├─ index.html, pilah.html, kurangi.html, olah.html, setor.html, tentang.html, kontak.html, 404.html
+├─ index.html, pilah.html, kurangi.html, olah.html, setor.html, kartu.html, tentang.html, kontak.html, 404.html
 ├─ README.md
 └─ assets/
    ├─ favicon.svg
@@ -46,7 +47,7 @@ webdesign_JawabanAnda_technoversary_vol.II/
    └─ js/
       ├─ data.js            ← data barang, tong, plastik, panduan, DIY, mitos, direktori
       ├─ umum.js            ← ikon, Kardi, menu, pencarian, jelajah, kalkulator
-      └─ beranda.js, pilah.js, kurangi.js, olah.js, setor.js, kontak.js
+      └─ beranda.js, pilah.js, kurangi.js, olah.js, setor.js, kartu.js, kontak.js
 ```
 
 ## Petunjuk instalasi dan cara menjalankan

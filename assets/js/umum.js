@@ -59,13 +59,13 @@ JN.jejak = {
       const l = JN.LANGKAH.find(x => x.id === el.dataset.tugas);
       el.classList.toggle('beres', st[l.id]);
       el.innerHTML = st[l.id]
-        ? `<span class="label">✓ Jejak ${l.nama} tercatat · ${n}/4</span><span>${b ? `Lanjut ke <a href="${b.url}">${b.nama} →</a>` : `Keempat jejak lengkap. <a href="setor.html#selesai">Lihat Kartu Jejak-ku →</a>`}</span>`
+        ? `<span class="label">✓ Jejak ${l.nama} tercatat · ${n}/4</span><span>${b ? `Lanjut ke <a href="${b.url}">${b.nama} →</a>` : `Keempat jejak lengkap. <a href="kartu.html">Lihat Kartu Jejak-ku →</a>`}</span>`
         : `<span class="label">Jejakmu di sini · ${n}/4</span><span>${l.tugas}${l.id === 'pilah' ? ` (${Math.min(3, d.pilah.dilihat.length)}/3)` : ''}</span>`;
     });
     $$('[data-status-jejak]').forEach(el => { const s = st[el.dataset.statusJejak]; el.classList.toggle('sudah', s); el.textContent = s ? '✓ Sudah' : 'Belum'; });
     $$('[data-lanjut]').forEach(a => {
       if (!n) return;
-      if (b) { a.href = b.url; a.textContent = `Lanjutkan: ${b.nama} →`; } else { a.href = 'setor.html#selesai'; a.textContent = 'Lihat Kartu Jejak-ku →'; }
+      if (b) { a.href = b.url; a.textContent = `Lanjutkan: ${b.nama} →`; } else { a.href = 'kartu.html'; a.textContent = 'Lihat Kartu Jejak-ku →'; }
     });
     $$('[data-kartu-jejak]').forEach(JN.gambarKartuJejak);
   }
@@ -76,22 +76,30 @@ function rayakan(l, n) {
 }
 JN.hitungJanji = baris => (baris || []).filter(r => JN.byId[r.id] && JN.byId[r.id].hitung && JN.PER[r.per])
   .map(r => ({ r, b: JN.byId[r.id], dicegah: Math.round(r.jumlah * JN.PER[r.per] * r.k) }));
+/* isi Kartu Jejak-ku sebagai teks biasa: dipakai kartu di halaman dan gambar yang diunduh */
+JN.isiKartuJejak = (d = JN.jejak.data()) => {
+  const n = JN.jejak.jumlah(JN.jejak.status(d));
+  const janji = JN.hitungJanji(simpan.ambil(KUNCI_BARIS)).filter(x => x.r.k > 0);
+  const semuaIde = [...JN.PANDUAN, ...JN.DIY];
+  const nama = d.nama || 'Aku';
+  return {
+    judul: n === 4 ? `${nama} menyelesaikan 4 langkah!` : `Jejak ${nama} sejauh ini`,
+    total: janji.reduce((s, x) => s + x.dicegah, 0),
+    baris: {
+      pilah: d.pilah.dilihat.length ? `Sudah mengenali tong untuk ${d.pilah.dilihat.length} barang.` : 'Sudah mencari tahu tong yang benar.',
+      kurangi: janji.length ? `Ganti ${janji.slice(0, 3).map(x => `${x.b.nama.toLowerCase()} dengan ${x.b.hitung.ganti}`).join('; ')}${janji.length > 3 ? `, dan ${janji.length - 3} lainnya` : ''}.` : '',
+      olah: `Akan mencoba: ${d.olah.simpan.map(id => (semuaIde.find(x => x.id === id) || {}).judul).filter(Boolean).join(', ')}.`,
+      setor: 'Siap menyetor sampah yang bersih, kering, dan terpilah.'
+    }
+  };
+};
 JN.gambarKartuJejak = el => {
   const d = JN.jejak.data(), st = JN.jejak.status(d), n = JN.jejak.jumlah(st);
-  const janji = JN.hitungJanji(simpan.ambil(KUNCI_BARIS)).filter(x => x.r.k > 0);
-  const total = janji.reduce((s, x) => s + x.dicegah, 0);
-  const semuaIde = [...JN.PANDUAN, ...JN.DIY];
-  const isi = {
-    pilah: d.pilah.dilihat.length ? `Sudah mengenali tong untuk ${d.pilah.dilihat.length} barang.` : 'Sudah mencari tahu tong yang benar.',
-    kurangi: janji.length ? `Ganti ${janji.slice(0, 3).map(x => `${x.b.nama.toLowerCase()} dengan ${x.b.hitung.ganti}`).join('; ')}${janji.length > 3 ? `, dan ${janji.length - 3} lainnya` : ''}.` : '',
-    olah: `Akan mencoba: ${d.olah.simpan.map(id => (semuaIde.find(x => x.id === id) || {}).judul).filter(Boolean).join(', ')}.`,
-    setor: 'Siap menyetor sampah yang bersih, kering, dan terpilah.'
-  };
-  const nama = d.nama ? JN.esc(d.nama) : 'Aku';
+  const isi = JN.isiKartuJejak(d), total = isi.total;
   el.innerHTML = `<div class="kartu-jejak">
     <div class="kj-atas"><span class="kj-logo">Jejak Nol</span><span class="kj-cap">${n === 4 ? 'Lengkap' : n + '/4 jejak'}</span></div>
-    <div class="kj-nama">${n === 4 ? `${nama} menyelesaikan 4 langkah!` : `Jejak ${nama} sejauh ini`}</div>
-    ${JN.LANGKAH.map(l => `<div class="kj-baris${st[l.id] ? '' : ' belum'}" style="--w:${l.warna}"><span><b>${l.nama}</b>${st[l.id] ? isi[l.id] : `Belum. <a href="${l.url}">Selesaikan langkah ini →</a>`}</span></div>`).join('')}
+    <div class="kj-nama">${JN.esc(isi.judul)}</div>
+    ${JN.LANGKAH.map(l => `<div class="kj-baris${st[l.id] ? '' : ' belum'}" style="--w:${l.warna}"><span><b>${l.nama}</b>${st[l.id] ? JN.esc(isi.baris[l.id]) : `Belum. <a href="${l.url}">Selesaikan langkah ini →</a>`}</span></div>`).join('')}
     ${total ? `<div class="kj-total"><span class="kj-angka">${JN.fmt(total)}</span><br><strong>barang sekali pakai per tahun tidak jadi sampah</strong></div>` : ''}
     <div class="kj-kardi">${JN.kardiSVG(false, '')}</div>
   </div>`;
@@ -137,12 +145,13 @@ JN.svg = (n, label, kelas) => `<svg ${kelas ? `class="${kelas}" ` : ''}viewBox="
 
 /* ---------- Kardi si kardus ---------- */
 const TK = 'stroke="#1B1712" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
+const TK5 = TK.replace('stroke-width="3"', 'stroke-width="5"'); // lengan lebih tebal; satu atribut saja supaya SVG juga valid sebagai gambar
 JN.kardiSVG = (lambai, label = 'Kardi, maskot kardus Jejak Nol') => `
 <svg class="kardi${lambai ? ' melambai' : ''}" data-eks="biasa" viewBox="-6 0 136 126" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}>
  <g class="loncat"><g class="badan-k">
   <rect ${TK} fill="#1B1712" x="34" y="106" width="16" height="12" rx="5"/><rect ${TK} fill="#1B1712" x="70" y="106" width="16" height="12" rx="5"/>
-  <g class="lengan-kiri"><path ${TK} fill="none" stroke-width="5" d="M22 80 Q8 74 4 58"/><circle ${TK} fill="#C7A06A" cx="4" cy="54" r="6"/></g>
-  <g class="lengan-kanan"><path ${TK} fill="none" stroke-width="5" d="M106 82 Q118 88 120 100"/><circle ${TK} fill="#A9824E" cx="120" cy="103" r="6"/></g>
+  <g class="lengan-kiri"><path ${TK5} fill="none" d="M22 80 Q8 74 4 58"/><circle ${TK} fill="#C7A06A" cx="4" cy="54" r="6"/></g>
+  <g class="lengan-kanan"><path ${TK5} fill="none" d="M106 82 Q118 88 120 100"/><circle ${TK} fill="#A9824E" cx="120" cy="103" r="6"/></g>
   <path ${TK} fill="#D2B07A" d="M20 40 L34 28 L24 8 L6 22 Z"/><path ${TK} fill="#D2B07A" d="M100 40 L114 28 L126 12 L112 22 Z"/>
   <path ${TK} fill="#6E5230" d="M20 40 L34 28 L114 28 L100 40 Z"/><path ${TK} fill="#A9824E" d="M100 40 L114 28 L114 96 L100 110 Z"/>
   <rect ${TK} fill="#C7A06A" x="20" y="40" width="80" height="70" rx="2"/><rect fill="#ECD9AE" x="53" y="41.5" width="14" height="15"/>
@@ -273,7 +282,7 @@ JN.pasangKalkulator = (root, opsi = {}) => {
       <p class="keterangan">Setiap ikon = 10 barang sekali pakai dalam setahun.</p>
       ${ringkas ? `<div class="ringkas-lanjut"><a class="btn kecil" href="kurangi.html">Hitung semua kebiasaanmu →</a></div>` : `
       <p class="kelompok">Kalau satu kelas (40 orang) melakukan hal yang sama: <b data-n="kelompok">0</b> barang per tahun tidak jadi sampah.</p>
-      <p class="catatan-jejak">Janjimu otomatis tercatat dan akan masuk ke <a href="setor.html#selesai">Kartu Jejak-ku</a> di akhir perjalanan.</p>`}
+      <p class="catatan-jejak">Janjimu otomatis tercatat dan akan masuk ke <a href="kartu.html">Kartu Jejak-ku</a> di akhir perjalanan.</p>`}
     </div></div>`;
   const form = $('form', root);
 

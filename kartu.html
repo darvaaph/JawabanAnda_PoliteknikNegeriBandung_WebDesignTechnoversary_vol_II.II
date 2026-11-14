@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kartu Jejak-ku · Jejak Nol</title>
+<meta name="description" content="Rangkuman empat langkah Jejak Nol yang sudah kamu lakukan, siap diunduh dan dibagikan.">
+<meta name="theme-color" content="#1B1712">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap">
+<link rel="stylesheet" href="assets/css/gaya.css">
+<script src="assets/js/data.js" defer></script>
+<script src="assets/js/umum.js" defer></script>
+<script src="assets/js/kartu.js" defer></script>
+</head>
+<body>
+<a class="lewati" href="#utama">Lewati ke isi</a>
+<header class="atas">
+  <div class="isi">
+    <a class="logo" href="index.html">Jejak<b>Nol</b></a>
+    <button class="tombol-menu" id="tombol-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav class="menu" id="menu" aria-label="Menu utama">
+      <a class="titik" style="--w:var(--anorganik)" href="pilah.html">Pilah</a>
+      <a class="titik" style="--w:var(--stempel)" href="kurangi.html">Kurangi</a>
+      <a class="titik" style="--w:var(--organik)" href="olah.html">Olah</a>
+      <a class="titik" style="--w:var(--setor)" href="setor.html">Setor</a>
+      <a href="tentang.html">Tentang</a>
+      <a href="kontak.html">Kontak</a>
+    </nav>
+  </div>
+</header>
+
+<main class="jalur pendek" id="utama">
+  <section class="halaman-kepala">
+    <div class="isi">
+      <div class="teks">
+        <span class="cap">Akhir perjalanan</span>
+        <h1 class="judul-halaman" id="judul-kartu">Kartu Jejak-ku</h1>
+        <p class="pengantar" id="teks-kartu"></p>
+        <nav class="langkah-nav" aria-label="Empat langkah">
+          <a style="--w:var(--anorganik)" href="pilah.html">Pilah</a><a style="--w:var(--stempel)" href="kurangi.html">Kurangi</a><a style="--w:var(--organik)" href="olah.html">Olah</a><a style="--w:var(--setor)" href="setor.html">Setor</a>
+        </nav>
+      </div>
+      <div class="kardi-kepala" data-kardi="lambai"></div>
+    </div>
+  </section>
+
+  <section class="bagian" style="padding-top:0" data-pesan="Unduh kartunya, lalu bagikan ke temanmu!" data-eks="senang">
+    <div class="isi hasil-akhir">
+      <div class="selesai-kepala">
+        <h2 class="subjudul">Lengkapi dan bagikan</h2>
+        <div class="medan" style="width:100%;max-width:420px">
+          <label for="nama-jejak">Nama di kartu</label>
+          <input id="nama-jejak" placeholder="Tulis namamu" maxlength="24" autocomplete="name">
+        </div>
+        <div class="ringkas-lanjut">
+          <button type="button" class="btn" id="unduh-kartu">Unduh gambar</button>
+          <button type="button" class="btn putih" id="bagikan-kartu" hidden>Bagikan</button>
+        </div>
+        <p class="keterangan" id="info-unduh" aria-live="polite">Gambar berukuran 1080 × 1920 piksel, pas untuk Instagram Story dan status WhatsApp.</p>
+        <button type="button" class="tombol-teks" id="hapus-jejak">Hapus jejak dan mulai dari awal</button>
+      </div>
+      <div data-kartu-jejak></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="isi">
+    <section><h2>Jejak Nol</h2><p>Media informasi zero-waste untuk pelajar dan mahasiswa: panduan memilah, menghitung, mengolah, dan menyetor sampah dari rumah sendiri.</p></section>
+    <section><h2>Jelajahi</h2><ul><li><a href="pilah.html">Pilah</a></li><li><a href="kurangi.html">Kurangi</a></li><li><a href="olah.html">Olah</a></li><li><a href="setor.html">Setor</a></li><li><a href="kartu.html">Kartu Jejak-ku</a></li><li><a href="tentang.html">Tentang</a></li><li><a href="kontak.html">Kontak</a></li></ul></section>
+    <section><h2>Lomba</h2><p>Dibuat untuk Lomba Web Design Techno Versary Vol. II, HIMA-TI FKOM Universitas Kuningan.</p></section>
+  </div>
+</footer>
+</body>
+</html>
