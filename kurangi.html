@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kurangi · Jejak Nol</title>
+<meta name="description" content="Hitung berapa barang sekali pakai yang bisa kamu cegah dalam setahun, lalu buat Kartu Janji untuk dibagikan.">
+<meta name="theme-color" content="#1B1712">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap">
+<link rel="stylesheet" href="assets/css/gaya.css">
+<script src="assets/js/data.js" defer></script>
+<script src="assets/js/umum.js" defer></script>
+<script src="assets/js/kurangi.js" defer></script>
+</head>
+<body>
+<a class="lewati" href="#utama">Lewati ke isi</a>
+<header class="atas">
+  <div class="isi">
+    <a class="logo" href="index.html">Jejak<b>Nol</b></a>
+    <button class="tombol-menu" id="tombol-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav class="menu" id="menu" aria-label="Menu utama">
+      <a class="titik" style="--w:var(--anorganik)" href="pilah.html">Pilah</a>
+      <a class="titik" style="--w:var(--stempel)" href="kurangi.html" aria-current="page">Kurangi</a>
+      <a class="titik" style="--w:var(--organik)" href="olah.html">Olah</a>
+      <a class="titik" style="--w:var(--setor)" href="setor.html">Setor</a>
+      <a href="tentang.html">Tentang</a>
+      <a href="kontak.html">Kontak</a>
+    </nav>
+  </div>
+</header>
+
+<main class="jalur pendek" id="utama">
+  <section class="halaman-kepala">
+    <div class="isi">
+      <div class="teks">
+        <span class="cap">Langkah 2 dari 4</span>
+        <h1 class="judul-halaman"><mark class="stabilo">Kurangi</mark> yang sekali pakai.</h1>
+        <p class="pengantar">Sampah paling mudah diurus adalah sampah yang tidak pernah ada. Pilih barang yang sering kamu pakai, jawab dua pertanyaan, dan lihat berapa banyak yang bisa kamu cegah dalam setahun.</p>
+        <nav class="langkah-nav" aria-label="Empat langkah">
+          <a style="--w:var(--anorganik)" href="pilah.html">Pilah</a><a style="--w:var(--stempel)" href="kurangi.html" aria-current="page">Kurangi</a><a style="--w:var(--organik)" href="olah.html">Olah</a><a style="--w:var(--setor)" href="setor.html">Setor</a>
+        </nav>
+      </div>
+      <div class="kardi-kepala" data-kardi="lambai"></div>
+    </div>
+  </section>
+
+  <section class="bagian" id="hitung" style="padding-top:0" data-pesan="Coba ubah angkanya, bandingkan dua tumpukannya.">
+    <div class="isi">
+      <div class="kepala-bagian">
+        <span class="cap">Kalkulator</span>
+        <h2 class="judul-bagian">Hitung sampah yang bisa kamu <mark class="stabilo">cegah.</mark></h2>
+        <span class="coret">tambah barang lain di bawah daftar!</span>
+      </div>
+      <div id="kalkulator"></div>
+    </div>
+  </section>
+
+  <section class="bagian gelap" id="cara" data-sobek data-pesan="Rumusnya sederhana, tanpa angka tebakan." data-eks="senang">
+    <div class="isi dua-kolom">
+      <div class="prosa">
+        <span class="cap" style="align-self:flex-start">Cara kami menghitung</span>
+        <h2 style="color:var(--kertas)">Hanya jumlah barang, tanpa tebakan.</h2>
+        <p style="color:#E3D7C1">Kalkulator ini menghitung <strong>jumlah barang</strong>, bukan berat atau emisi. Jumlah barang bisa kamu bayangkan dan hitung sendiri, sedangkan berat dan emisi per barang sangat berbeda antar merek dan penelitian.</p>
+        <p style="color:#E3D7C1">“Seberapa sering kamu sanggup” diubah menjadi persen: belum bisa 0%, kadang-kadang 25%, sering 50%, hampir selalu 75%, selalu 100%.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="rumus">barang per tahun = jumlah × <span>365</span> (per hari) / <span>52</span> (per minggu) / <span>12</span> (per bulan)<br><br>dicegah = barang per tahun × <span>persen sanggup</span></div>
+        <div class="rumus">Contoh: 2 botol per hari, hampir selalu diganti tumbler<br>2 × 365 = <span>730</span> botol per tahun<br>730 × 75% = <span>548</span> botol tidak jadi sampah</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bagian" id="pengganti" data-pesan="Mulai dari satu barang dulu juga sudah bagus.">
+    <div class="isi">
+      <div class="kepala-bagian">
+        <span class="cap">Pengganti yang mudah</span>
+        <h2 class="judul-bagian">Ganti satu, lalu <mark class="stabilo">biasakan.</mark></h2>
+        <p class="pengantar">Pengganti ini bisa dibeli sekali dan dipakai bertahun-tahun. Klik “Tambahkan” untuk memasukkannya ke kalkulator di atas.</p>
+      </div>
+      <div class="grid-3" id="daftar-pengganti"></div>
+      <div class="lanjut">
+        <div><span class="label">Langkah berikutnya</span><b>Olah: ubah yang tersisa jadi berguna</b></div>
+        <a class="btn" href="olah.html">Ke Olah →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="isi">
+    <section><h2>Jejak Nol</h2><p>Media informasi zero-waste untuk pelajar dan mahasiswa: panduan memilah, menghitung, mengolah, dan menyetor sampah dari rumah sendiri.</p></section>
+    <section><h2>Jelajahi</h2><ul><li><a href="pilah.html">Pilah</a></li><li><a href="kurangi.html">Kurangi</a></li><li><a href="olah.html">Olah</a></li><li><a href="setor.html">Setor</a></li><li><a href="tentang.html">Tentang</a></li><li><a href="kontak.html">Kontak</a></li></ul></section>
+    <section><h2>Lomba</h2><p>Dibuat untuk Lomba Web Design Techno Versary Vol. II, HIMA-TI FKOM Universitas Kuningan.</p></section>
+  </div>
+</footer>
+</body>
+</html>

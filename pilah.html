@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pilah · Jejak Nol</title>
+<meta name="description" content="Cari tahu barang masuk tong mana: organik, anorganik, B3, atau residu. Lengkap dengan cara menyiapkannya dan arti kode plastik.">
+<meta name="theme-color" content="#1B1712">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap">
+<link rel="stylesheet" href="assets/css/gaya.css">
+<script src="assets/js/data.js" defer></script>
+<script src="assets/js/umum.js" defer></script>
+<script src="assets/js/pilah.js" defer></script>
+</head>
+<body>
+<a class="lewati" href="#utama">Lewati ke isi</a>
+<header class="atas">
+  <div class="isi">
+    <a class="logo" href="index.html">Jejak<b>Nol</b></a>
+    <button class="tombol-menu" id="tombol-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav class="menu" id="menu" aria-label="Menu utama">
+      <a class="titik" style="--w:var(--anorganik)" href="pilah.html" aria-current="page">Pilah</a>
+      <a class="titik" style="--w:var(--stempel)" href="kurangi.html">Kurangi</a>
+      <a class="titik" style="--w:var(--organik)" href="olah.html">Olah</a>
+      <a class="titik" style="--w:var(--setor)" href="setor.html">Setor</a>
+      <a href="tentang.html">Tentang</a>
+      <a href="kontak.html">Kontak</a>
+    </nav>
+  </div>
+</header>
+
+<main class="jalur pendek" id="utama">
+  <section class="halaman-kepala">
+    <div class="isi">
+      <div class="teks">
+        <span class="cap">Langkah 1 dari 4</span>
+        <h1 class="judul-halaman"><mark class="stabilo">Pilah</mark> sebelum dibuang.</h1>
+        <p class="pengantar">Sampah yang sudah tercampur sulit diolah. Di halaman ini kamu bisa mencari barang apa saja, melihat isi setiap tong, dan membaca kode plastik di kemasan.</p>
+        <nav class="langkah-nav" aria-label="Empat langkah">
+          <a style="--w:var(--anorganik)" href="pilah.html" aria-current="page">Pilah</a><a style="--w:var(--stempel)" href="kurangi.html">Kurangi</a><a style="--w:var(--organik)" href="olah.html">Olah</a><a style="--w:var(--setor)" href="setor.html">Setor</a>
+        </nav>
+      </div>
+      <div class="kardi-kepala" data-kardi="lambai"></div>
+    </div>
+  </section>
+
+  <section class="bagian" id="cari" style="padding-top:0" data-pesan="Ketik barang apa saja. Aku bantu cari tongnya.">
+    <div class="isi">
+      <form class="cari kertas selotip" role="search" style="max-width:720px">
+        <label for="input-cari">Ini dibuang ke mana?</label>
+        <div class="baris"><input id="input-cari" type="search" placeholder="Ketik: baterai, sachet, kulit pisang…" autocomplete="off"></div>
+        <div class="saran" aria-label="Contoh pencarian">
+          <button type="button" data-cari="tisu">tisu</button><button type="button" data-cari="charger">charger</button><button type="button" data-cari="kertas nasi">kertas nasi</button><button type="button" data-cari="tutup botol">tutup botol</button><button type="button" data-cari="masker">masker</button>
+        </div>
+        <div class="hasil" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="bagian" id="ruangan" style="padding-top:0" data-pesan="Klik barangnya, aku kasih tahu tongnya.">
+    <div class="isi">
+      <div class="kepala-bagian">
+        <span class="cap">Jelajah ruangan</span>
+        <h2 class="judul-bagian">Barang apa saja yang lewat tanganmu <mark class="stabilo">hari ini?</mark></h2>
+      </div>
+      <div id="jelajah"></div>
+    </div>
+  </section>
+
+  <section class="bagian gelap" id="tong" data-sobek data-pesan="Ingat warnanya: hijau, kuning, merah, abu-abu." data-eks="senang">
+    <div class="isi">
+      <div class="kepala-bagian">
+        <span class="cap">Empat tong</span>
+        <h2 class="judul-bagian">Satu barang, <mark class="stabilo">satu tong.</mark></h2>
+        <p class="pengantar">Warna tong mengikuti pemilahan yang umum dipakai di Indonesia. Cek juga aturan di lingkunganmu, karena tiap daerah bisa sedikit berbeda.</p>
+      </div>
+      <div class="grid-4" id="kartu-tong"></div>
+    </div>
+  </section>
+
+  <section class="bagian" id="plastik" data-pesan="Coba balik kemasan di dekatmu. Ada angkanya?" data-eks="kaget">
+    <div class="isi">
+      <div class="kepala-bagian">
+        <span class="cap">Kode plastik</span>
+        <h2 class="judul-bagian">Angka di dalam segitiga itu <mark class="stabilo">artinya apa?</mark></h2>
+        <p class="pengantar">Di bawah banyak kemasan plastik ada angka 1 sampai 7 di dalam segitiga panah. Angka itu menunjukkan jenis plastiknya, bukan jaminan bahwa kemasan itu pasti didaur ulang.</p>
+      </div>
+      <div class="plastik" id="daftar-plastik"></div>
+      <p class="isi-sumber belum" style="margin-top:14px">Status penerimaan bisa berbeda di setiap bank sampah. Sumber: ISI sebelum submit.</p>
+      <div class="lanjut">
+        <div><span class="label">Langkah berikutnya</span><b>Kurangi: hitung sampah yang bisa kamu cegah</b></div>
+        <a class="btn" href="kurangi.html">Ke Kurangi →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="isi">
+    <section><h2>Jejak Nol</h2><p>Media informasi zero-waste untuk pelajar dan mahasiswa: panduan memilah, menghitung, mengolah, dan menyetor sampah dari rumah sendiri.</p></section>
+    <section><h2>Jelajahi</h2><ul><li><a href="pilah.html">Pilah</a></li><li><a href="kurangi.html">Kurangi</a></li><li><a href="olah.html">Olah</a></li><li><a href="setor.html">Setor</a></li><li><a href="tentang.html">Tentang</a></li><li><a href="kontak.html">Kontak</a></li></ul></section>
+    <section><h2>Lomba</h2><p>Dibuat untuk Lomba Web Design Techno Versary Vol. II, HIMA-TI FKOM Universitas Kuningan.</p></section>
+  </div>
+</footer>
+</body>
+</html>

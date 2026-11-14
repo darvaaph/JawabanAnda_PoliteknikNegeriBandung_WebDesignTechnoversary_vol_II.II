@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Setor · Jejak Nol</title>
+<meta name="description" content="Persiapan sebelum menyetor sampah, jenis tempat setor, dan direktori bank sampah serta drop point B3 di Kuningan.">
+<meta name="theme-color" content="#1B1712">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap">
+<link rel="stylesheet" href="assets/css/gaya.css">
+<script src="assets/js/data.js" defer></script>
+<script src="assets/js/umum.js" defer></script>
+<script src="assets/js/setor.js" defer></script>
+</head>
+<body>
+<a class="lewati" href="#utama">Lewati ke isi</a>
+<header class="atas">
+  <div class="isi">
+    <a class="logo" href="index.html">Jejak<b>Nol</b></a>
+    <button class="tombol-menu" id="tombol-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav class="menu" id="menu" aria-label="Menu utama">
+      <a class="titik" style="--w:var(--anorganik)" href="pilah.html">Pilah</a>
+      <a class="titik" style="--w:var(--stempel)" href="kurangi.html">Kurangi</a>
+      <a class="titik" style="--w:var(--organik)" href="olah.html">Olah</a>
+      <a class="titik" style="--w:var(--setor)" href="setor.html" aria-current="page">Setor</a>
+      <a href="tentang.html">Tentang</a>
+      <a href="kontak.html">Kontak</a>
+    </nav>
+  </div>
+</header>
+
+<main class="jalur pendek" id="utama">
+  <section class="halaman-kepala">
+    <div class="isi">
+      <div class="teks">
+        <span class="cap">Langkah 4 dari 4</span>
+        <h1 class="judul-halaman"><mark class="stabilo">Setor</mark> ke tempat yang benar.</h1>
+        <p class="pengantar">Sampah yang sudah dipilah punya tujuan masing-masing. Siapkan dulu dengan benar, lalu antar ke tempat yang menerimanya.</p>
+        <nav class="langkah-nav" aria-label="Empat langkah">
+          <a style="--w:var(--anorganik)" href="pilah.html">Pilah</a><a style="--w:var(--stempel)" href="kurangi.html">Kurangi</a><a style="--w:var(--organik)" href="olah.html">Olah</a><a style="--w:var(--setor)" href="setor.html" aria-current="page">Setor</a>
+        </nav>
+      </div>
+      <div class="kardi-kepala" data-kardi="lambai"></div>
+    </div>
+  </section>
+
+  <section class="bagian" id="siapkan" style="padding-top:0" data-pesan="Bersih dan kering, itu kuncinya.">
+    <div class="isi">
+      <div class="kepala-bagian">
+        <span class="cap">Sebelum setor</span>
+        <h2 class="judul-bagian">Lima hal yang perlu <mark class="stabilo">disiapkan.</mark></h2>
+        <p class="pengantar">Bank sampah biasanya hanya menerima sampah anorganik yang bersih, kering, dan sudah dikelompokkan.</p>
+      </div>
+      <ol class="checklist">
+        <li><span class="no">1</span><span><b>Pilah sesuai tong</b>Pisahkan organik, anorganik, B3, dan residu sejak di rumah.</span></li>
+        <li><span class="no">2</span><span><b>Bilas</b>Botol, gelas, dan kaleng dibilas dari sisa minuman atau makanan.</span></li>
+        <li><span class="no">3</span><span><b>Keringkan</b>Kertas dan kardus yang basah atau berminyak sulit diolah.</span></li>
+        <li><span class="no">4</span><span><b>Kelompokkan per jenis</b>Plastik bersama plastik, kertas bersama kertas, tutup terpisah dari botol.</span></li>
+        <li><span class="no">5</span><span><b>Cek jadwal</b>Banyak bank sampah hanya buka di hari tertentu. Cek dulu sebelum berangkat.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="bagian gelap" id="tempat" data-sobek data-pesan="Baterai dan lampu jangan ke bank sampah biasa, ya." data-eks="kaget">
+    <div class="isi">
+      <div class="kepala-bagian">
+        <span class="cap">Jenis tempat</span>
+        <h2 class="judul-bagian">Tiap sampah punya <mark class="stabilo">tujuannya.</mark></h2>
+      </div>
+      <div class="grid-4" id="jenis-tempat"></div>
+    </div>
+  </section>
+
+  <section class="bagian" id="direktori" data-pesan="Tahu lokasi yang belum ada? Kabari kami!">
+    <div class="isi">
+      <div class="kepala-bagian">
+        <span class="cap">Direktori Kuningan</span>
+        <h2 class="judul-bagian">Tempat setor <mark class="stabilo">terdekat.</mark></h2>
+        <p class="pengantar">Kami hanya mencantumkan lokasi yang sudah kami cek langsung, lengkap dengan tanggal pengecekannya.</p>
+      </div>
+      <div class="filter" id="filter-tempat" role="group" aria-label="Saring jenis tempat"></div>
+      <div id="daftar-lokasi"></div>
+      <div class="lanjut">
+        <div><span class="label">Sudah sampai langkah terakhir</span><b>Bagikan janjimu supaya temanmu ikut</b></div>
+        <a class="btn" href="kurangi.html#janji">Buat Kartu Janji →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="isi">
+    <section><h2>Jejak Nol</h2><p>Media informasi zero-waste untuk pelajar dan mahasiswa: panduan memilah, menghitung, mengolah, dan menyetor sampah dari rumah sendiri.</p></section>
+    <section><h2>Jelajahi</h2><ul><li><a href="pilah.html">Pilah</a></li><li><a href="kurangi.html">Kurangi</a></li><li><a href="olah.html">Olah</a></li><li><a href="setor.html">Setor</a></li><li><a href="tentang.html">Tentang</a></li><li><a href="kontak.html">Kontak</a></li></ul></section>
+    <section><h2>Lomba</h2><p>Dibuat untuk Lomba Web Design Techno Versary Vol. II, HIMA-TI FKOM Universitas Kuningan.</p></section>
+  </div>
+</footer>
+</body>
+</html>

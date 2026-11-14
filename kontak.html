@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kontak · Jejak Nol</title>
+<meta name="description" content="Kirim pertanyaan, usulkan lokasi bank sampah di Kuningan, atau usulkan barang yang belum ada di daftar Jejak Nol.">
+<meta name="theme-color" content="#1B1712">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap">
+<link rel="stylesheet" href="assets/css/gaya.css">
+<script src="assets/js/data.js" defer></script>
+<script src="assets/js/umum.js" defer></script>
+<script src="assets/js/kontak.js" defer></script>
+</head>
+<body>
+<a class="lewati" href="#utama">Lewati ke isi</a>
+<header class="atas">
+  <div class="isi">
+    <a class="logo" href="index.html">Jejak<b>Nol</b></a>
+    <button class="tombol-menu" id="tombol-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav class="menu" id="menu" aria-label="Menu utama">
+      <a class="titik" style="--w:var(--anorganik)" href="pilah.html">Pilah</a>
+      <a class="titik" style="--w:var(--stempel)" href="kurangi.html">Kurangi</a>
+      <a class="titik" style="--w:var(--organik)" href="olah.html">Olah</a>
+      <a class="titik" style="--w:var(--setor)" href="setor.html">Setor</a>
+      <a href="tentang.html">Tentang</a>
+      <a href="kontak.html" aria-current="page">Kontak</a>
+    </nav>
+  </div>
+</header>
+
+<main class="jalur pendek" id="utama">
+  <section class="halaman-kepala">
+    <div class="isi">
+      <div class="teks">
+        <span class="cap">Kontak</span>
+        <h1 class="judul-halaman">Ada yang mau <mark class="stabilo">ditanyakan?</mark></h1>
+        <p class="pengantar">Kirim pertanyaan, usulkan bank sampah yang belum terdaftar, atau beri tahu kami barang yang belum ada di pencarian.</p>
+      </div>
+      <div class="kardi-kepala" data-kardi="lambai"></div>
+    </div>
+  </section>
+
+  <section class="bagian" style="padding-top:0" data-pesan="Tulis saja, aku bacakan ke tim.">
+    <div class="isi dua-kolom">
+      <form class="form-kontak kertas selotip" id="form-kontak" novalidate data-endpoint="">
+        <div class="medan">
+          <label for="nama">Nama</label>
+          <input id="nama" name="nama" autocomplete="name" required aria-describedby="g-nama">
+          <span class="galat" id="g-nama" hidden></span>
+        </div>
+        <div class="medan">
+          <label for="email">Email</label>
+          <span class="bantu" id="b-email">Untuk membalas pesanmu. Tidak kami bagikan ke siapa pun.</span>
+          <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="b-email g-email">
+          <span class="galat" id="g-email" hidden></span>
+        </div>
+        <div class="medan">
+          <label for="jenis">Jenis pesan</label>
+          <select id="jenis" name="jenis">
+            <option value="pertanyaan">Pertanyaan</option>
+            <option value="lokasi">Usulkan lokasi setor</option>
+            <option value="barang">Usulkan barang untuk pencarian</option>
+            <option value="lainnya">Lainnya</option>
+          </select>
+        </div>
+        <div id="medan-lokasi" hidden style="display:flex;flex-direction:column;gap:16px">
+          <div class="medan">
+            <label for="nama-lokasi">Nama tempat</label>
+            <input id="nama-lokasi" name="nama_lokasi" placeholder="mis. Bank Sampah …" aria-describedby="g-nama-lokasi">
+            <span class="galat" id="g-nama-lokasi" hidden></span>
+          </div>
+          <div class="medan">
+            <label for="alamat">Alamat atau patokan</label>
+            <input id="alamat" name="alamat" placeholder="Kecamatan, jalan, atau patokan terdekat">
+          </div>
+        </div>
+        <div class="medan">
+          <label for="pesan">Pesan</label>
+          <textarea id="pesan" name="pesan" required aria-describedby="g-pesan"></textarea>
+          <span class="galat" id="g-pesan" hidden></span>
+        </div>
+        <div><button class="btn" type="submit">Kirim pesan</button></div>
+      </form>
+      <div class="terkirim kertas" id="terkirim" hidden tabindex="-1">
+        <div style="width:110px" data-kardi="senang"></div>
+        <h2>Terima kasih!</h2>
+        <p class="pengantar" id="teks-terkirim"></p>
+        <button class="btn kecil putih" type="button" id="kirim-lagi">Kirim pesan lain</button>
+      </div>
+      <div class="prosa">
+        <h2>Kontak lain</h2>
+        <p>Instagram: <strong>[@akun_tim]</strong></p>
+        <p>Email: <strong>[email tim]</strong></p>
+        <p>Kami membaca setiap usulan lokasi dan memeriksanya langsung sebelum mencantumkannya di direktori.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="isi">
+    <section><h2>Jejak Nol</h2><p>Media informasi zero-waste untuk pelajar dan mahasiswa: panduan memilah, menghitung, mengolah, dan menyetor sampah dari rumah sendiri.</p></section>
+    <section><h2>Jelajahi</h2><ul><li><a href="pilah.html">Pilah</a></li><li><a href="kurangi.html">Kurangi</a></li><li><a href="olah.html">Olah</a></li><li><a href="setor.html">Setor</a></li><li><a href="tentang.html">Tentang</a></li><li><a href="kontak.html">Kontak</a></li></ul></section>
+    <section><h2>Lomba</h2><p>Dibuat untuk Lomba Web Design Techno Versary Vol. II, HIMA-TI FKOM Universitas Kuningan.</p></section>
+  </div>
+</footer>
+</body>
+</html>
