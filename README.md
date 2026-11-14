@@ -29,7 +29,7 @@ Fitur pendukung: maskot **Kardi** yang bereaksi terhadap aksi pengguna, tampilan
 ## Struktur folder
 
 ```
-webdesign_namaTim_technoversary_vol.II/
+webdesign_JawabanAnda_technoversary_vol.II/
 ├─ index.html, pilah.html, kurangi.html, olah.html, setor.html, tentang.html, kontak.html, 404.html
 ├─ README.md
 └─ assets/
@@ -51,8 +51,8 @@ Tidak perlu instalasi apa pun.
 
 **Cara 2 — server lokal (disarankan, agar perpindahan halaman berjalan mulus)**
 ```bash
-git clone <url-repository>
-cd webdesign_namaTim_technoversary_vol.II
+git clone https://github.com/darvaaph/webdesign_JawabanAnda_technoversary_vol.II.git
+cd webdesign_JawabanAnda_technoversary_vol.II
 python -m http.server 8000
 ```
 Lalu buka `http://localhost:8000` di browser. Alternatif: ekstensi *Live Server* di VS Code, atau `npx serve`.
@@ -77,7 +77,7 @@ Lalu buka `http://localhost:8000` di browser. Alternatif: ekstensi *Live Server*
 
 ## Tim
 
-**Nama tim:** [nama tim]
+**Nama tim:** JawabanAnda
 
 | Nama | Peran |
 |---|---|
@@ -89,7 +89,6 @@ Lalu buka `http://localhost:8000` di browser. Alternatif: ekstensi *Live Server*
 
 ### Daftar periksa sebelum submit (hapus bagian ini setelah selesai)
 
-- [ ] Ganti nama folder: `webdesign_namaTim_technoversary_vol.II` → isi nama tim
 - [ ] Isi angka `JN.FAKTA` dari SIPSN KLHK
 - [ ] Isi semua sumber yang masih bertanda “ISI”
 - [ ] Cocokkan pengelompokan tong dengan aturan bank sampah/TPS di Kuningan
