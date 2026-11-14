@@ -302,13 +302,14 @@ fieldset.kebiasaan.sorot{background:#FFF4CC}
 
 /* ---------- pilah ---------- */
 .kartu-tong{border-radius:18px;overflow:hidden;background:var(--kertas-2);box-shadow:0 6px 0 rgba(27,23,18,.14);display:flex;flex-direction:column}
-.kartu-tong .kepala-tong{background:var(--w);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:3px solid var(--tinta)}
+.kartu-tong .kepala-tong{background:var(--w);color:var(--tinta);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:3px solid var(--tinta)}
 .kartu-tong.putih-teks .kepala-tong{color:#fff}
 .kartu-tong .kepala-tong b{font:900 30px/1 var(--f-judul);font-stretch:72%;text-transform:uppercase}
 .kartu-tong .kepala-tong span{font:700 12px/1.2 var(--f-mono);text-transform:uppercase;text-align:right}
-.kartu-tong .badan-tong{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px}
+.kartu-tong .badan-tong{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px;color:var(--tinta)} /* kartu terang: jangan mewarisi teks terang dari pita gelap */
+.kartu-tong .badan-tong p{color:var(--tinta-2)}
 .kartu-tong .contoh{display:flex;flex-wrap:wrap;gap:6px}
-.kartu-tong .contoh span{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;background:#fff;border:1px solid var(--garis);border-radius:999px;padding:3px 10px 3px 4px}
+.kartu-tong .contoh span{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--tinta);background:#fff;border:1px solid var(--garis);border-radius:999px;padding:3px 10px 3px 4px}
 .kartu-tong .contoh svg{width:24px;height:24px}
 .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
 @media (max-width:1000px){.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
