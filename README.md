@@ -22,7 +22,7 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 - **Pengunjung baru:** Beranda → *Mulai perjalanan* → Pilah → Kurangi → Olah → Setor → Kartu Jejak-ku (`kartu.html`).
 - **Pengunjung lama:** langsung lewat menu.
 
-Setiap langkah punya satu aksi kecil yang meninggalkan **jejak** (buka 3 barang, pilih 1 barang yang sanggup diganti, simpan 1 ide, centang 5 persiapan). Titik berwarna di menu terisi saat jejak langkah itu tercatat. Kemajuan disimpan di browser, dan urutan langkah hanya saran: semua halaman tetap bisa dibuka kapan saja.
+Setiap langkah punya satu aksi kecil yang meninggalkan **jejak** (buka 3 barang, pilih 1 barang yang sanggup diganti, simpan 1 ide, centang 5 persiapan). Titik berwarna di menu terisi saat jejak langkah itu tercatat. Jejak harus dikumpulkan **berurutan** (Pilah → Kurangi → Olah → Setor): aksi jejak di langkah berikutnya terkunci 🔒 sampai langkah sebelumnya selesai. **Isi semua halaman tetap bebas dibaca**, jadi pengunjung yang hanya butuh informasi tidak terhalang. Kemajuan disimpan di browser, dan bisa dihapus lewat tombol di halaman Kartu Jejak-ku.
 | **Tentang** (`tentang.html`) | Masalah, audiens, cara menghitung, sumber data, tim |
 | **Kontak** (`kontak.html`) | Formulir pertanyaan, usulan lokasi, dan usulan barang |
 

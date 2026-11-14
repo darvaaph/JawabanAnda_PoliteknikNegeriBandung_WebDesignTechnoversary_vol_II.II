@@ -485,3 +485,14 @@ footer a:hover{text-decoration:underline}
 
 .tong-mini.goyang{animation:tongGoyang .6s ease-in-out}
 .henti .tong-mini{grid-column:2;justify-self:start}
+
+/* jejak terkunci: isi tetap terbaca, hanya aksinya yang dikunci */
+nav.menu a.titik.kunci::before{border-style:dashed;opacity:.7}
+nav.menu a.titik.kunci::after,.langkah-nav a.kunci::after{content:"🔒";font-size:11px;margin-left:4px}
+.langkah-nav a.kunci{opacity:.75}
+.tugas.terkunci{border-color:var(--residu);background:#EEEDE8}
+.tugas.terkunci .label{color:var(--residu)}
+.status-jejak.terkunci{background:#E2E0DA;color:var(--tinta-2)}
+.simpan-ide:disabled{background:#EEEDE8;color:var(--tinta-2);border-style:dashed;cursor:not-allowed}
+.checklist input:disabled{cursor:not-allowed}
+.checklist li:has(input:disabled) label{cursor:not-allowed}

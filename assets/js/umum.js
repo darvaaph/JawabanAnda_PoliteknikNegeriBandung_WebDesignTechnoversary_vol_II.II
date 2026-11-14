@@ -32,8 +32,21 @@ JN.jejak = {
     return { nama: s.nama || '', pilah: { dilihat: [], cari: false, ...(s.pilah || {}) }, kurangi: { janji: false, ...(s.kurangi || {}) },
       olah: { simpan: [], ...(s.olah || {}) }, setor: { centang: [], ...(s.setor || {}) } };
   },
+  /* Jejak harus berurutan 1 → 2 → 3 → 4: sebuah langkah hanya dihitung kalau langkah sebelumnya sudah.
+     Isi halaman tetap bebas dibaca; yang dikunci hanya aksi yang meninggalkan jejak. */
   status(d = this.data()) {
-    return { pilah: d.pilah.dilihat.length >= 3 || d.pilah.cari, kurangi: !!d.kurangi.janji, olah: d.olah.simpan.length > 0, setor: d.setor.centang.length >= 5 };
+    const mentah = { pilah: d.pilah.dilihat.length >= 3 || d.pilah.cari, kurangi: !!d.kurangi.janji, olah: d.olah.simpan.length > 0, setor: d.setor.centang.length >= 5 };
+    let lanjut = true; const st = {};
+    JN.LANGKAH.forEach(l => { st[l.id] = lanjut && mentah[l.id]; lanjut = st[l.id]; });
+    return st;
+  },
+  terbuka(id, st = this.status()) {
+    const i = JN.LANGKAH.findIndex(l => l.id === id);
+    return JN.LANGKAH.slice(0, i).every(l => st[l.id]);
+  },
+  pesanKunci(id) {
+    const i = JN.LANGKAH.findIndex(l => l.id === id), sebelum = JN.LANGKAH.slice(0, i).map(l => l.nama);
+    return `Jejak langkah ${i + 1} terbuka setelah kamu menyelesaikan ${sebelum.length > 1 ? sebelum.slice(0, -1).join(', ') + ' dan ' + sebelum.slice(-1) : sebelum[0]}.`;
   },
   jumlah(st = this.status()) { return Object.values(st).filter(Boolean).length; },
   berikut(st = this.status()) { return JN.LANGKAH.find(l => !st[l.id]); },
@@ -53,21 +66,30 @@ JN.jejak = {
     const kunci = a => (a.getAttribute('href') || '').replace(/[#?].*/, '').replace('.html', '');
     $$('nav.menu a.titik, .langkah-nav a').forEach(a => {
       const k = kunci(a); if (!(k in st)) return;
-      a.classList.toggle('jejak', st[k]); a.title = st[k] ? 'Jejak sudah tercatat' : 'Belum ada jejak';
+      const kunciLangkah = !st[k] && !this.terbuka(k, st);
+      a.classList.toggle('jejak', st[k]); a.classList.toggle('kunci', kunciLangkah);
+      a.title = st[k] ? 'Jejak sudah tercatat' : kunciLangkah ? 'Jejak langkah ini masih terkunci, isinya tetap bisa dibaca' : 'Belum ada jejak';
     });
     $$('[data-tugas]').forEach(el => {
-      const l = JN.LANGKAH.find(x => x.id === el.dataset.tugas);
-      el.classList.toggle('beres', st[l.id]);
+      const l = JN.LANGKAH.find(x => x.id === el.dataset.tugas), dikunci = !st[l.id] && !this.terbuka(l.id, st);
+      el.classList.toggle('beres', st[l.id]); el.classList.toggle('terkunci', dikunci);
       el.innerHTML = st[l.id]
         ? `<span class="label">✓ Jejak ${l.nama} tercatat · ${n}/4</span><span>${b ? `Lanjut ke <a href="${b.url}">${b.nama} →</a>` : `Keempat jejak lengkap. <a href="kartu.html">Lihat Kartu Jejak-ku →</a>`}</span>`
-        : `<span class="label">Jejakmu di sini · ${n}/4</span><span>${l.tugas}${l.id === 'pilah' ? ` (${Math.min(3, d.pilah.dilihat.length)}/3)` : ''}</span>`;
+        : dikunci
+          ? `<span class="label">🔒 Jejak terkunci · ${n}/4</span><span>${this.pesanKunci(l.id)} Isi halaman ini tetap bisa kamu baca. <a href="${b.url}">Mulai dari ${b.nama} →</a></span>`
+          : `<span class="label">Jejakmu di sini · ${n}/4</span><span>${l.tugas}${l.id === 'pilah' ? ` (${Math.min(3, d.pilah.dilihat.length)}/3)` : ''}</span>`;
     });
-    $$('[data-status-jejak]').forEach(el => { const s = st[el.dataset.statusJejak]; el.classList.toggle('sudah', s); el.textContent = s ? '✓ Sudah' : 'Belum'; });
+    $$('[data-status-jejak]').forEach(el => {
+      const k = el.dataset.statusJejak, s = st[k], dikunci = !s && !this.terbuka(k, st);
+      el.classList.toggle('sudah', s); el.classList.toggle('terkunci', dikunci);
+      el.textContent = s ? '✓ Sudah' : dikunci ? '🔒 Terkunci' : 'Belum';
+    });
     $$('[data-lanjut]').forEach(a => {
       if (!n) return;
       if (b) { a.href = b.url; a.textContent = `Lanjutkan: ${b.nama} →`; } else { a.href = 'kartu.html'; a.textContent = 'Lihat Kartu Jejak-ku →'; }
     });
     $$('[data-kartu-jejak]').forEach(JN.gambarKartuJejak);
+    document.dispatchEvent(new Event('jejakberubah')); // halaman pilar memperbarui tombol yang terkunci
   }
 };
 function rayakan(l, n) {
@@ -354,7 +376,8 @@ JN.pasangKalkulator = (root, opsi = {}) => {
     lalu = tot;
     if (!ringkas) {
       simpan.taruh(KUNCI_BARIS, baris);
-      if (!diam) JN.jejak.ubah(d => { d.kurangi.janji = hasil.some(x => x.r.k > 0); });
+      // kalkulator selalu bisa dipakai; janji baru dicatat sebagai jejak kalau langkah Pilah sudah selesai
+      if (!diam && JN.jejak.terbuka('kurangi')) JN.jejak.ubah(d => { d.kurangi.janji = hasil.some(x => x.r.k > 0); });
     }
     clearTimeout(jeda);
     jeda = setTimeout(() => {

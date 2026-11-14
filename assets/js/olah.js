@@ -35,14 +35,18 @@ JN.mulai = () => {
   }
   // "Simpan ide ini" = aksi jejak langkah Olah; ide yang disimpan masuk ke Kartu Jejak-ku
   function sinkronSimpan() {
-    const tersimpan = JN.jejak.data().olah.simpan;
+    const tersimpan = JN.jejak.data().olah.simpan, terbuka = JN.jejak.terbuka('olah');
     $$('[data-simpan]').forEach(b => {
       const on = tersimpan.includes(b.dataset.simpan);
-      b.setAttribute('aria-pressed', on); b.textContent = on ? '✓ Tersimpan' : 'Simpan ide ini';
+      b.setAttribute('aria-pressed', on);
+      b.disabled = !terbuka;
+      b.title = terbuka ? '' : JN.jejak.pesanKunci('olah');
+      b.textContent = !terbuka ? '🔒 Simpan ide (selesaikan Pilah & Kurangi dulu)' : on ? '✓ Tersimpan' : 'Simpan ide ini';
     });
   }
+  document.addEventListener('jejakberubah', sinkronSimpan);
   document.addEventListener('click', e => {
-    const b = e.target.closest('[data-simpan]'); if (!b) return;
+    const b = e.target.closest('[data-simpan]'); if (!b || !JN.jejak.terbuka('olah')) return;
     const id = b.dataset.simpan;
     JN.jejak.ubah(d => { d.olah.simpan = d.olah.simpan.includes(id) ? d.olah.simpan.filter(x => x !== id) : [...d.olah.simpan, id]; });
     sinkronSimpan();

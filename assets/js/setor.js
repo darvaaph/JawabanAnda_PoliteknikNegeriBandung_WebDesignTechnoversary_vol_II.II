@@ -41,10 +41,17 @@ JN.mulai = () => {
 
   /* checklist persiapan = aksi jejak langkah Setor */
   const kotak = $$('#checklist input');
-  const sinkron = () => { const c = JN.jejak.data().setor.centang; kotak.forEach(k => { k.checked = c.includes(+k.value); }); };
+  // checklist tetap bisa dibaca; centangnya terbuka setelah Pilah, Kurangi, dan Olah selesai
+  const sinkron = () => {
+    const c = JN.jejak.data().setor.centang, terbuka = JN.jejak.terbuka('setor');
+    kotak.forEach(k => { k.checked = terbuka && c.includes(+k.value); k.disabled = !terbuka; });
+    $('#checklist').title = terbuka ? '' : JN.jejak.pesanKunci('setor');
+  };
   kotak.forEach(k => k.addEventListener('change', () => {
+    if (!JN.jejak.terbuka('setor')) return;
     JN.jejak.ubah(d => { d.setor.centang = kotak.filter(x => x.checked).map(x => +x.value); });
   }));
+  document.addEventListener('jejakberubah', sinkron);
   sinkron();
 
 };
