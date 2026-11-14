@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Jejak Nol · Panduan zero-waste dari rumah</title>
-<meta name="description" content="Jejak Nol membantu pelajar dan mahasiswa memilah, mengurangi, mengolah, dan menyetor sampah dari rumah sendiri.">
+<meta name="description" content="Jejak Nol membantu pelajar dan mahasiswa memilah, mengurangi, mengolah, dan menyetor sampah dari rumah sendiri dalam empat langkah.">
 <meta name="theme-color" content="#1B1712">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,20 +35,22 @@
 <main class="jalur" id="utama">
   <div class="botol-jalan" id="botol-jalan" aria-hidden="true"></div>
 
+  <!-- 1. Hero: jalur cepat (pencarian) dan ajakan memulai perjalanan -->
   <section class="bagian hero">
     <div class="isi">
       <div class="hero-teks">
         <span class="cap">Panduan zero-waste untuk pelajar &amp; mahasiswa</span>
         <h1>Sampahmu dimulai dari <mark class="stabilo">rumahmu</mark> sendiri.</h1>
-        <p class="pengantar">Cari tahu barang masuk tong mana, hitung sampah yang bisa kamu cegah, olah yang masih berguna, lalu setor sisanya ke tempat yang benar.</p>
+        <p class="pengantar">Jejak Nol menemanimu dalam empat langkah: memilah, mengurangi, mengolah, dan menyetor sampah. Di akhir perjalanan, kamu membawa pulang Kartu Jejak-ku.</p>
         <div class="aksi-hero">
-          <a class="btn" href="#masalah">Mulai dari sini ↓</a>
-          <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span class="coret">ikuti botol ini!</span></span>
+          <a class="btn" href="pilah.html" data-lanjut>Mulai perjalanan →</a>
+          <a class="btn kedua" href="#jalan">Lihat 4 langkahnya ↓</a>
         </div>
+        <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span class="coret">ikuti botol ini!</span></span>
       </div>
       <form class="cari kertas selotip" role="search">
         <div class="kardi-hero" data-kardi="lambai"></div>
-        <div class="anotasi" aria-hidden="true"><span class="coret">coba ketik “batre”!</span><svg viewBox="0 0 58 54"><path class="panah" pathLength="1" d="M4 6 C 30 2, 48 18, 46 46 M38 38 L46 48 L53 37"/></svg></div>
+        <div class="anotasi" aria-hidden="true"><span class="coret">butuh jawaban cepat?</span><svg viewBox="0 0 58 54"><path class="panah" pathLength="1" d="M4 6 C 30 2, 48 18, 46 46 M38 38 L46 48 L53 37"/></svg></div>
         <label for="input-cari">Ini dibuang ke mana?</label>
         <div class="baris"><input id="input-cari" type="search" placeholder="Ketik: baterai, sachet, kulit pisang…" autocomplete="off"></div>
         <div class="saran" aria-label="Contoh pencarian">
@@ -59,77 +61,94 @@
     </div>
   </section>
 
+  <!-- 2. Masalah -->
   <section class="bagian gelap" id="masalah" data-sobek data-pesan="Botol tadi cuma satu dari banyak. Ikuti terus, ya." data-eks="kaget">
     <div class="isi">
       <div class="kepala-bagian">
         <span class="cap">Kenapa ini penting</span>
         <h2 class="judul-bagian">Masalahnya dimulai dari tempat sampah <mark class="stabilo">kita sendiri.</mark></h2>
         <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span class="coret">botol tadi salah satunya</span></span>
-        <p class="pengantar">Banyak orang sebenarnya mau memilah, tapi bingung: barang ini masuk tong mana, apa penggantinya, dan sisanya disetor ke mana. Jejak Nol menjawabnya dalam empat langkah.</p>
+        <p class="pengantar">Banyak orang sebenarnya mau memilah, tapi bingung: barang ini masuk tong mana, apa penggantinya, dan sisanya disetor ke mana.</p>
       </div>
-      <div class="fakta" id="fakta"></div>
-      <h3 class="subjudul">Empat langkah Jejak Nol</h3>
-      <div class="pilar">
-        <a href="pilah.html" style="--w:var(--anorganik)"><span class="no">Langkah 1</span><b>Pilah</b><span class="k">Tahu tong yang benar untuk setiap barang di rumah.</span></a>
-        <a href="kurangi.html" style="--w:var(--stempel)"><span class="no">Langkah 2</span><b>Kurangi</b><span class="k">Hitung barang sekali pakai yang bisa kamu cegah.</span></a>
-        <a href="olah.html" style="--w:var(--organik)"><span class="no">Langkah 3</span><b>Olah</b><span class="k">Ubah sisa dapur dan barang bekas jadi berguna.</span></a>
-        <a href="setor.html" style="--w:var(--setor)"><span class="no">Langkah 4</span><b>Setor</b><span class="k">Antar sisanya ke bank sampah atau drop point.</span></a>
-      </div>
+      <div class="fakta" id="fakta" style="margin-bottom:0"></div>
     </div>
   </section>
 
-  <section class="bagian" id="pilah" data-pesan="Klik barangnya, aku kasih tahu tongnya.">
+  <!-- 3. Jalan empat langkah: satu jalur, botol berjalan di atasnya -->
+  <section class="bagian" id="jalan" data-pesan="Empat langkah, empat jejak. Yuk mulai!">
     <div class="isi">
       <div class="kepala-bagian">
-        <span class="cap">Langkah 1 · Pilah</span>
-        <h2 class="judul-bagian">Barang ini masuk tong <mark class="stabilo">mana?</mark></h2>
-        <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span class="coret">botol → tong kuning, anorganik</span></span>
-        <p class="pengantar">Pilih ruangan, lalu klik barangnya. Kamu akan melihat tong yang benar, cara menyiapkannya, dan penggantinya.</p>
+        <span class="cap">Perjalanan 4 langkah</span>
+        <h2 class="judul-bagian">Satu botol, <mark class="stabilo">empat langkah.</mark></h2>
+        <p class="pengantar">Setiap langkah punya satu aksi kecil yang meninggalkan jejak. Kumpulkan keempatnya untuk mendapat Kartu Jejak-ku. Kamu boleh mulai dari langkah mana saja.</p>
       </div>
-      <div id="jelajah"></div>
-      <p style="margin-top:22px"><a class="tautan-lanjut" href="pilah.html">Panduan empat tong dan kode plastik →</a></p>
+      <div class="jalan" id="jalan-isi">
+        <svg class="jalan-garis" aria-hidden="true"><path id="garis-jalan"/></svg>
+
+        <article class="henti kertas" style="--w:var(--anorganik)">
+          <span class="singgah" data-singgah aria-hidden="true"></span>
+          <span class="bulat" aria-hidden="true">1</span>
+          <h3>Pilah</h3>
+          <p>Cari tahu setiap barang di rumahmu masuk tong mana, dan bagaimana menyiapkannya sebelum dibuang.</p>
+          <p class="tugas-mini"><b>Jejak</b> Buka 3 barang di Jelajah ruangan <span class="status-jejak" data-status-jejak="pilah">Belum</span></p>
+          <div class="aksi"><a class="btn kecil" href="pilah.html">Buka Pilah →</a><span class="coret">botol → tong kuning</span></div>
+        </article>
+
+        <article class="henti kertas kanan putih-teks" style="--w:var(--stempel)">
+          <span class="singgah" data-singgah aria-hidden="true"></span>
+          <span class="bulat" aria-hidden="true">2</span>
+          <h3>Kurangi</h3>
+          <p>Hitung berapa barang sekali pakai yang bisa kamu cegah dalam setahun kalau kamu menggantinya.</p>
+          <p class="tugas-mini"><b>Jejak</b> Pilih 1 barang yang sanggup kamu ganti <span class="status-jejak" data-status-jejak="kurangi">Belum</span></p>
+          <div class="aksi"><a class="btn kecil" href="kurangi.html">Buka Kurangi →</a><span class="coret">2 botol sehari = 730 setahun</span></div>
+        </article>
+
+        <article class="henti kertas putih-teks" style="--w:var(--organik)">
+          <span class="singgah" data-singgah aria-hidden="true"></span>
+          <span class="bulat" aria-hidden="true">3</span>
+          <h3>Olah</h3>
+          <p>Ubah sisa dapur jadi kompos, kulit buah jadi eco-enzyme, dan barang bekas jadi barang berguna.</p>
+          <p class="tugas-mini"><b>Jejak</b> Simpan 1 ide yang ingin kamu coba <span class="status-jejak" data-status-jejak="olah">Belum</span></p>
+          <div class="aksi"><a class="btn kecil" href="olah.html">Buka Olah →</a><span class="coret">botol bekas bisa jadi pot</span></div>
+        </article>
+
+        <article class="henti kertas kanan putih-teks" style="--w:var(--setor)">
+          <span class="bulat" aria-hidden="true">4</span>
+          <h3>Setor</h3>
+          <p>Siapkan sampah yang tersisa dengan benar, lalu antar ke bank sampah atau drop point yang menerimanya.</p>
+          <p class="tugas-mini"><b>Jejak</b> Centang 5 persiapan sebelum setor <span class="status-jejak" data-status-jejak="setor">Belum</span></p>
+          <div class="aksi"><a class="btn kecil" href="setor.html">Buka Setor →</a><span class="coret">botolnya sampai di sini</span></div>
+          <div class="tong-mini" id="tong-mini" aria-hidden="true">
+            <span class="singgah" data-singgah></span><span class="botol-dalam" id="botol-dalam"></span>
+            <div class="bibir"></div><div class="badan">Anorganik</div>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
   <div class="pita-wadah" aria-hidden="true"><div class="pita"><span data-pita>Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦ Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦ Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦ Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦</span></div></div>
 
-  <section class="bagian" id="kurangi" data-pesan="Coba ubah angkanya, bandingkan dua tumpukannya.">
-    <div class="isi">
-      <div class="kepala-bagian">
-        <span class="cap">Langkah 2 · Kurangi</span>
-        <h2 class="judul-bagian">Hitung sampah yang bisa kamu <mark class="stabilo">cegah.</mark></h2>
-        <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span class="coret">2 botol sehari = 730 botol setahun</span></span>
-        <p class="pengantar">Jawab dua pertanyaan: seberapa sering kamu memakainya, dan seberapa sering kamu sanggup menggantinya. Hasilnya dihitung untuk satu tahun.</p>
+  <!-- 4. Hasil akhir -->
+  <section class="bagian" id="hasil" data-pesan="Kartu ini bisa kamu bagikan ke teman." data-eks="senang">
+    <div class="isi hasil-akhir">
+      <div class="kepala-bagian" style="margin:0">
+        <span class="cap">Di akhir perjalanan</span>
+        <h2 class="judul-bagian">Bawa pulang <mark class="stabilo">Kartu Jejak-ku.</mark></h2>
+        <p class="pengantar">Setiap aksi kecil di empat langkah tercatat di kartu ini: barang yang sudah kamu kenali, janji yang kamu buat, ide yang ingin kamu coba, dan kesiapanmu menyetor. Bagikan supaya temanmu ikut.</p>
+        <a class="btn" href="pilah.html" data-lanjut>Mulai dari Langkah 1 →</a>
       </div>
-      <div id="kalkulator"></div>
-    </div>
-  </section>
-
-  <section class="bagian" id="olah" data-pesan="Yang masih bagus, jangan buru-buru dibuang." data-eks="senang">
-    <div class="isi">
-      <div class="kepala-bagian">
-        <span class="cap">Langkah 3 · Olah</span>
-        <h2 class="judul-bagian">Yang masih <mark class="stabilo">berguna</mark>, jangan buru-buru dibuang.</h2>
-        <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span class="coret">botol bekas bisa jadi pot</span></span>
-        <p class="pengantar">Sisa dapur bisa jadi kompos, kulit buah bisa jadi cairan pembersih, dan botol bekas bisa dipakai lagi.</p>
-      </div>
-      <div class="grid-3" id="cuplikan-olah"></div>
-    </div>
-  </section>
-
-  <section class="bagian" id="setor" data-pesan="Botolnya sampai di tong yang benar!" data-eks="senang">
-    <div class="isi">
-      <div class="kepala-bagian">
-        <span class="cap">Langkah 4 · Setor</span>
-        <h2 class="judul-bagian">Sisanya, antar ke <mark class="stabilo">tempat yang benar.</mark></h2>
-        <p class="pengantar">Sampah yang sudah dipilah lebih mudah diolah. Yang anorganik dan bersih bisa disetor ke bank sampah, yang B3 ke drop point khusus.</p>
-      </div>
-      <div class="tong-daftar" id="tong-daftar"></div>
-      <span class="coret coret-tong" aria-hidden="true">dan botolnya sampai di tong kuning!</span>
-      <div class="kotak-info kertas">
-        <div><span class="label">Langkah terakhir</span><br><b>Direktori Kuningan</b></div>
-        <p>Bank sampah, TPS3R, dan drop point limbah B3 di Kuningan, plus hal yang perlu disiapkan sebelum menyetor.</p>
-        <a class="btn kecil" href="setor.html">Buka halaman Setor →</a>
+      <div class="contoh-kartu">
+        <div class="kartu-jejak">
+          <div class="kj-atas"><span class="kj-logo">Jejak Nol</span><span class="kj-cap">Lengkap</span></div>
+          <div class="kj-nama">Rani menyelesaikan 4 langkah!</div>
+          <div class="kj-baris" style="--w:var(--anorganik)"><span><b>Pilah</b>Sudah mengenali tong untuk 6 barang.</span></div>
+          <div class="kj-baris" style="--w:var(--stempel)"><span><b>Kurangi</b>Ganti botol air mineral dengan tumbler; kantong kresek dengan tas kain.</span></div>
+          <div class="kj-baris" style="--w:var(--organik)"><span><b>Olah</b>Akan mencoba: Kompos ember.</span></div>
+          <div class="kj-baris" style="--w:var(--setor)"><span><b>Setor</b>Siap menyetor sampah yang bersih, kering, dan terpilah.</span></div>
+          <div class="kj-total"><span class="kj-angka">808</span><br><strong>barang sekali pakai per tahun tidak jadi sampah</strong></div>
+          <div class="kj-kardi" data-kardi="senang"></div>
+        </div>
       </div>
     </div>
   </section>

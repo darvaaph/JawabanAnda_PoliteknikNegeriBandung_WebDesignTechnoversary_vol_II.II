@@ -13,6 +13,7 @@ JN.mulai = () => {
           <div><h4>Langkah</h4><ol>${p.langkah.map(l => `<li>${l}</li>`).join('')}</ol></div>
         </div>
         <p class="hindari"><strong>Hindari:</strong> ${p.hindari}</p>
+        <p style="margin-top:14px"><button type="button" class="simpan-ide" data-simpan="${p.id}" aria-pressed="false">Simpan ide ini</button></p>
       </div>
     </article>`).join('');
 
@@ -28,8 +29,24 @@ JN.mulai = () => {
         <h3>${d.judul}</h3>
         <div class="meta"><span>${d.tingkat}</span><span>${d.waktu}</span></div>
         <details><summary>Lihat ${d.langkah.length} langkah</summary><ol>${d.langkah.map(l => `<li>${l}</li>`).join('')}</ol></details>
+        <button type="button" class="simpan-ide" data-simpan="${d.id}" aria-pressed="false">Simpan ide ini</button>
       </article>`).join('');
+    sinkronSimpan();
   }
+  // "Simpan ide ini" = aksi jejak langkah Olah; ide yang disimpan masuk ke Kartu Jejak-ku
+  function sinkronSimpan() {
+    const tersimpan = JN.jejak.data().olah.simpan;
+    $$('[data-simpan]').forEach(b => {
+      const on = tersimpan.includes(b.dataset.simpan);
+      b.setAttribute('aria-pressed', on); b.textContent = on ? '✓ Tersimpan' : 'Simpan ide ini';
+    });
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-simpan]'); if (!b) return;
+    const id = b.dataset.simpan;
+    JN.jejak.ubah(d => { d.olah.simpan = d.olah.simpan.includes(id) ? d.olah.simpan.filter(x => x !== id) : [...d.olah.simpan, id]; });
+    sinkronSimpan();
+  });
   $$('[data-bahan]').forEach(b => b.addEventListener('click', () => {
     const on = b.getAttribute('aria-pressed') !== 'true';
     b.setAttribute('aria-pressed', on);

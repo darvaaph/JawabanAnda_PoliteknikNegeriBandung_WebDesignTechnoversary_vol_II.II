@@ -9,11 +9,19 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 
 | Halaman | Isi |
 |---|---|
-| **Beranda** (`index.html`) | Pencarian “Ini dibuang ke mana?”, masalah sampah dengan data bersumber, peta empat langkah, dan perjalanan satu botol yang menemani pembaca sampai masuk tong |
+| **Beranda** (`index.html`) | Cerita singkat: pencarian cepat “Ini dibuang ke mana?”, masalah sampah dengan data bersumber, jalan empat langkah yang dilalui satu botol sampai masuk tong, dan contoh Kartu Jejak-ku |
 | **Pilah** (`pilah.html`) | Pencarian barang, jelajah ruangan (dapur, kamar mandi, kos & kampus, belanja), isi empat tong, arti kode plastik 1–7 |
-| **Kurangi** (`kurangi.html`) | Kalkulator barang sekali pakai yang bisa dicegah per tahun, perbandingan tumpukan sebelum dan sesudah, Kartu Janji |
-| **Olah** (`olah.html`) | Panduan kompos ember dan eco-enzyme, galeri daur ulang dengan filter “saya punya…”, Mitos vs Fakta |
-| **Setor** (`setor.html`) | Persiapan sebelum menyetor, jenis tempat setor, direktori lokasi di Kuningan |
+| **Kurangi** (`kurangi.html`) | Kalkulator barang sekali pakai yang bisa dicegah per tahun, perbandingan tumpukan sebelum dan sesudah, cara menghitung, daftar pengganti |
+| **Olah** (`olah.html`) | Panduan kompos ember dan eco-enzyme, galeri daur ulang dengan filter “saya punya…”, tombol simpan ide, Mitos vs Fakta |
+| **Setor** (`setor.html`) | Checklist persiapan sebelum menyetor, jenis tempat setor, direktori lokasi di Kuningan, dan akhir perjalanan: **Kartu Jejak-ku** |
+
+### Alur pengunjung
+
+- **Butuh jawaban cepat:** ketik barang di pencarian Beranda atau Pilah, langsung tahu tongnya.
+- **Pengunjung baru:** Beranda → *Mulai perjalanan* → Pilah → Kurangi → Olah → Setor → Kartu Jejak-ku.
+- **Pengunjung lama:** langsung lewat menu.
+
+Setiap langkah punya satu aksi kecil yang meninggalkan **jejak** (buka 3 barang, pilih 1 barang yang sanggup diganti, simpan 1 ide, centang 5 persiapan). Titik berwarna di menu terisi saat jejak langkah itu tercatat. Kemajuan disimpan di browser, dan urutan langkah hanya saran: semua halaman tetap bisa dibuka kapan saja.
 | **Tentang** (`tentang.html`) | Masalah, audiens, cara menghitung, sumber data, tim |
 | **Kontak** (`kontak.html`) | Formulir pertanyaan, usulan lokasi, dan usulan barang |
 

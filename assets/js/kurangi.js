@@ -1,4 +1,4 @@
-/* Kurangi: kalkulator lengkap, Kartu Janji, daftar pengganti. */
+/* Kurangi: kalkulator lengkap, janji tercatat ke jejak, daftar pengganti. */
 JN.mulai = () => {
   const { $, $$, svg } = JN;
   const kalk = JN.kalkulatorPenuh = JN.pasangKalkulator($('#kalkulator'));

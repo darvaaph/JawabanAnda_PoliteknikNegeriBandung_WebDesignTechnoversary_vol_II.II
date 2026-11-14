@@ -1,29 +1,34 @@
-/* Beranda: fakta, jelajah, kalkulator ringkas, cuplikan olah, tong, dan perjalanan satu botol. */
+/* Beranda: fakta, garis jalan 4 langkah, dan perjalanan satu botol.
+   Beranda hanya bercerita. Alat lengkapnya ada di halaman Pilah, Kurangi, Olah, dan Setor. */
 JN.mulai = () => {
-  const { $, $$, svg, KAT } = JN;
+  const { $, $$, svg } = JN;
 
   $('#fakta').innerHTML = JN.FAKTA.map((f, i) => `<div class="isi-data"><span class="label">Fakta ${i + 1}</span><strong>${f.angka}</strong><p>${f.isi}</p><small>Sumber: ${f.sumber}</small></div>`).join('');
-  JN.pasangJelajah($('#jelajah'));
-  JN.pasangKalkulator($('#kalkulator'), { ringkas: true });
+  $('#botol-dalam').innerHTML = svg('botol');
 
-  const cuplikan = [JN.DIY.find(d => d.id === 'pot-botol'), ...JN.PANDUAN];
-  $('#cuplikan-olah').innerHTML = cuplikan.map(o => `<article class="kartu-isi kertas selotip">${svg(o.ikon, '', 'ilus')}<h3>${o.judul}</h3>
-    <div class="meta"><span>${o.tingkat}</span><span>${o.waktu}</span></div>
-    <p>${o.langkah[0]}</p><a class="tautan-lanjut" href="olah.html#${o.id}">Baca panduannya →</a></article>`).join('');
+  /* garis putus-putus yang menyambungkan titik singgah di jalan 4 langkah */
+  const jalan = $('#jalan-isi'), garis = $('#garis-jalan');
+  function gambarGaris() {
+    const kotak = jalan.getBoundingClientRect();
+    const titik = $$('[data-singgah]', jalan).map(el => { const r = el.getBoundingClientRect(); return [r.left + r.width / 2 - kotak.left, r.top + r.height / 2 - kotak.top]; });
+    let d = `M${titik[0][0]},${titik[0][1]}`;
+    for (let i = 1; i < titik.length; i++) {
+      const [x0, y0] = titik[i - 1], [x1, y1] = titik[i], dy = (y1 - y0) / 2;
+      d += ` C${x0},${y0 + dy} ${x1},${y1 - dy} ${x1},${y1}`;
+    }
+    garis.setAttribute('d', d);
+  }
 
-  const TONG = [['organik', ['pisang', 'daun']], ['anorganik', ['kardus', 'kaleng']], ['b3', ['baterai', 'lampu']], ['residu', ['sachet', 'styrofoam']]];
-  $('#tong-daftar').innerHTML = TONG.map(([k, isi]) => `
-    <div class="tong t-${k}" style="--w:${KAT[k].warna}">
-      <div class="isi-tong" aria-hidden="true">${isi.map(i => svg(JN.byId[i].ikon)).join('')}</div>
-      ${k === 'anorganik' ? '<span class="singgah" data-singgah aria-hidden="true"></span>' : ''}
-      <div class="bibir"></div><div class="badan"><strong>${KAT[k].nama}</strong><span>${KAT[k].ke}</span></div>
-    </div>`).join('');
-
-  /* Perjalanan satu botol: berhenti di titik singgah (judul tiap langkah) dan ikut tergulir,
-     lalu melambung ke titik berikutnya saat titik itu mendekat. Titik terakhir di dalam tong anorganik. */
-  const botol = $('#botol-jalan'), singgah = $$('[data-singgah]');
+  /* Perjalanan satu botol: diam di titik singgah dan ikut tergulir, lalu melambung ke titik berikutnya
+     saat titik itu mendekat. Titik terakhir di tong kecil pada langkah Setor: botol "masuk" ke tong. */
+  const botol = $('#botol-jalan'), singgah = $$('[data-singgah]'), tong = $('#tong-mini');
   botol.innerHTML = svg('botol');
-  if (JN.kurangGerak) { singgah.forEach(s => { s.innerHTML = svg('botol'); }); botol.hidden = true; return; }
+  if (JN.kurangGerak) {
+    singgah.slice(0, -1).forEach(s => { s.innerHTML = svg('botol'); });
+    tong.classList.add('terisi'); botol.hidden = true;
+    gambarGaris(); addEventListener('resize', gambarGaris);
+    return;
+  }
   const batas = t => Math.min(1, Math.max(0, t)), halus = t => t * t * (3 - 2 * t);
   let menunggu = false, sudahMasuk = false;
   function gambar() {
@@ -45,8 +50,9 @@ JN.mulai = () => {
     }
     const uk = botol.offsetWidth;
     botol.style.transform = `translate3d(${(x - uk / 2).toFixed(1)}px,${(yy - uk / 2).toFixed(1)}px,0) rotate(${putar.toFixed(1)}deg)`;
+    botol.classList.toggle('masuk', akhir);
+    tong.classList.toggle('terisi', akhir);
     if (akhir && !sudahMasuk) {
-      const tong = $('.tong.t-anorganik');
       tong.classList.remove('goyang'); tong.getBoundingClientRect(); tong.classList.add('goyang');
       JN.eks('senang', 2200); JN.lompat();
     }
@@ -54,7 +60,7 @@ JN.mulai = () => {
   }
   const minta = () => { if (!menunggu) { menunggu = true; requestAnimationFrame(gambar); } };
   addEventListener('scroll', minta, { passive: true });
-  addEventListener('resize', minta);
-  document.fonts?.ready.then(minta);
-  minta();
+  addEventListener('resize', () => { gambarGaris(); minta(); });
+  document.fonts?.ready.then(() => { gambarGaris(); minta(); });
+  gambarGaris(); minta();
 };

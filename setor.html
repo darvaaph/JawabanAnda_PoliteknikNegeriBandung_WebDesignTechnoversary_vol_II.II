@@ -42,6 +42,7 @@
         <nav class="langkah-nav" aria-label="Empat langkah">
           <a style="--w:var(--anorganik)" href="pilah.html">Pilah</a><a style="--w:var(--stempel)" href="kurangi.html">Kurangi</a><a style="--w:var(--organik)" href="olah.html">Olah</a><a style="--w:var(--setor)" href="setor.html" aria-current="page">Setor</a>
         </nav>
+        <div class="tugas" data-tugas="setor" aria-live="polite"></div>
       </div>
       <div class="kardi-kepala" data-kardi="lambai"></div>
     </div>
@@ -52,15 +53,15 @@
       <div class="kepala-bagian">
         <span class="cap">Sebelum setor</span>
         <h2 class="judul-bagian">Lima hal yang perlu <mark class="stabilo">disiapkan.</mark></h2>
-        <p class="pengantar">Bank sampah biasanya hanya menerima sampah anorganik yang bersih, kering, dan sudah dikelompokkan.</p>
+        <p class="pengantar">Bank sampah biasanya hanya menerima sampah anorganik yang bersih, kering, dan sudah dikelompokkan. Centang yang sudah kamu pahami.</p>
       </div>
-      <ol class="checklist">
-        <li><span class="no">1</span><span><b>Pilah sesuai tong</b>Pisahkan organik, anorganik, B3, dan residu sejak di rumah.</span></li>
-        <li><span class="no">2</span><span><b>Bilas</b>Botol, gelas, dan kaleng dibilas dari sisa minuman atau makanan.</span></li>
-        <li><span class="no">3</span><span><b>Keringkan</b>Kertas dan kardus yang basah atau berminyak sulit diolah.</span></li>
-        <li><span class="no">4</span><span><b>Kelompokkan per jenis</b>Plastik bersama plastik, kertas bersama kertas, tutup terpisah dari botol.</span></li>
-        <li><span class="no">5</span><span><b>Cek jadwal</b>Banyak bank sampah hanya buka di hari tertentu. Cek dulu sebelum berangkat.</span></li>
-      </ol>
+      <ul class="checklist" id="checklist">
+        <li><label><input type="checkbox" value="0"><span><b>Pilah sesuai tong</b>Pisahkan organik, anorganik, B3, dan residu sejak di rumah.</span></label></li>
+        <li><label><input type="checkbox" value="1"><span><b>Bilas</b>Botol, gelas, dan kaleng dibilas dari sisa minuman atau makanan.</span></label></li>
+        <li><label><input type="checkbox" value="2"><span><b>Keringkan</b>Kertas dan kardus yang basah atau berminyak sulit diolah.</span></label></li>
+        <li><label><input type="checkbox" value="3"><span><b>Kelompokkan per jenis</b>Plastik bersama plastik, kertas bersama kertas, tutup terpisah dari botol.</span></label></li>
+        <li><label><input type="checkbox" value="4"><span><b>Cek jadwal</b>Banyak bank sampah hanya buka di hari tertentu. Cek dulu sebelum berangkat.</span></label></li>
+      </ul>
     </div>
   </section>
 
@@ -83,10 +84,20 @@
       </div>
       <div class="filter" id="filter-tempat" role="group" aria-label="Saring jenis tempat"></div>
       <div id="daftar-lokasi"></div>
-      <div class="lanjut">
-        <div><span class="label">Sudah sampai langkah terakhir</span><b>Bagikan janjimu supaya temanmu ikut</b></div>
-        <a class="btn" href="kurangi.html#janji">Buat Kartu Janji →</a>
+    </div>
+  </section>
+
+  <section class="bagian gelap" id="selesai" data-sobek data-pesan="Ini kartumu. Bagikan, ya!" data-eks="senang">
+    <div class="isi hasil-akhir">
+      <div class="selesai-kepala">
+        <span class="cap">Akhir perjalanan</span>
+        <h2 class="judul-bagian" id="judul-selesai">Kartu Jejak-ku</h2>
+        <p class="pengantar" id="teks-selesai"></p>
+        <div class="baris-nama"><label class="sr" for="nama-jejak">Namamu</label><input id="nama-jejak" placeholder="Tulis namamu untuk kartu" maxlength="24" autocomplete="name"></div>
+        <p class="pengantar" style="font-size:14px">Tangkap layar kartu ini untuk dibagikan ke teman atau media sosial.</p>
+        <button type="button" class="tombol-teks" id="hapus-jejak" style="color:#CDBFA5">Hapus jejak dan mulai dari awal</button>
       </div>
+      <div data-kartu-jejak></div>
     </div>
   </section>
 </main>

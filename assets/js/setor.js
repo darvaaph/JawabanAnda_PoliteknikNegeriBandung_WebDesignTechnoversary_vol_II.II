@@ -38,4 +38,33 @@ JN.mulai = () => {
     gambar();
   }));
   gambar();
+
+  /* checklist persiapan = aksi jejak langkah Setor */
+  const kotak = $$('#checklist input');
+  const sinkron = () => { const c = JN.jejak.data().setor.centang; kotak.forEach(k => { k.checked = c.includes(+k.value); }); };
+  kotak.forEach(k => k.addEventListener('change', () => {
+    JN.jejak.ubah(d => { d.setor.centang = kotak.filter(x => x.checked).map(x => +x.value); });
+  }));
+  sinkron();
+
+  /* akhir perjalanan: judul dan ajakan menyesuaikan jumlah jejak */
+  const nama = $('#nama-jejak');
+  nama.value = JN.jejak.data().nama;
+  nama.addEventListener('input', () => JN.jejak.ubah(d => { d.nama = nama.value.trim(); }));
+  const asli = JN.jejak.tampilkan.bind(JN.jejak);
+  JN.jejak.tampilkan = () => {
+    asli();
+    const st = JN.jejak.status(), n = JN.jejak.jumlah(st), b = JN.jejak.berikut(st);
+    $('#judul-selesai').innerHTML = n === 4 ? 'Perjalananmu <mark class="stabilo">selesai!</mark>' : `Kartu Jejak-ku: <mark class="stabilo">${n} dari 4</mark>`;
+    $('#teks-selesai').innerHTML = n === 4
+      ? 'Keempat jejakmu lengkap. Kartu ini merangkum semua yang sudah kamu lakukan di Jejak Nol.'
+      : `Masih ada ${4 - n} langkah lagi untuk melengkapi kartumu. Berikutnya: <a href="${b.url}" style="color:var(--anorganik);font-weight:800">${b.nama} →</a>`;
+  };
+  let yakin = false;
+  $('#hapus-jejak').addEventListener('click', e => {
+    if (!yakin) { yakin = true; e.target.textContent = 'Yakin? Klik sekali lagi untuk menghapus semua jejak'; return; }
+    JN.jejak.hapus(); sinkron(); nama.value = ''; yakin = false; e.target.textContent = 'Hapus jejak dan mulai dari awal';
+  });
+  // kartu baru terisi setelah script jalan, jadi lompat ke #selesai dilakukan ulang di sini
+  if (location.hash === '#selesai') setTimeout(() => $('#selesai').scrollIntoView({ behavior: 'instant' }), 0);
 };
