@@ -42,10 +42,15 @@ JN.mulai = () => {
   /* checklist persiapan = aksi jejak langkah Setor */
   const kotak = $$('#checklist input');
   // checklist tetap bisa dibaca; centangnya terbuka setelah Pilah, Kurangi, dan Olah selesai
+  $('#checklist').insertAdjacentHTML('beforebegin', '<p class="catatan-kunci besar" id="kunci-setor" hidden></p>');
   const sinkron = () => {
-    const c = JN.jejak.data().setor.centang, terbuka = JN.jejak.terbuka('setor');
+    const c = JN.jejak.data().setor.centang, terbuka = JN.jejak.terbuka('setor'), awal = JN.jejak.berikut();
     kotak.forEach(k => { k.checked = terbuka && c.includes(+k.value); k.disabled = !terbuka; });
-    $('#checklist').title = terbuka ? '' : JN.jejak.pesanKunci('setor');
+    $('#checklist').classList.toggle('terkunci', !terbuka);
+    const cat = $('#kunci-setor');
+    cat.hidden = terbuka;
+    // satu catatan di atas daftar, bukan di setiap kotak centang
+    cat.innerHTML = terbuka ? '' : `${JN.GEMBOK} Kotak centang terbuka setelah Pilah, Kurangi, dan Olah selesai. Isinya tetap bisa kamu baca. <a href="${awal.url}">${JN.jejak.jumlah() ? "Lanjut ke" : "Mulai dari"} ${awal.nama} →</a>`;
   };
   kotak.forEach(k => k.addEventListener('change', () => {
     if (!JN.jejak.terbuka('setor')) return;

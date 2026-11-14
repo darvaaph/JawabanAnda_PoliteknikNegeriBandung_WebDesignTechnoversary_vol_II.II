@@ -79,9 +79,18 @@ Lalu buka `http://localhost:8000` di browser. Alternatif: ekstensi *Live Server*
 - **Menambah lokasi setor:** tambahkan ke `JN.DIREKTORI`. Cantumkan hanya lokasi yang sudah dicek langsung, dengan tanggal di kolom `dicek`.
 - **Mengaktifkan formulir kontak:** buat formulir gratis di layanan seperti Formspree, lalu isi alamatnya di atribut `data-endpoint` pada `<form id="form-kontak">` di `kontak.html`. Tanpa itu, formulir berjalan dalam mode demo dan memberi tahu pengguna bahwa pesan belum terkirim.
 
+## Kaitan dengan SDGs
+
+Jejak Nol mendukung **SDG 12** (Konsumsi dan Produksi yang Bertanggung Jawab), terutama **target 12.5** (mengurangi timbulan sampah lewat pencegahan, pengurangan, daur ulang, guna ulang) dan **12.8** (informasi dan kesadaran gaya hidup berkelanjutan). Pendukung lain: 12.4 (limbah berbahaya), 11.6 (sampah kota), 14.1 (sampah laut), 13.3 (kesadaran iklim), 4.7 (pendidikan berkelanjutan). Rinciannya ada di halaman Tentang (`tentang.html#sdgs`).
+
 ## Sumber data
 
 - SIPSN KLHK — data timbulan dan komposisi sampah: https://sipsn.menlhk.go.id
+- UU No. 18 Tahun 2008 tentang Pengelolaan Sampah
+- Perpres No. 97 Tahun 2017 (Jakstranas): target pengurangan 30% dan penanganan 70% sampah rumah tangga pada 2025
+- Permen LHK No. 14 Tahun 2021 tentang Pengelolaan Sampah pada Bank Sampah
+- PBB, Sustainable Development Goals: https://sdgs.un.org/goals
+- ASTM D7611 — Resin Identification Code (kode plastik 1–7)
 - *(lengkapi sumber panduan kompos, eco-enzyme, kode plastik, dan Mitos vs Fakta)*
 
 ## Tim
@@ -100,6 +109,7 @@ Lalu buka `http://localhost:8000` di browser. Alternatif: ekstensi *Live Server*
 
 - [ ] Isi angka `JN.FAKTA` dari SIPSN KLHK
 - [ ] Isi semua sumber yang masih bertanda “ISI”
+- [ ] Cocokkan bunyi target SDG 11.6, 14.1, 13.3, 4.7 dan kode ASTM D7611 dengan sumber resminya
 - [ ] Cocokkan pengelompokan tong dengan aturan bank sampah/TPS di Kuningan
 - [ ] Isi `JN.DIREKTORI` dengan lokasi yang sudah dicek
 - [ ] Isi nama tim, anggota, Instagram, dan email (Tentang, Kontak, README)

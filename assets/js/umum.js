@@ -25,6 +25,8 @@ JN.LANGKAH = [
   { id: 'olah',    nama: 'Olah',    warna: 'var(--organik)',   url: 'olah.html',    tugas: 'Simpan 1 panduan atau ide yang ingin kamu coba.' },
   { id: 'setor',   nama: 'Setor',   warna: 'var(--setor)',     url: 'setor.html',   tugas: 'Centang kelima persiapan sebelum menyetor.' }
 ];
+/* gembok: ikon SVG sendiri (bukan emoji) supaya sama di semua perangkat dan sesuai gaya ikon lain */
+JN.GEMBOK = '<svg class="gembok" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 11V8a4.5 4.5 0 0 1 9 0v3" fill="none" stroke="#1B1712" stroke-width="2.6" stroke-linecap="round"/><rect x="4" y="10.5" width="16" height="11.5" rx="2.5" fill="#F2C230" stroke="#1B1712" stroke-width="2.6"/><path d="M12 15v3" stroke="#1B1712" stroke-width="2.6" stroke-linecap="round"/></svg>';
 const KUNCI_JEJAK = 'jejaknol:jejak', KUNCI_BARIS = 'jejaknol:baris';
 JN.jejak = {
   data() {
@@ -76,13 +78,13 @@ JN.jejak = {
       el.innerHTML = st[l.id]
         ? `<span class="label">✓ Jejak ${l.nama} tercatat · ${n}/4</span><span>${b ? `Lanjut ke <a href="${b.url}">${b.nama} →</a>` : `Keempat jejak lengkap. <a href="kartu.html">Lihat Kartu Jejak-ku →</a>`}</span>`
         : dikunci
-          ? `<span class="label">🔒 Jejak terkunci · ${n}/4</span><span>${this.pesanKunci(l.id)} Isi halaman ini tetap bisa kamu baca. <a href="${b.url}">Mulai dari ${b.nama} →</a></span>`
+          ? `<span class="label">${JN.GEMBOK} Jejak terkunci · ${n}/4</span><span>${this.pesanKunci(l.id)} Isi halaman ini tetap bisa kamu baca. <a href="${b.url}">${n ? "Lanjut ke" : "Mulai dari"} ${b.nama} →</a></span>`
           : `<span class="label">Jejakmu di sini · ${n}/4</span><span>${l.tugas}${l.id === 'pilah' ? ` (${Math.min(3, d.pilah.dilihat.length)}/3)` : ''}</span>`;
     });
     $$('[data-status-jejak]').forEach(el => {
       const k = el.dataset.statusJejak, s = st[k], dikunci = !s && !this.terbuka(k, st);
       el.classList.toggle('sudah', s); el.classList.toggle('terkunci', dikunci);
-      el.textContent = s ? '✓ Sudah' : dikunci ? '🔒 Terkunci' : 'Belum';
+      el.innerHTML = s ? '✓ Sudah' : dikunci ? `${JN.GEMBOK} Terkunci` : 'Belum';
     });
     $$('[data-lanjut]').forEach(a => {
       if (!n) return;
@@ -227,25 +229,65 @@ function pasangTeman() {
 }
 
 /* ---------- pencarian "Ini dibuang ke mana?" ---------- */
+/* Skor kecocokan: nama/alias persis > diawali kata yang diketik > semua kata ada di nama/alias.
+   Hanya kalau tidak ada yang cocok, baru dipakai kecocokan longgar (alias terselip di kalimat yang diketik). */
+JN.cariBarang = q => {
+  q = JN.norm(q); if (!q) return [];
+  const kata = q.split(' ');
+  const skor = b => Math.max(...[b.nama, ...b.alias].map(t => {
+    t = JN.norm(t);
+    if (t === q) return 100;
+    if (t.startsWith(q)) return 80;
+    if (kata.every(k => t.includes(k))) return 60;
+    return 0;
+  }));
+  let hasil = JN.BARANG.map(b => ({ b, s: skor(b) })).filter(x => x.s > 0);
+  if (!hasil.length) hasil = JN.BARANG.filter(b => [b.nama, ...b.alias].some(t => JN.norm(t).length >= 4 && q.includes(JN.norm(t)))).map(b => ({ b, s: 30 }));
+  return hasil.sort((a, b) => b.s - a.s).map(x => x.b);
+};
+const AKSI_KATEGORI = {
+  organik: b => `<a class="btn kecil" href="olah.html#kompos">Jadikan kompos →</a>`,
+  anorganik: b => `<a class="btn kecil" href="setor.html#siapkan">Siapkan untuk bank sampah →</a>`,
+  b3: b => `<a class="btn kecil" href="setor.html#tempat">Cari tempat setor B3 →</a>`,
+  residu: b => b.hitung ? `<a class="btn kecil" href="kurangi.html?tambah=${b.id}">Kurangi pemakaiannya →</a>` : ''
+};
 JN.pasangCari = form => {
   const input = $('input', form), hasil = $('.hasil', form);
-  function cari(q) {
-    q = JN.norm(q);
-    if (!q) { hasil.innerHTML = ''; return; }
-    const cocok = JN.BARANG.filter(b => [b.nama, ...b.alias].some(t => JN.norm(t).includes(q) || q.includes(JN.norm(t)))).slice(0, 3);
-    hasil.innerHTML = cocok.length ? cocok.map(b => `
-      <div class="hasil-kartu" style="--w:${JN.KAT[b.kat].warna}">
-        <span><span class="chip k-${b.kat}">Tong ${JN.KAT[b.kat].nama}</span></span>
+  // tombol hapus sendiri (menggantikan tanda × bawaan browser)
+  $('.baris', form).insertAdjacentHTML('beforeend', '<button type="button" class="hapus-cari" aria-label="Hapus pencarian" hidden>×</button>');
+  const hapus = $('.hapus-cari', form);
+  hapus.addEventListener('click', () => { input.value = ''; tampil(''); input.focus(); });
+  function jawaban(b, lain) {
+    const k = JN.KAT[b.kat];
+    return `<div class="jawaban" style="--w:${k.warna}">
+      <div class="jawaban-visual" aria-hidden="true">
+        <span class="jv-barang">${JN.svg(b.ikon)}</span>
+        <span class="tong-kecil${b.kat === 'anorganik' ? '' : ' putih-teks'}"><span class="bibir"></span><span class="badan">${k.nama}</span></span>
+      </div>
+      <div class="jawaban-isi">
+        <span class="label">Masuk tong ${k.nama.toLowerCase()} · ${k.ke.toLowerCase()}</span>
         <strong>${b.nama}</strong>
         <ol>${b.langkah.map(l => `<li>${l}</li>`).join('')}</ol>
-      </div>`).join('')
-      : `<p class="kosong">Belum ada “${JN.esc(q)}” di daftar kami. Coba kata lain, misalnya “botol” atau “sisa makanan”, atau <a href="kontak.html?jenis=barang">usulkan barang ini</a>.</p>`;
+        <p><b>Penggantinya:</b> ${b.alt}</p>
+        <div>${AKSI_KATEGORI[b.kat](b)}</div>
+      </div>
+    </div>
+    ${lain.length ? `<div class="mungkin"><span>Mungkin maksudmu:</span>${lain.map(x => `<button type="button" data-pilih="${x.id}">${x.nama}</button>`).join('')}</div>` : ''}`;
+  }
+  function tampil(q, pilihId) {
+    hapus.hidden = !q;
+    if (!JN.norm(q)) { hasil.innerHTML = ''; return; }
+    let cocok = JN.cariBarang(q);
+    if (pilihId) cocok = [JN.byId[pilihId], ...cocok.filter(b => b.id !== pilihId)];
+    hasil.innerHTML = cocok.length ? jawaban(cocok[0], cocok.slice(1, 4))
+      : `<p class="kosong">Belum ada “${JN.esc(JN.norm(q))}” di daftar kami. Coba kata lain, misalnya “botol” atau “sisa makanan”, atau <a href="kontak.html?jenis=barang">usulkan barang ini</a>.</p>`;
+    $$('[data-pilih]', hasil).forEach(t => t.addEventListener('click', () => tampil(q, t.dataset.pilih)));
     JN.eks(cocok.length ? 'senang' : 'bingung', cocok.length ? 1500 : 2200);
     if (cocok.length) JN.jejak.ubah(d => { d.pilah.cari = true; });
   }
-  input.addEventListener('input', e => cari(e.target.value));
-  form.addEventListener('submit', e => { e.preventDefault(); cari(input.value); });
-  $$('[data-cari]', form).forEach(b => b.addEventListener('click', () => { input.value = b.dataset.cari; cari(b.dataset.cari); }));
+  input.addEventListener('input', e => tampil(e.target.value));
+  form.addEventListener('submit', e => { e.preventDefault(); tampil(input.value); });
+  $$('[data-cari]', form).forEach(b => b.addEventListener('click', () => { input.value = b.dataset.cari; tampil(b.dataset.cari); }));
 };
 
 /* ---------- jelajah ruangan ---------- */

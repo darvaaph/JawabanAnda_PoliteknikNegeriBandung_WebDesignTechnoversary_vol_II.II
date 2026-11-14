@@ -40,8 +40,13 @@ JN.mulai = () => {
       const on = tersimpan.includes(b.dataset.simpan);
       b.setAttribute('aria-pressed', on);
       b.disabled = !terbuka;
-      b.title = terbuka ? '' : JN.jejak.pesanKunci('olah');
-      b.textContent = !terbuka ? '🔒 Simpan ide (selesaikan Pilah & Kurangi dulu)' : on ? '✓ Tersimpan' : 'Simpan ide ini';
+      b.innerHTML = !terbuka ? `${JN.GEMBOK} Simpan ide ini` : on ? '✓ Tersimpan' : 'Simpan ide ini';
+      // keterangan kunci ada di luar tombol, supaya tombol tidak terlihat bisa diklik
+      let cat = b.nextElementSibling;
+      if (!cat || !cat.classList.contains('catatan-kunci')) { b.insertAdjacentHTML('afterend', '<span class="catatan-kunci"></span>'); cat = b.nextElementSibling; }
+      const awal = JN.jejak.berikut();
+      cat.hidden = terbuka;
+      cat.innerHTML = terbuka ? '' : `Terbuka setelah Pilah &amp; Kurangi selesai · <a href="${awal.url}">${JN.jejak.jumlah() ? "Lanjut ke" : "Mulai dari"} ${awal.nama} →</a>`;
     });
   }
   document.addEventListener('jejakberubah', sinkronSimpan);
