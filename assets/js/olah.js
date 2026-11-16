@@ -2,8 +2,11 @@
 JN.mulai = () => {
   const { $, $$, svg } = JN;
 
-  $('#daftar-panduan').innerHTML = JN.PANDUAN.map(p => `
-    <article class="panduan kertas selotip" id="${p.id}">
+  /* tab panduan: hanya satu panduan tampil, supaya halaman tidak memanjang dua kali lipat */
+  $('#daftar-panduan').innerHTML = `<div class="tab-daftar" role="tablist" aria-label="Pilih panduan">${JN.PANDUAN.map((p, i) =>
+    `<button role="tab" id="tab-${p.id}" aria-selected="${i === 0}" aria-controls="${p.id}" data-panduan="${p.id}">${p.judul}</button>`).join('')}</div>` +
+    JN.PANDUAN.map((p, i) => `
+    <article class="panduan kertas selotip" id="${p.id}" role="tabpanel" aria-labelledby="tab-${p.id}"${i ? ' hidden' : ''}>
       ${svg(p.ikon, '', 'ilus')}
       <div>
         <h3>${p.judul}</h3>
@@ -19,6 +22,13 @@ JN.mulai = () => {
     </article>`).join('');
 
   $$('.proses').forEach(pasangProses);
+  const pilihPanduan = id => {
+    $$('[data-panduan]').forEach(t => t.setAttribute('aria-selected', t.dataset.panduan === id));
+    JN.PANDUAN.forEach(p => { $('#' + p.id).hidden = p.id !== id; });
+  };
+  $$('[data-panduan]').forEach(t => t.addEventListener('click', () => pilihPanduan(t.dataset.panduan)));
+  // tautan langsung (olah.html#eco-enzyme) membuka tab yang sesuai
+  if (JN.PANDUAN.some(p => '#' + p.id === location.hash)) pilihPanduan(location.hash.slice(1));
 
   // filter "saya punya…": kosong = tampilkan semua
   const dipilih = new Set();
@@ -63,10 +73,31 @@ JN.mulai = () => {
   // tautan dari Beranda (olah.html#pot-botol) dibuka setelah kartu dibuat
   if (location.hash) { const t = document.getElementById(location.hash.slice(1)); if (t) { t.scrollIntoView(); const d = t.querySelector('details'); if (d) d.open = true; } }
 
-  $('#daftar-mitos').innerHTML = JN.MITOS.map(m => `
-    <article class="kertas selotip"><span class="lbl salah">Mitos</span><p class="m">${m.mitos}</p>
-      <span class="lbl">Fakta</span><p>${m.fakta}</p>
-      <span class="isi-sumber${m.sumber === 'ISI' ? ' belum' : ''}">Sumber: ${m.sumber === 'ISI' ? 'ISI sebelum submit' : m.sumber}</span></article>`).join('');
+  /* Kuis "Mitos atau fakta?": tebak dulu, lalu penjelasan dan sumbernya terbuka */
+  const kuis = JN.MITOS.map(m => ({ teks: m.pernyataan || m.mitos, jenis: m.jenis || 'mitos', isi: m.fakta, sumber: m.sumber }));
+  let benar = 0, dijawab = 0;
+  const skor = $('#kuis-skor');
+  const tulisSkor = () => { skor.textContent = dijawab ? `Tebakan benar: ${benar} dari ${dijawab} · ${kuis.length - dijawab} kartu lagi` : `${kuis.length} kartu. Tebak sebanyak mungkin!`; };
+  $('#daftar-mitos').innerHTML = kuis.map((k, i) => `
+    <article class="kertas selotip kuis" data-jenis="${k.jenis}">
+      <span class="lbl">Pernyataan ${i + 1}</span><p class="m">${k.teks}</p>
+      <div class="kuis-tombol" role="group" aria-label="Menurutmu, mitos atau fakta?">
+        <button type="button" data-pilih="mitos">Mitos</button><button type="button" data-pilih="fakta">Fakta</button></div>
+      <div class="kuis-jawab" hidden aria-live="polite"><span class="lbl hasil"></span><p>${k.isi}</p>
+        <span class="isi-sumber${k.sumber === 'ISI' ? ' belum' : ''}">Sumber: ${k.sumber === 'ISI' ? 'ISI sebelum submit' : k.sumber}</span></div>
+    </article>`).join('');
+  $$('#daftar-mitos .kuis').forEach(kartu => kartu.addEventListener('click', e => {
+    const b = e.target.closest('[data-pilih]'); if (!b || kartu.classList.contains('terjawab')) return;
+    const tepat = b.dataset.pilih === kartu.dataset.jenis, label = kartu.dataset.jenis === 'mitos' ? 'ini mitos' : 'ini fakta';
+    kartu.classList.add('terjawab', tepat ? 'tepat' : 'keliru');
+    b.classList.add('dipilih');
+    $$('[data-pilih]', kartu).forEach(x => { x.disabled = true; });
+    const jawab = $('.kuis-jawab', kartu); jawab.hidden = false;
+    $('.hasil', jawab).textContent = tepat ? `✓ Tepat, ${label}!` : `✗ Kurang tepat, ${label}.`;
+    dijawab++; if (tepat) benar++; tulisSkor();
+    JN.eks(tepat ? 'senang' : 'kaget', 1400);
+  }));
+  tulisSkor();
 };
 
 /* ---------- "Lihat prosesnya": slider waktu yang mengubah gambar wadah ----------

@@ -156,11 +156,32 @@ JN.mulai = () => {
       tLanjut.textContent = i === urutan.length - 1 ? '4 langkah ↓' : 'Lanjut →';
       $$('.cerita-titik span', kontrol).forEach((s, k) => s.classList.toggle('kini', k === i));
     }
-    $$('button', kontrol).forEach(b => b.addEventListener('click', () => {
-      const i = Math.max(0, urutan.indexOf(kini)) + Number(b.dataset.arah);
-      if (i >= urutan.length) return $('#jalan').scrollIntoView({ behavior: JN.kurangGerak ? 'auto' : 'smooth' });
+    /* ajakan untuk pengunjung baru: tombol Lanjut berdenyut + petunjuk geser, hilang setelah interaksi pertama */
+    const ajak = document.createElement('p');
+    ajak.className = 'cerita-ajak';
+    ajak.innerHTML = 'Geser kartu ke kiri atau ketuk <b>Lanjut</b> untuk melihat isi tong berikutnya.';
+    kontrol.after(ajak);
+    tLanjut.classList.add('berdenyut');
+    function geser(arah, dariTombol) {
+      ajak.hidden = true; tLanjut.classList.remove('berdenyut');
+      const i = Math.max(0, urutan.indexOf(kini)) + arah;
+      if (i >= urutan.length) {
+        if (dariTombol) $('#jalan').scrollIntoView({ behavior: JN.kurangGerak ? 'auto' : 'smooth' });
+        return;
+      }
       aktif(urutan[Math.max(0, i)]); segarkanKontrol();
-    }));
+    }
+    $$('button', kontrol).forEach(b => b.addEventListener('click', () => geser(Number(b.dataset.arah), true)));
+    /* geser (swipe) kiri/kanan di area cerita, hanya di HP dan hanya bila gerakannya jelas mendatar */
+    let awalX = null, awalY = 0;
+    const cerita = $('#masalah .cerita');
+    cerita.addEventListener('touchstart', e => { if (hp.matches) { awalX = e.touches[0].clientX; awalY = e.touches[0].clientY; } }, { passive: true });
+    cerita.addEventListener('touchend', e => {
+      if (awalX == null) return;
+      const dx = e.changedTouches[0].clientX - awalX, dy = e.changedTouches[0].clientY - awalY;
+      awalX = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) geser(dx < 0 ? 1 : -1, false);
+    }, { passive: true });
 
     if (!('IntersectionObserver' in window)) { aktif(hp.matches ? 'isi' : 'pilah'); segarkanKontrol(); return; }
     /* desktop: tahap aktif = tahap terakhir yang bagian atasnya sudah melewati garis tengah layar (aman untuk lompatan jauh) */

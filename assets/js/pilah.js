@@ -27,8 +27,9 @@ JN.mulai = () => {
     <text x="30" y="42" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="900" font-size="22" fill="#1B1712">${n}</text></svg>`;
   pasangPilahCepat($('#game'));
 
-  $('#daftar-plastik').innerHTML = JN.PLASTIK.map(p => `<article>
-      ${segitiga(p.kode)}<b>${p.nama}</b><p>${p.lengkap}. Contoh: ${p.contoh}.</p>
+  /* kartu ringkas: angka + contoh barang + status dulu; nama kimia hanya keterangan kecil */
+  $('#daftar-plastik').innerHTML = JN.PLASTIK.map(p => `<article class="pl-${p.status}">
+      ${segitiga(p.kode)}<div class="pl-isi"><b>${p.nama}</b><p>${p.contoh}</p><small>${p.lengkap}</small></div>
       <span class="chip st st-${p.status}">${JN.STATUS_PLASTIK[p.status]}</span>
     </article>`).join('');
 };

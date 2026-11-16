@@ -170,6 +170,18 @@ nav.menu a.titik.jejak::before{background:var(--w)}
 .detail .label{font:700 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-2)}
 .detail ol{margin:0;padding-left:20px}
 .detail .alt{border-top:2px dashed #CDBB98;padding-top:12px}
+/* lembar bawah (HP): penjelasan barang Jelajah ruangan */
+.tutup-lembar{display:none}
+@media (max-width:820px){
+  .jelajah-isi .detail{display:none}
+  .jelajah-isi .detail.lembar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:45;max-height:78vh;overflow:auto;margin:0;
+    border-radius:22px 22px 0 0;border:3px solid var(--tinta);border-bottom:0;box-shadow:0 -12px 40px rgba(27,23,18,.35);
+    padding:16px 18px calc(22px + env(safe-area-inset-bottom,0px));animation:naikLembar .3s cubic-bezier(.3,1.2,.5,1)}
+  .jelajah-isi .detail.lembar::before,.jelajah-isi .detail.lembar::after{display:none}
+  .detail.lembar .tutup-lembar{display:inline-flex;align-self:flex-end;background:var(--tinta);color:var(--kertas);border:0;border-radius:999px;padding:8px 14px;font:700 13px/1 var(--f-teks);cursor:pointer}
+  .lembar-latar{position:fixed;inset:0;z-index:44;background:rgba(27,23,18,.45);animation:muncul .2s both}
+}
+@keyframes naikLembar{from{transform:translateY(100%)}}
 
 /* ---------- kalkulator ---------- */
 .hitung{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;align-items:start}
@@ -191,8 +203,23 @@ fieldset.kebiasaan.sorot{background:#FFF4CC}
 .kebiasaan select,.tambah select{border:2px solid var(--tinta);border-radius:12px;background:#fff;padding:8px 10px;font-size:15px;max-width:100%}
 .hasil-baris{font-size:14px;color:var(--tinta-2)}
 .hasil-baris b{color:var(--tinta);font-variant-numeric:tabular-nums}
-.tambah{display:flex;flex-direction:column;gap:6px;padding-top:4px}
-.tambah label{font-weight:800;font-size:14px}
+.tambah{display:flex;flex-direction:column;gap:8px;padding-top:4px}
+.tambah label,.tambah-judul{font-weight:800;font-size:14px}
+/* chip "barang → pengganti": ketuk untuk menambah barang ke hitungan */
+.tambah-chip{display:flex;flex-wrap:wrap;gap:8px}
+.tambah-chip button{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border:2px dashed var(--tinta-2);border-radius:14px;background:#fff;
+  cursor:pointer;text-align:left;font:500 13px/1.25 var(--f-teks);color:var(--tinta-2)}
+.tambah-chip button:hover{border-style:solid;border-color:var(--tinta);background:var(--anorganik);color:var(--tinta)}
+.tambah-chip svg{width:30px;height:30px;flex:none}
+.tambah-chip b{display:block;color:var(--tinta);font-weight:800}
+/* bar hasil menempel di bawah layar HP selama mengisi kalkulator */
+.bar-hasil{display:none}
+@media (max-width:900px){
+  .bar-hasil{display:flex;align-items:center;gap:10px;position:sticky;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:6;
+    padding:12px 64px 12px 16px;border-radius:16px;background:var(--tinta);color:var(--kertas);text-decoration:none;box-shadow:0 6px 20px rgba(27,23,18,.35);font-size:13px;line-height:1.25}
+  .bar-hasil b{font:900 28px/1 var(--f-judul);font-stretch:74%;color:var(--anorganik)}
+  .bar-lihat{margin-left:auto;font-weight:800;white-space:nowrap}
+}
 .panel-hasil{padding:26px 22px 22px;display:flex;flex-direction:column;gap:14px}
 .angka{font:900 clamp(68px,11vw,112px)/.85 var(--f-judul);font-stretch:66%;color:var(--stempel);font-variant-numeric:tabular-nums}
 .angka-sub{font-weight:800;font-size:17px;line-height:1.35}
@@ -213,6 +240,7 @@ fieldset.kebiasaan.sorot{background:#FFF4CC}
 .kartu-jejak .kj-nama{font:400 26px/1.1 var(--f-coret)}
 .kartu-jejak .kj-angka{font:900 44px/.9 var(--f-judul);font-stretch:68%;color:var(--stempel)}
 .kartu-jejak .kj-kardi{position:absolute;right:12px;bottom:10px;width:64px}
+.kartu-jejak .kj-total{padding-right:72px} /* teks jumlah tidak tertutup gambar Kardi */
 .ringkas-lanjut{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 
 /* ---------- beranda ---------- */
@@ -233,14 +261,28 @@ fieldset.kebiasaan.sorot{background:#FFF4CC}
 .anotasi svg{width:58px;height:54px;margin-top:16px;overflow:visible}
 .panah{fill:none;stroke:var(--stempel);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:gambarGaris 1s .7s ease-out forwards}
 .kardi-hero{position:absolute;right:16px;top:-108px;width:108px;z-index:2}
+/* HP: pencarian naik tepat di bawah judul supaya jalan pintasnya langsung terlihat di layar pertama */
+@media (max-width:860px){
+  .hero{padding-block:28px 64px}
+  .hero .isi{display:flex;flex-direction:column;align-items:stretch;gap:18px}
+  .hero-teks{display:contents}
+  .hero-teks .cap{order:0;align-self:flex-start}
+  .hero h1{order:1;font-size:clamp(40px,12vw,56px)}
+  .hero .cari{order:2;margin-top:44px}
+  .hero .pengantar{order:3;font-size:16px}
+  .aksi-hero{order:4}
+  .hero .singgah-baris{order:5}
+  .hero .anotasi{display:none}
+  .kardi-hero{width:64px;top:-62px;right:10px}
+}
 /* cerita Beranda (scrollytelling): tong menempel, teks bergulir per tahap */
 .cerita{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);column-gap:clamp(28px,5vw,64px);align-items:start}
 .cerita-teks{grid-column:1;grid-row:1}
 .cerita-panggung{grid-column:2;grid-row:1;position:sticky;top:max(84px,calc(50vh - 250px));z-index:3}
-.cerita-teks .kepala-bagian{min-height:46vh;justify-content:center;margin-bottom:0}
-.tahap{min-height:70vh;display:flex;flex-direction:column;justify-content:center;gap:12px;opacity:.35;transition:opacity .4s}
+.cerita-teks .kepala-bagian{min-height:40vh;justify-content:center;margin-bottom:0}
+.tahap{min-height:56vh;display:flex;flex-direction:column;justify-content:center;gap:12px;opacity:.35;transition:opacity .4s}
 .tahap.aktif{opacity:1}
-.tahap:last-child{min-height:80vh}
+.tahap:last-child{min-height:66vh}
 .tahap .label{font:700 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--anorganik)}
 .tahap p{font-size:17px;max-width:44ch;color:#E3D7C1}
 .tahap .tahap-besar{font:800 clamp(24px,2.8vw,34px)/1.25 var(--f-teks);color:var(--kertas);max-width:22ch}
@@ -274,7 +316,13 @@ fieldset.kebiasaan.sorot{background:#FFF4CC}
   .cerita-titik{display:flex;gap:6px}
   .cerita-titik span{width:9px;height:9px;border-radius:50%;background:#4A3E2E}
   .cerita-titik span.kini{background:var(--anorganik);width:22px;border-radius:5px}
+  .tahap.aktif{animation:muncul .3s both}
+  .cerita-ajak{order:4;font:400 12px/1.4 var(--f-mono);color:#B3A388;text-align:center;margin-top:-6px}
+  .cerita-kontrol .berdenyut{animation:denyut 1.4s ease-in-out infinite}
+  @keyframes denyut{50%{box-shadow:0 4px 0 var(--tinta),0 0 0 7px rgba(242,194,48,.35)}}
 }
+.cerita-ajak{display:none}
+@media (max-width:860px){.cerita-ajak:not([hidden]){display:block}}
 
 .t100-tong{background:#2A241C;border:3px solid #4A3E2E;border-radius:10px 10px 24px 24px;padding:clamp(8px,1.6vw,16px);box-shadow:0 -10px 0 -4px #4A3E2E}
 .t100-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:clamp(3px,.5vw,5px)}
@@ -345,6 +393,34 @@ fieldset.kebiasaan.sorot{background:#FFF4CC}
 .mitos .lbl{font:700 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
 .mitos .lbl.salah{color:var(--stempel)}
 .gelap .mitos article{color:var(--tinta)}
+/* kuis mitos atau fakta */
+.mitos .kuis .m{text-decoration:none}
+.mitos .kuis.terjawab[data-jenis="mitos"] .m{text-decoration:line-through;text-decoration-color:var(--stempel);text-decoration-thickness:3px}
+.kuis-tombol{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kuis-tombol button{border:3px solid var(--tinta);border-radius:999px;padding:11px 10px;font:800 15px/1 var(--f-teks);background:#fff;color:var(--tinta);cursor:pointer;box-shadow:0 4px 0 var(--tinta);transition:transform .15s}
+.kuis-tombol button:not(:disabled):hover{transform:translateY(-2px);background:var(--anorganik)}
+.kuis-tombol button:disabled{cursor:default;opacity:.45;box-shadow:none}
+.kuis-tombol button.dipilih{opacity:1}
+.kuis.tepat .kuis-tombol button.dipilih{background:#CFE8D8;border-color:var(--organik)}
+.kuis.keliru .kuis-tombol button.dipilih{background:#F3C9C2;border-color:var(--stempel)}
+.kuis-jawab{display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:2px dashed var(--garis);animation:muncul .3s both}
+.kuis-jawab .hasil{font-size:12px}
+.kuis.tepat .kuis-jawab .hasil{color:var(--organik)}
+.kuis.keliru .kuis-jawab .hasil{color:var(--stempel)}
+.kuis.tepat{box-shadow:0 6px 0 var(--organik)}
+.kuis.keliru{box-shadow:0 6px 0 var(--stempel)}
+.kuis-skor{font:700 13px/1.3 var(--f-mono);letter-spacing:.04em;color:var(--anorganik)}
+/* galeri daur ulang: 2 kolom ringkas di HP */
+@media (max-width:560px){
+  #daftar-diy{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  #daftar-diy .kartu-isi{padding:18px 12px 12px;gap:8px}
+  #daftar-diy .kartu-isi svg.ilus{width:44px;height:44px}
+  #daftar-diy .kartu-isi h3{font-size:19px}
+  #daftar-diy .meta{gap:4px}
+  #daftar-diy .meta span{font-size:9px;padding:4px 6px}
+  #daftar-diy .simpan-ide{font-size:12px;padding:8px 10px;width:100%}
+  #daftar-diy details{font-size:13px}
+}
 
 /* ---------- pilah ---------- */
 .kartu-tong{border-radius:18px;overflow:hidden;background:var(--kertas-2);box-shadow:0 6px 0 rgba(27,23,18,.14);display:flex;flex-direction:column}
@@ -363,12 +439,25 @@ fieldset.kebiasaan.sorot{background:#FFF4CC}
 .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
 @media (max-width:1000px){.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.grid-4{grid-template-columns:1fr}}
-.plastik{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-.plastik article{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:start;padding:16px;border-radius:16px;background:var(--kertas-2);border:2px solid var(--garis)}
-.plastik .segitiga{grid-row:span 3;width:58px;height:58px}
+.plastik{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.plastik article{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 12px;align-items:start;padding:14px;border-radius:16px;background:var(--kertas-2);border:2px solid var(--garis);border-left-width:6px}
+.plastik article{min-width:0}
+.plastik .pl-umum{border-left-color:#2E8B57}.plastik .pl-terbatas{border-left-color:#E0A800}.plastik .pl-sulit{border-left-color:var(--b3)}
+.plastik .segitiga{width:50px;height:50px}
+.plastik .pl-isi{display:flex;flex-direction:column;gap:3px;min-width:0}
 .plastik b{font:900 24px/1 var(--f-judul);font-stretch:74%}
-.plastik p{font-size:14px;color:var(--tinta-2)}
-.plastik .st{justify-self:start}
+.plastik p{font-size:14px;color:var(--tinta);line-height:1.35}
+.plastik small{font:400 11px/1.3 var(--f-mono);color:var(--tinta-2)}
+.plastik .st{grid-column:1 / -1;justify-self:start}
+@media (max-width:560px){
+  .plastik{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .plastik article{grid-template-columns:1fr;padding:12px 10px}
+  .plastik .segitiga{width:40px;height:40px}
+  .plastik p{font-size:13px}
+  .plastik .st{font-size:10px}
+}
+/* petunjuk keyboard hanya relevan di perangkat dengan keyboard/mouse */
+@media (hover:none),(max-width:860px){.hanya-desktop{display:none}}
 .st-umum{background:#CFE8D8}.st-terbatas{background:#FBE7A6}.st-sulit{background:#F3C9C2}
 
 /* ---------- setor ---------- */
@@ -467,7 +556,15 @@ footer a:hover{text-decoration:underline}
 .jalan-garis path{fill:none;stroke:var(--tinta);stroke-width:3;stroke-dasharray:2 12;stroke-linecap:round;opacity:.45}
 .henti{position:relative;z-index:1;width:min(580px,100%);padding:26px 24px 22px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 18px;align-items:start}
 .henti.kanan{align-self:flex-end}
-@media (max-width:700px){.henti{width:94%}}
+@media (max-width:700px){
+  /* HP: kartu 4 langkah selebar layar dan lebih ringkas */
+  .jalan{gap:40px}
+  .jalan .henti{width:100%;padding:18px 16px 16px;gap:6px 14px;align-items:center}
+  .jalan .henti .bulat{width:44px;height:44px;grid-row:auto;font-size:20px}
+  .jalan .henti p{font-size:15px;grid-column:1 / -1}
+  .jalan .henti .aksi{grid-column:1 / -1}
+  .jalan .henti .tong-mini{grid-column:1 / -1;justify-self:center}
+}
 .henti .bulat{grid-row:span 4;width:60px;height:60px;border-radius:50%;background:var(--w);border:3px solid var(--tinta);display:grid;place-items:center;
   font:900 30px/1 var(--f-judul);box-shadow:0 4px 0 var(--tinta)}
 .henti.putih-teks .bulat{color:#fff}
@@ -796,3 +893,43 @@ footer a:hover{text-decoration:underline}
 .kartu-tong.buka .contoh .lebih{display:inline-flex;animation:muncul .3s both}
 .contoh-buka{align-self:flex-start;background:none;border:2px solid var(--tinta);border-radius:999px;padding:7px 14px;font:800 13px/1 var(--f-teks);color:var(--tinta);cursor:pointer}
 .contoh-buka:hover{background:var(--anorganik)}
+
+/* ---------- penyesuaian HP (audit UI/UX 16 Nov) ---------- */
+@media (max-width:700px){.panduan svg.ilus{display:none}} /* gambar proses sudah ada, ikon besar cukup di desktop */
+/* Setor: tiap jalur ditata atas-bawah supaya panah tidak patah ke baris baru */
+@media (max-width:640px){
+  .j-baris{flex-direction:column;align-items:stretch;gap:4px;padding:10px;border:2px dashed var(--garis);border-radius:14px}
+  .j-node:first-child{min-width:0}
+  .j-panah{width:4px;height:22px;align-self:center;background:repeating-linear-gradient(180deg,var(--tinta) 0 6px,transparent 6px 10px)}
+  .j-panah::after{right:auto;left:-5px;top:auto;bottom:-7px;border:7px solid transparent;border-top-color:var(--tinta);border-bottom:0}
+  .j-panah i{top:0;left:-4px;animation-name:jalanTitikBawah}
+}
+@keyframes jalanTitikBawah{from{top:-4px}to{top:calc(100% - 8px)}}
+/* Kardi di HP: lebih kecil dan lebih ke pojok supaya tidak menutupi tombol atau teks */
+@media (max-width:640px){
+  .teman{right:calc(6px + env(safe-area-inset-right,0px));bottom:calc(6px + env(safe-area-inset-bottom,0px))}
+  .teman-badan{width:44px}
+}
+
+/* "Lompat ke:" di kepala halaman langkah */
+.lompat{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.lompat span{font:700 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-2);margin-right:2px}
+.lompat a{font:700 13px/1 var(--f-teks);text-decoration:none;padding:7px 11px;border-radius:999px;border:2px solid var(--tinta);background:var(--kertas-2)}
+.lompat a:hover{background:var(--anorganik)}
+/* tombol kembali ke atas */
+.ke-atas{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:14;
+  width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--tinta);color:var(--kertas);text-decoration:none;
+  font:800 20px/1 var(--f-teks);box-shadow:0 4px 0 rgba(27,23,18,.25);animation:muncul .25s both}
+.ke-atas[hidden]{display:none}
+@media (max-width:900px){.ke-atas{left:auto;right:calc(8px + env(safe-area-inset-right,0px));bottom:calc(74px + env(safe-area-inset-bottom,0px));width:40px;height:40px;font-size:18px}}
+/* chip progres jejak di header */
+.progres-jejak{display:inline-flex;align-items:center;gap:7px;margin-left:12px;padding:7px 11px;border-radius:999px;border:2px solid rgba(244,236,221,.45);
+  color:var(--kertas);text-decoration:none;font:700 13px/1 var(--f-mono)}
+.progres-jejak:hover{border-color:var(--anorganik)}
+.pj-titik{display:flex;gap:4px}
+.pj-titik i{width:9px;height:9px;border-radius:50%;border:2px solid var(--w);box-sizing:border-box}
+.pj-titik i.penuh{background:var(--w)}
+@media (max-width:900px){
+  header.atas .isi > .progres-jejak{order:1;margin-left:auto}
+  header.atas .isi > .tombol-menu{order:2;margin-left:8px}
+}

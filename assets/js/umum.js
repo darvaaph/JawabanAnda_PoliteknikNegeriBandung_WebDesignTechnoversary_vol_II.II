@@ -74,6 +74,11 @@ JN.jejak = {
       if (b) { a.href = b.url; a.textContent = `Lanjutkan: ${b.nama} →`; } else { a.href = 'kartu.html'; a.textContent = 'Lihat Kartu Jejak-ku →'; }
     });
     $$('[data-kartu-jejak]').forEach(JN.gambarKartuJejak);
+    $$('.progres-jejak').forEach(p => {
+      $$('[data-pj]', p).forEach(i => i.classList.toggle('penuh', st[i.dataset.pj]));
+      $('[data-pj-n]', p).textContent = `${n}/4`;
+      p.setAttribute('aria-label', `Jejakmu ${n} dari 4 langkah. Buka Kartu Jejak-ku`);
+    });
     document.dispatchEvent(new Event('jejakberubah'));
   }
 };
@@ -240,7 +245,7 @@ JN.cariBarang = q => {
 const AKSI_KATEGORI = {
   organik: () => `<a class="tautan-cari" href="olah.html#kompos">Baca cara mengolahnya di halaman Olah →</a>`,
   anorganik: () => `<a class="tautan-cari" href="setor.html#siapkan">Baca cara menyiapkan &amp; setor di halaman Setor →</a>`,
-  b3: () => `<a class="tautan-cari" href="setor.html#tempat">Lihat jenis drop point B3 di halaman Setor →</a>`,
+  b3: () => `<a class="tautan-cari" href="setor.html#jalur">Lihat ke mana sampah B3 disetor →</a>`,
   residu: b => b.hitung
     ? `<a class="tautan-cari" href="kurangi.html#hitung">Hitung cara menguranginya di halaman Kurangi →</a>`
     : `<a class="tautan-cari" href="pilah.html#tong">Baca penjelasan kategori tong di halaman Pilah →</a>`
@@ -294,27 +299,49 @@ JN.pasangJelajah = root => {
     `<button role="tab" id="tab-${id}" aria-selected="${i === 0}" aria-controls="rak" data-ruang="${id}">${n}</button>`).join('')}</div>
     <div class="jelajah-isi"><div class="rak kertas selotip" id="rak" role="tabpanel"></div><div class="detail kertas selotip" aria-live="polite"></div></div>`;
   const rak = $('.rak', root), detail = $('.detail', root);
-  function tampil(b, diklik) {
+  /* HP: penjelasan barang tampil sebagai lembar dari bawah layar, bukan jauh di bawah daftar barang */
+  const hpKecil = matchMedia('(max-width:820px)');
+  let latar = null, pemicu = null;
+  function tutupLembar() {
+    if (!detail.classList.contains('lembar')) return;
+    detail.classList.remove('lembar'); detail.removeAttribute('role'); detail.removeAttribute('aria-modal');
+    latar?.remove(); latar = null;
+    pemicu?.focus({ preventScroll: true });
+  }
+  function bukaLembar(el) {
+    pemicu = el;
+    detail.classList.add('lembar'); detail.setAttribute('role', 'dialog'); detail.setAttribute('aria-modal', 'true');
+    latar = document.createElement('div'); latar.className = 'lembar-latar';
+    latar.addEventListener('click', tutupLembar);
+    document.body.append(latar);
+    $('.tutup-lembar', detail)?.focus({ preventScroll: true });
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') tutupLembar(); });
+  hpKecil.addEventListener('change', tutupLembar);
+  function tampil(b, diklik, el) {
     $$('.barang', rak).forEach(x => x.setAttribute('aria-pressed', x.dataset.id === b.id));
     if (diklik) JN.jejak.ubah(d => { if (!d.pilah.dilihat.includes(b.id)) d.pilah.dilihat.push(b.id); });
     let aksi = '';
     if (b.hitung) aksi = JN.kalkulatorPenuh
       ? `<div><button type="button" class="btn kecil" data-tambah="${b.id}">Hitung di Kurangi →</button></div>`
       : `<div><a class="tautan-cari" href="kurangi.html?tambah=${b.id}#hitung">Hitung pengurangannya di halaman Kurangi →</a></div>`;
-    else if (b.kat === 'b3') aksi = `<div><a class="tautan-cari" href="setor.html#tempat">Lihat jenis tempat setor B3 →</a></div>`;
-    detail.innerHTML = `<span class="label">${JN.RUANG.find(r => r[0] === b.ruang)[1]}</span><h3>${b.nama}</h3>
+    else if (b.kat === 'b3') aksi = `<div><a class="tautan-cari" href="setor.html#jalur">Lihat ke mana sampah B3 disetor →</a></div>`;
+    detail.innerHTML = `<button type="button" class="tutup-lembar" aria-label="Tutup penjelasan">Tutup ×</button>
+      <span class="label">${JN.RUANG.find(r => r[0] === b.ruang)[1]}</span><h3>${b.nama}</h3>
       <span><span class="chip k-${b.kat}">Tong ${JN.KAT[b.kat].nama}</span></span>
       <span class="label">Cara menyiapkan</span><ol>${b.langkah.map(l => `<li>${l}</li>`).join('')}</ol>
       <p class="alt"><strong>Penggantinya:</strong> ${b.alt}</p>${aksi}`;
     const t = $('[data-tambah]', detail);
     if (t) t.addEventListener('click', () => JN.kalkulatorPenuh.tambah(t.dataset.tambah, true));
+    $('.tutup-lembar', detail).addEventListener('click', tutupLembar);
+    if (diklik && hpKecil.matches) bukaLembar(el);
   }
   function pilih(id) {
     $$('[role="tab"]', root).forEach(t => t.setAttribute('aria-selected', t.dataset.ruang === id));
     rak.setAttribute('aria-labelledby', 'tab-' + id);
     const isi = JN.BARANG.filter(b => b.ruang === id);
     rak.innerHTML = isi.map((b, i) => `<button class="barang" data-id="${b.id}" aria-pressed="false" style="--i:${i}">${JN.svg(b.ikon)}<span>${b.nama}</span></button>`).join('');
-    $$('.barang', rak).forEach(el => el.addEventListener('click', () => tampil(JN.byId[el.dataset.id], true)));
+    $$('.barang', rak).forEach(el => el.addEventListener('click', () => tampil(JN.byId[el.dataset.id], true, el)));
     tampil(isi[0]);
   }
   $$('[role="tab"]', root).forEach(t => t.addEventListener('click', () => pilih(t.dataset.ruang)));
@@ -334,7 +361,8 @@ JN.pasangKalkulator = (root, opsi = {}) => {
 
   root.innerHTML = `<div class="hitung">
     <form class="form-hitung kertas selotip" aria-label="Kebiasaanmu"></form>
-    <div class="panel-hasil kertas selotip">
+    ${ringkas ? '' : `<a class="bar-hasil" href="#panel-hasil" aria-hidden="true" tabindex="-1"><b data-n="bar">0</b><span>barang/tahun tidak jadi sampah</span><span class="bar-lihat">Lihat ↓</span></a>`}
+    <div class="panel-hasil kertas selotip" id="panel-hasil">
       <span class="cap">Hasil per tahun</span>
       <div aria-live="polite"><div class="angka">0</div><p class="angka-sub">barang sekali pakai tidak jadi sampah</p></div>
       <div class="dua-tumpukan">
@@ -368,8 +396,8 @@ JN.pasangKalkulator = (root, opsi = {}) => {
         </div>
         <p class="hasil-baris" data-hb="${r.id}"></p>
       </fieldset>`; }).join('') + (!ringkas && sisa.length ? `
-      <div class="tambah"><label for="tambah-barang">+ Tambah barang lain</label>
-        <select id="tambah-barang"><option value="">Pilih barang…</option>${sisa.map(b => `<option value="${b.id}">${b.nama}</option>`).join('')}</select></div>` : '');
+      <div class="tambah"><span class="tambah-judul">+ Tambah barang lain dan penggantinya</span>
+        <div class="tambah-chip">${sisa.map(b => `<button type="button" data-tambah-chip="${b.id}">${JN.svg(b.ikon)}<span><b>${b.nama}</b>→ ${b.hitung.ganti}</span></button>`).join('')}</div></div>` : '');
   }
   function tambah(id, gulir) {
     if (!byId[id] || !byId[id].hitung) return;
@@ -382,7 +410,8 @@ JN.pasangKalkulator = (root, opsi = {}) => {
   }
   form.addEventListener('submit', e => e.preventDefault());
   form.addEventListener('click', e => {
-    const u = e.target.closest('[data-ubah]'), h = e.target.closest('[data-hapus]');
+    const u = e.target.closest('[data-ubah]'), h = e.target.closest('[data-hapus]'), c = e.target.closest('[data-tambah-chip]');
+    if (c) { tambah(c.dataset.tambahChip, false); const fs = $(`[data-baris="${c.dataset.tambahChip}"]`, root); fs?.classList.add('sorot'); setTimeout(() => fs?.classList.remove('sorot'), 1800); return; }
     if (u) { const r = baris.find(x => x.id === u.dataset.ubah); r.jumlah = Math.max(0, Math.min(30, r.jumlah + +u.dataset.n)); $('#j-' + r.id, root).textContent = r.jumlah; hitung(); }
     if (h) { baris = baris.filter(x => x.id !== h.dataset.hapus); gambarForm(); hitung(true, true); }
   });
@@ -390,7 +419,6 @@ JN.pasangKalkulator = (root, opsi = {}) => {
     const t = e.target;
     if (t.dataset.per) { baris.find(x => x.id === t.dataset.per).per = t.value; hitung(); }
     if (t.dataset.k) { baris.find(x => x.id === t.dataset.k).k = +t.value; hitung(); }
-    if (t.id === 'tambah-barang' && t.value) tambah(t.value, false);
   });
 
   let lalu = null, jeda, hasil = [];
@@ -410,6 +438,7 @@ JN.pasangKalkulator = (root, opsi = {}) => {
     $('[data-n="sekarang"]', root).textContent = fmt(totS);
     $('[data-n="setelah"]', root).textContent = fmt(totS - tot);
     const kel = $('[data-n="kelompok"]', root); if (kel) kel.textContent = fmt(tot * 40);
+    const bar = $('[data-n="bar"]', root); if (bar) bar.textContent = fmt(tot);
     if (!diam && lalu !== null && tot !== lalu) {
       if (tot > lalu) { JN.eks('senang', 1600); JN.lompat(); JN.bilang(`Mantap! ${fmt(tot)} barang tidak jadi sampah.`); }
       else { JN.eks('kaget', 1400); JN.bilang('Pelan-pelan juga nggak apa-apa. Yang penting mulai.'); }
@@ -453,7 +482,7 @@ function pasangIstilah() {
   const main = $('main');
   if (!main || !JN.ISTILAH) return;
   const daftar = JN.ISTILAH.map(t => ({ t, re: new RegExp(`(?<![\\p{L}\\p{N}-])(?:${t.cocok})(?![\\p{L}\\p{N}])`, t.huruf ? 'u' : 'iu') }));
-  const LEWATI = 'a,button,input,textarea,select,option,label,summary,legend,output,h1,h2,h3,b,strong,mark,svg,nav,.cap,.label,.saran,.istilah,.tong-kecil,.tong-mini,.kepala-tong,#daftar-mitos p.m,[role=button],[data-tanpa-istilah]';
+  const LEWATI = 'a,button,input,textarea,select,option,label,summary,legend,output,h1,h2,h3,b,strong,mark,svg,nav,.cap,.label,.saran,.istilah,.chip,.tong-kecil,.tong-mini,.kepala-tong,#daftar-mitos p.m,[role=button],[data-tanpa-istilah]';
   function tandai() {
     $$('section', main).forEach(sec => {
       const ada = new Set($$('.istilah', sec).filter(el => el.closest('section') === sec).map(el => el.dataset.istilah));
@@ -506,6 +535,30 @@ function pasangIstilah() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape') tutup(true); });
   addEventListener('resize', () => tutup());
 }
+/* "Lompat ke:" di kepala halaman langkah yang punya ≥3 bagian; label = data-lompat atau teks cap bagian */
+function pasangLompat() {
+  const kepala = $('.halaman-kepala .teks'); if (!kepala || !$('[data-tugas]')) return;
+  const bagian = $$('main > section.bagian[id]').map(s => ({ id: s.id, nama: s.dataset.lompat || $('.cap', s)?.textContent.trim() })).filter(b => b.nama);
+  if (bagian.length < 3) return;
+  kepala.insertAdjacentHTML('beforeend', `<nav class="lompat" aria-label="Lompat ke bagian"><span>Lompat ke:</span>${bagian.map(b =>
+    `<a href="#${b.id}">${JN.esc(b.nama)}</a>`).join('')}</nav>`);
+}
+/* tombol kecil "↑" muncul setelah pengunjung menggulir cukup jauh */
+function pasangKeAtas() {
+  document.body.insertAdjacentHTML('beforeend', '<a class="ke-atas" href="#utama" aria-label="Kembali ke atas halaman" hidden>↑</a>');
+  const t = $('.ke-atas');
+  let tunggu = false;
+  addEventListener('scroll', () => {
+    if (tunggu) return; tunggu = true;
+    requestAnimationFrame(() => { tunggu = false; t.hidden = scrollY < innerHeight * 1.5; });
+  }, { passive: true });
+}
+/* chip "Jejak n/4" di header: progres tetap terlihat di HP (menu tersembunyi); diketuk → Kartu Jejak-ku */
+function pasangProgresJejak() {
+  const isi = $('header.atas .isi'); if (!isi) return;
+  isi.insertAdjacentHTML('beforeend', `<a class="progres-jejak" href="kartu.html"><span class="pj-titik" aria-hidden="true">${JN.LANGKAH.map(l =>
+    `<i style="--w:${l.warna}" data-pj="${l.id}"></i>`).join('')}</span><b data-pj-n>0/4</b></a>`);
+}
 function pasangPita() {
   const pita = $$('[data-pita]');
   pita.forEach(p => { p.textContent = p.textContent.repeat(3); });
@@ -527,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
     el.innerHTML = JN.kardiSVG(el.dataset.kardi === 'lambai');
     if (['senang', 'bingung', 'kaget'].includes(el.dataset.kardi)) el.firstElementChild.dataset.eks = el.dataset.kardi;
   });
-  pasangSobek(); pasangPita(); pasangTeman();
+  pasangSobek(); pasangPita(); pasangTeman(); pasangLompat(); pasangKeAtas(); pasangProgresJejak();
   $$('form.cari').forEach(JN.pasangCari);
   const diam = new IntersectionObserver(ent => ent.forEach(e => e.target.classList.toggle('diam', !e.isIntersecting)), { rootMargin: '120px 0px' });
   $$('.bagian').forEach(b => diam.observe(b));

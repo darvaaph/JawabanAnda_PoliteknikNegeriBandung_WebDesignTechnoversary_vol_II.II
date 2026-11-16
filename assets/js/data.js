@@ -154,17 +154,24 @@ JN.DIY = [
 ];
 JN.BAHAN_DIY = [['botol', 'Botol plastik'], ['sachet', 'Sachet & kemasan'], ['kardus', 'Kardus'], ['kaleng', 'Kaleng'], ['kain', 'Kaos bekas'], ['kaca', 'Toples kaca']];
 
-/* Mitos vs fakta. Setiap kartu wajib punya sumber (maksimal 5 tahun terakhir). */
+/* Kuis "Mitos atau fakta?". Setiap kartu wajib punya sumber (maksimal 5 tahun terakhir).
+   Entri tanpa `jenis` = mitos (teksnya di `mitos`); entri `jenis: 'fakta'` memakai `pernyataan`. */
 JN.MITOS = [
   { mitos: 'Semua plastik bisa didaur ulang.',
     fakta: 'Sachet adalah plastik berlapis (multilayer) yang lapisannya hampir mustahil dipisahkan, jadi tidak bisa masuk rantai daur ulang dan biasanya berakhir sebagai residu.',
     sumber: 'Riset BRUIN 2022–2024 dan Ecoton, dimuat ' + '<a href="https://mongabay.co.id/2025/07/11/riset-sebut-sampah-saset-penuhi-sungai-di-indonesia/" target="_blank" rel="noopener">Mongabay Indonesia, 11 Juli 2025</a>' },
+  { pernyataan: 'Sisa makanan adalah jenis sampah paling banyak di Indonesia.', jenis: 'fakta',
+    fakta: 'Benar. Menurut SIPSN 2025, sisa makanan sekitar 40,77% dari komposisi sampah nasional, paling besar dibanding plastik (20,52%) dan kertas (11,4%).',
+    sumber: '<a href="https://data.goodstats.id/statistic/komposisi-sampah-nasional-2025-didominasi-sisa-makanan-pgp9R" target="_blank" rel="noopener">SIPSN KLH 2025 via GoodStats, 21 Mei 2026</a>' },
   { mitos: 'Toh nanti dipilah lagi di TPA.',
     fakta: 'Sampah tercampur di TPA umumnya hanya ditimbun. Pada 2025 masih ada sedikitnya 343 TPA yang memakai cara open dumping. Karena itu pemilahan diwajibkan sejak dari rumah.',
     sumber: '<a href="https://kemenlh.go.id/news/detail/klhbplh-luncurkan-kebijakan-pemanfaatan-sampah-organik-untuk-pupuk-organik-dorong-swasembada-pangan-berkelanjutan" target="_blank" rel="noopener">KLH/BPLH, 9 September 2025</a>' + ' dan ' + '<a href="https://kemenlh.go.id/news/detail/menteri-lh-pilah-sampah-harus-100-tuntas-di-tingkat-kelurahan" target="_blank" rel="noopener">KLH/BPLH, 24 April 2026</a>' },
   { mitos: 'Baterai bekas boleh dibuang bersama sampah biasa.',
     fakta: 'Baterai bekas termasuk sampah yang mengandung B3. Aturannya: dipilah ke wadah terpisah (wadah merah), lalu diserahkan ke pengumpul atau drop point B3, bukan dicampur, dibakar, atau dibuang ke sungai.',
     sumber: 'Permen LHK No. 9 Tahun 2024 tentang Pengelolaan Sampah yang Mengandung B3 dan Limbah B3 (' + '<a href="https://peraturan.bpk.go.id/Details/291985" target="_blank" rel="noopener">JDIH BPK</a>' + ')' },
+  { pernyataan: 'Botol plastik berkode 1 (PET) termasuk yang paling mudah dijual ke bank sampah.', jenis: 'fakta',
+    fakta: 'Benar. PET punya rantai daur ulang yang jelas dan nilai ekonomi lebih tinggi dibanding banyak plastik lain, asal bersih dan kering.',
+    sumber: '<a href="https://lestari.kompas.com/read/2025/02/27/165716186/fakta-daur-ulang-di-balik-plastik-pet-kemasan-besar-yang-jadi-primadona" target="_blank" rel="noopener">Kompas.com, 27 Februari 2025</a>' },
   { mitos: 'Sisa makanan kan membusuk sendiri, jadi aman dibuang ke TPA.',
     fakta: 'Di TPA, sisa makanan tertimbun tanpa udara lalu menghasilkan gas metana dan air lindi yang mencemari tanah, air, dan udara. Sisa makanan juga jenis sampah terbanyak di Indonesia, jadi paling berdampak bila dikompos di rumah.',
     sumber: '<a href="https://lestari.kompas.com/read/2026/04/11/130300186/klh-dorong-pemda-untuk-bereskan-setengah-sampah-dari-rumah" target="_blank" rel="noopener">Kompas.com, 11 April 2026 (KLH, data SIPSN 2024)</a>' }
