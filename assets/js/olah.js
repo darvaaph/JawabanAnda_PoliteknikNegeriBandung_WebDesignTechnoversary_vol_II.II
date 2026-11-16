@@ -3,22 +3,26 @@ JN.mulai = () => {
   const { $, $$, svg } = JN;
 
   /* tab panduan: hanya satu panduan tampil, supaya halaman tidak memanjang dua kali lipat */
-  $('#daftar-panduan').innerHTML = `<div class="tab-daftar" role="tablist" aria-label="Pilih panduan">${JN.PANDUAN.map((p, i) =>
-    `<button role="tab" id="tab-${p.id}" aria-selected="${i === 0}" aria-controls="${p.id}" data-panduan="${p.id}">${p.judul}</button>`).join('')}</div>` +
+  /* Kartu panduan: kepala (judul, chip, tombol aksi) → kiri: proses bergambar, kanan: bahan, langkah, hindari.
+     Di HP semuanya bertumpuk (urutan diatur CSS). Langkah yang relevan disorot mengikuti slider proses. */
+  $('#daftar-panduan').innerHTML = `<div class="tab-daftar tab-map" role="tablist" aria-label="Pilih panduan">${JN.PANDUAN.map((p, i) =>
+    `<button role="tab" id="tab-${p.id}" aria-selected="${i === 0}" aria-controls="${p.id}" data-panduan="${p.id}">${svg(p.ikon)}${p.judul}</button>`).join('')}</div>` +
     JN.PANDUAN.map((p, i) => `
-    <article class="panduan kertas selotip" id="${p.id}" role="tabpanel" aria-labelledby="tab-${p.id}"${i ? ' hidden' : ''}>
-      ${svg(p.ikon, '', 'ilus')}
-      <div>
-        <h3>${p.judul}</h3>
-        <div class="meta" style="margin-top:8px"><span>Kesulitan: ${p.tingkat}</span><span>Waktu: ${p.waktu}</span></div>
-        <div class="kolom">
-          <div><h4>Bahan</h4><ul>${p.bahan.map(b => `<li>${b}</li>`).join('')}</ul></div>
-          <div><h4>Langkah</h4><ol>${p.langkah.map(l => `<li>${l}</li>`).join('')}</ol></div>
-        </div>
-        ${p.tahap ? prosesHTML(p) : ''}
-        <p class="hindari"><strong>Hindari:</strong> ${p.hindari}</p>
-        <p style="margin-top:14px"><button type="button" class="simpan-ide" data-simpan="${p.id}" aria-pressed="false">＋ Aku mau coba</button></p>
+    <article class="panduan kertas" id="${p.id}" role="tabpanel" aria-labelledby="tab-${p.id}"${i ? ' hidden' : ''}>
+      <div class="panduan-kepala">
+        <div class="panduan-judul"><h3>${p.judul}</h3>
+          <div class="meta"><span>Kesulitan: ${p.tingkat}</span><span>Waktu: ${p.waktu}</span></div></div>
+        <button type="button" class="simpan-ide" data-simpan="${p.id}" aria-pressed="false">＋ Aku mau coba</button>
       </div>
+      <div class="panduan-badan">
+        <div class="panduan-kiri">${p.tahap ? prosesHTML(p) : ''}</div>
+        <div class="panduan-kanan">
+          <div class="blok-bahan"><h4>Bahan</h4><ul class="bahan-chip">${p.bahan.map(b => `<li>${b}</li>`).join('')}</ul></div>
+          <div class="blok-langkah"><h4>Langkah</h4><ol>${p.langkah.map((l, k) => `<li data-langkah="${k}">${l}</li>`).join('')}</ol></div>
+          <p class="hindari"><strong>Hindari:</strong> ${p.hindari}</p>
+        </div>
+      </div>
+      ${p.sumber ? `<p class="isi-sumber panduan-sumber">Sumber: ${p.sumber}</p>` : ''}
     </article>`).join('');
 
   $$('.proses').forEach(pasangProses);
@@ -170,6 +174,8 @@ function pasangProses(el) {
     $('.proses-judul', el).textContent = t.judul;
     $('.proses-ket', el).textContent = t.isi;
     $$('.proses-label button', el).forEach((b, k) => b.setAttribute('aria-pressed', k === i));
+    /* sorot langkah yang relevan dengan tahap ini di daftar Langkah */
+    $$('[data-langkah]', el.closest('article')).forEach(li => li.classList.toggle('sorot-langkah', (t.sorot || []).includes(Number(li.dataset.langkah))));
   }
   function henti() { clearInterval(jalan); jalan = null; putar.textContent = '▶'; putar.setAttribute('aria-pressed', 'false'); }
   geser.addEventListener('input', () => { henti(); atur(Number(geser.value)); });

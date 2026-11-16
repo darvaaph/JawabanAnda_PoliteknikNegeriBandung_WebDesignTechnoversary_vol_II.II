@@ -933,3 +933,46 @@ footer a:hover{text-decoration:underline}
   header.atas .isi > .progres-jejak{order:1;margin-left:auto}
   header.atas .isi > .tombol-menu{order:2;margin-left:8px}
 }
+
+/* ---------- Olah: kartu panduan (desktop 2 kolom; HP bertumpuk seperti sebelumnya) ---------- */
+#daftar-panduan{gap:0!important}
+.tab-map{gap:6px;margin:0 0 -3px 0;position:relative;z-index:2}
+.tab-map button{display:inline-flex;align-items:center;gap:8px;border-radius:14px 14px 0 0;border:3px solid var(--tinta);border-bottom:0;background:#E9DCC2;color:var(--tinta);padding:10px 18px 12px}
+.tab-map button svg{width:24px;height:24px}
+.tab-map button[aria-selected="true"]{background:var(--kertas-2);color:var(--tinta);padding-bottom:15px}
+.panduan{position:relative;display:flex;flex-direction:column;gap:18px;padding:22px 24px 18px;border:3px solid var(--tinta);border-top-left-radius:0}
+.panduan-kepala{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:16px;border-bottom:2px dashed var(--garis)}
+.panduan-judul{display:flex;flex-direction:column;gap:8px}
+.panduan-kepala .simpan-ide{flex:none}
+.panduan-badan{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:28px;align-items:start}
+.panduan-kanan{display:flex;flex-direction:column;gap:18px}
+.panduan .bahan-chip{list-style:none;padding:0;display:flex;flex-direction:row;flex-wrap:wrap;gap:6px}
+.panduan .bahan-chip li{padding:6px 12px;border-radius:999px;background:var(--kertas);border:2px solid var(--garis);font-size:14px;font-weight:600;line-height:1.3}
+.panduan .blok-langkah ol{gap:2px}
+.panduan .blok-langkah li{padding:5px 8px;margin-left:-8px;border-radius:8px;transition:background-color .35s,box-shadow .35s}
+.panduan .blok-langkah li.sorot-langkah{background:#FBE7A6;box-shadow:inset 4px 0 0 var(--anorganik)}
+.panduan .hindari{margin-top:0}
+.panduan-sumber{margin:0;padding-top:12px;border-top:2px dashed var(--garis)}
+/* desktop: panel proses besar di kolom kiri, menempel saat kolom kanan lebih panjang */
+@media (min-width:901px){
+  .panduan-kiri .proses{margin-top:0;max-width:none;grid-template-columns:1fr;gap:12px;padding:18px 20px;position:sticky;top:84px}
+  .panduan-kiri .proses-gbr{width:190px;justify-self:center}
+  .panduan-kiri .proses-judul{font-size:26px}
+  .panduan-kiri .proses-teks{min-height:92px}
+  .panduan-kiri .proses-ket{font-size:15px}
+  .panduan-kiri .proses-putar{width:38px;height:38px;font-size:14px}
+}
+/* HP & tablet: semua bertumpuk dengan urutan judul → bahan → langkah → proses → hindari → tombol → sumber */
+@media (max-width:900px){
+  .panduan{gap:14px;padding:18px 16px 16px}
+  .panduan-kepala,.panduan-badan,.panduan-kiri,.panduan-kanan{display:contents}
+  .panduan-judul{order:0}
+  .blok-bahan{order:1}
+  .blok-langkah{order:2}
+  .panduan-kiri .proses{order:3;margin-top:0}
+  .panduan .hindari{order:4}
+  .panduan-kepala .simpan-ide{order:5;align-self:flex-start}
+  .panduan-sumber{order:6}
+  .tab-map button{padding:9px 14px 11px;font-size:13px}
+  .tab-map button svg{width:20px;height:20px}
+}
