@@ -1041,3 +1041,25 @@ fieldset.kebiasaan.contoh{border-style:dashed}
   .pilih-chip:has(input[data-k]) small{font-size:9px}
   .batang-baris{grid-template-columns:78px minmax(0,1fr) auto}
 }
+
+/* label peringatan untuk entri direktori dummy (hapus entri dummy sebelum submit) */
+.chip-baris{display:flex;flex-wrap:wrap;gap:6px}
+.chip-dummy{background:var(--b3);color:#fff}
+
+/* entri direktori dari dokumen publik yang belum dikonfirmasi tim */
+.chip-belum{background:#FBE7A6;color:var(--tinta)}
+
+/* Setor: cari tempat setor di dekatmu (berlaku di kota mana pun) */
+.cari-dekat{display:flex;flex-direction:column;gap:12px;padding:18px 20px;border-radius:18px;background:var(--kertas-2);border:3px solid var(--tinta);box-shadow:0 5px 0 var(--tinta);max-width:760px}
+.cari-dekat-judul{font:900 22px/1 var(--f-judul);font-stretch:74%;text-transform:uppercase}
+.cari-dekat-tombol{display:flex;flex-wrap:wrap;gap:10px}
+.cari-dekat-ket{font-size:14px;color:var(--tinta-2)}
+.cari-dekat-ket a{font-weight:800}
+.kepala-contoh{margin-top:clamp(28px,4vw,44px);margin-bottom:16px}
+.judul-contoh{font:900 clamp(24px,3.4vw,32px)/1 var(--f-judul);font-stretch:74%;text-transform:uppercase}
+.fakta-pengantar{margin-top:clamp(24px,4vw,36px);color:#E3D7C1;font-size:16px}
+.fakta-pengantar b{color:var(--anorganik)}
+
+/* kebiasaan zero-waste pribadi di kartu anggota tim */
+.anggota .kebiasaan-anggota{margin-top:10px;padding-top:10px;border-top:2px dashed var(--garis);font-size:14px;line-height:1.35;display:flex;flex-direction:column;gap:3px}
+.anggota .kebiasaan-anggota small{font:700 10px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--stempel)}

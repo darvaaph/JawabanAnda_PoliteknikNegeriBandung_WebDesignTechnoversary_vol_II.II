@@ -1,4 +1,4 @@
-/* Setor: persiapan, dua jalur sampah (sekaligus menjelaskan jenis tempat), dan direktori Kuningan. */
+/* Setor: persiapan, dua jalur sampah (sekaligus menjelaskan jenis tempat), dan contoh tempat setor (Kabupaten Kuningan). */
 JN.mulai = () => {
   const { $, $$, esc, KAT } = JN;
   const WARNA = { 'bank-sampah': 'var(--anorganik)', 'tps3r': 'var(--organik)', 'drop-point-b3': 'var(--b3)', 'toko-curah': 'var(--setor)' };
@@ -10,19 +10,19 @@ JN.mulai = () => {
     const daftar = JN.DIREKTORI.filter(l => jenis === 'semua' || l.jenis === jenis);
     $('#daftar-lokasi').innerHTML = daftar.length ? `<div class="direktori-daftar">${daftar.map(l => `
       <article class="lokasi kertas">
-        <span class="chip" style="background:${WARNA[l.jenis]}">${esc(JN.JENIS_TEMPAT[l.jenis].nama)}</span>
+        <span class="chip-baris"><span class="chip" style="background:${WARNA[l.jenis]}">${esc(JN.JENIS_TEMPAT[l.jenis].nama)}</span>${l.dummy ? '<span class="chip chip-dummy">Data contoh</span>' : l.sumber ? '<span class="chip chip-belum">Belum dikonfirmasi</span>' : ''}</span>
         <h3>${esc(l.nama)}</h3>
         <p>${esc(l.alamat)}, ${esc(l.kecamatan)}</p>
-        <p><strong>Jam:</strong> ${esc(l.jam)}</p>
-        <p><strong>Menerima:</strong> ${l.menerima.map(m => KAT[m] ? KAT[m].nama : esc(m)).join(', ')}</p>
+        <p><strong>Jam:</strong> ${l.jam ? esc(l.jam) : 'belum diketahui, hubungi dulu'}</p>
+        ${l.menerima.length ? `<p><strong>Menerima:</strong> ${l.menerima.map(m => KAT[m] ? KAT[m].nama : esc(m)).join(', ')}</p>` : ''}
         ${l.kontak ? `<p><strong>Kontak:</strong> ${esc(l.kontak)}</p>` : ''}
-        ${l.maps ? `<a class="tautan-lanjut" href="${esc(l.maps)}" target="_blank" rel="noopener">Buka di peta →</a>` : ''}
-        <span class="isi-sumber">Dicek tim pada ${esc(l.dicek)}</span>
+        <a class="tautan-lanjut" href="${esc(l.maps || 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(l.nama + ', ' + l.kecamatan + ', Kabupaten Kuningan'))}" target="_blank" rel="noopener">Cari di peta →</a>
+        <span class="isi-sumber">${l.sumber ? `Sumber: ${l.sumber}. Belum dikonfirmasi tim: hubungi atau tanyakan ke kantor desa/kelurahan sebelum berkunjung.` : `Dicek tim pada ${esc(l.dicek)}`}</span>
       </article>`).join('')}</div>`
       : `<div class="kosong-besar kertas">
           <div class="kardi-kosong">${JN.kardiSVG(false, '')}</div>
-          <div><h3>${JN.DIREKTORI.length ? 'Belum ada lokasi untuk jenis ini' : 'Daftar lokasi sedang kami cek'}</h3>
-            <p class="pengantar">Kami tidak mau mencantumkan alamat yang belum pasti. Sambil menunggu, tanyakan ke RT/RW atau kelurahan apakah ada bank sampah terdekat. Kalau kamu tahu lokasinya, kabari kami.</p>
+          <div><h3>${JN.DIREKTORI.length ? 'Belum ada lokasi untuk jenis ini' : 'Contoh lokasi sedang kami cek'}</h3>
+            <p class="pengantar">Kami tidak mau mencantumkan alamat yang belum pasti. Coba tombol pencarian peta di atas, atau tanyakan ke RT/RW atau kelurahan. Kalau kamu tahu lokasinya, kabari kami.</p>
             <p style="margin-top:14px"><a class="btn kecil" href="kontak.html?jenis=lokasi">Usulkan lokasi</a></p></div>
         </div>`;
   }

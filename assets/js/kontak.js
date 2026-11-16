@@ -45,7 +45,7 @@ JN.mulai = () => {
         return;
       }
     } else {
-      teks = 'Formulir ini masih versi demo, jadi pesanmu belum dikirim ke tim. Untuk sementara, hubungi kami lewat Instagram atau email di samping.';
+      teks = 'Formulir ini masih versi demo, jadi pesanmu belum dikirim ke tim. Untuk sementara, hubungi kami lewat email di samping.';
     }
     form.hidden = true;
     $('#teks-terkirim').textContent = teks;

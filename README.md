@@ -13,7 +13,7 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 | **Pilah** (`pilah.html`) | Pencarian barang, jelajah ruangan (dapur, kamar mandi, belajar/kerja & kos, belanja), isi empat tong, mini-game **Pilah Cepat** (8 barang acak, ketuk tong atau tekan 1–4, barang terlempar ke tong, umpan balik langsung, skor masuk Kartu Jejak-ku), arti kode plastik 1–7 |
 | **Kurangi** (`kurangi.html`) | Kalkulator barang sekali pakai yang bisa dicegah per tahun: tiap barang berupa satu kalimat (“Aku pakai 2 botol setiap hari”) dengan chip pilihan, label **contoh** pada angka bawaan, batang mini setahun vs setelah ganti, hasil dalam skala mingguan dan kelas/kos/RT, tombol **“Ini janjiku”** yang mencatat jejak, chip **“barang → pengganti”** untuk menambah barang, bar hasil yang menempel di bawah layar HP, perbandingan tumpukan sebelum dan sesudah, lipatan cara menghitung |
 | **Olah** (`olah.html`) | Tab panduan kompos ember / eco-enzyme (desktop: panel proses besar di kiri, bahan + langkah di kanan; **langkah yang relevan disorot mengikuti slider**) dengan **slider waktu “Lihat prosesnya”** (geser atau putar: ember kompos berubah dari sisa sayur jadi kompos bertunas, cairan eco-enzyme berubah warna, bergelembung, lalu siap disaring), galeri daur ulang dengan filter “saya punya…” (2 kolom di HP), **kuis “Mitos atau fakta?”** yang membuka jawaban dan sumbernya setelah ditebak, tombol simpan ide, Mitos vs Fakta |
-| **Setor** (`setor.html`) | Checklist persiapan **“Sebelum → Sesudah”** (setiap baris punya ilustrasi kecil yang berbalik saat dicentang: kantong campur jadi tiga tong, botol bernoda jadi bersih, kardus basah jadi kering, barang berserakan masuk karung, kalender “?” jadi “SABTU ✓”; karung di atas terisi sampai stempel “Siap disetor”), perbandingan **dua jalur sampah** (dibuang campur: 100 dari 100 bagian ke TPA; dipilah: hanya bagian residu), direktori lokasi di Kuningan |
+| **Setor** (`setor.html`) | Checklist persiapan **“Sebelum → Sesudah”** (setiap baris punya ilustrasi kecil yang berbalik saat dicentang: kantong campur jadi tiga tong, botol bernoda jadi bersih, kardus basah jadi kering, barang berserakan masuk karung, kalender “?” jadi “SABTU ✓”; karung di atas terisi sampai stempel “Siap disetor”), perbandingan **dua jalur sampah** (dibuang campur: 100 dari 100 bagian ke TPA; dipilah: hanya bagian residu), **“Cari tempat setor”**: tombol pencarian peta (bank sampah, drop point B3/e-waste, toko refill) yang berlaku di kota mana pun, plus contoh lokasi dari Kabupaten Kuningan |
 | **Kartu Jejak-ku** (`kartu.html`) | Akhir perjalanan: rangkuman keempat langkah yang bisa **diunduh sebagai gambar 1080×1920** (pas untuk Instagram Story) atau dibagikan langsung dari HP |
 
 ### Alur pengunjung
@@ -83,7 +83,7 @@ Lalu buka `http://localhost:8000` di browser. Alternatif: ekstensi *Live Server*
 ## Mengubah data
 
 - **Menambah barang:** tambahkan objek baru di `JN.BARANG` (`assets/js/data.js`). Isi `hitung` hanya jika barang itu sekali pakai dan punya pengganti jelas.
-- **Menambah lokasi setor:** tambahkan ke `JN.DIREKTORI`. Cantumkan hanya lokasi yang sudah dicek langsung, dengan tanggal di kolom `dicek`.
+- **Menambah contoh lokasi setor:** tambahkan ke `JN.DIREKTORI` (kini berisi contoh dari Kabupaten Kuningan). Cantumkan hanya lokasi yang sudah dicek langsung, dengan tanggal di kolom `dicek`.
 - **Mengaktifkan formulir kontak:** buat formulir gratis di layanan seperti Formspree, lalu isi alamatnya di atribut `data-endpoint` pada `<form id="form-kontak">` di `kontak.html`. Tanpa itu, formulir berjalan dalam mode demo dan memberi tahu pengguna bahwa pesan belum terkirim.
 
 ## Kaitan dengan SDGs
@@ -114,9 +114,9 @@ Semua data dan berita berasal dari **5 tahun terakhir (2021–2026)**, diperbaru
 
 | Nama | Peran |
 |---|---|
-| [Nama anggota 1] | Ketua · desain dan konten |
-| [Nama anggota 2] | Pengembang |
-| [Nama anggota 3] | Pengembang |
+| Darva Aryasatya Putra H. | Ketua |
+| Citra Mutia Lestari | Anggota |
+| Denta Dwipawasesa | Anggota |
 
 ---
 
@@ -126,8 +126,9 @@ Semua data dan berita berasal dari **5 tahun terakhir (2021–2026)**, diperbaru
 - [ ] Cek ulang angka komposisi langsung di portal SIPSN (sampahnasional.kemenlh.go.id) sebelum submit; angka bisa bergeser bila kabupaten/kota menambah laporan
 - [ ] Cocokkan bunyi target SDG 11.6, 14.1, 13.3, 4.7 dan kode ASTM D7611 dengan sumber resminya
 - [ ] Cocokkan pengelompokan tong dengan aturan bank sampah/TPS di Kuningan
-- [ ] Isi `JN.DIREKTORI` dengan lokasi yang sudah dicek
-- [ ] Isi nama tim, anggota, Instagram, dan email (Tentang, Kontak, README)
+- [ ] **Konfirmasi 4 lokasi di `JN.DIREKTORI`** (2 bank sampah, 2 TPS3R; sekarang berchip “Belum dikonfirmasi”): telepon/kunjungi, isi `jam`, `menerima`, lalu ganti `sumber` dengan `dicek: 'tanggal'`. Cari juga drop point B3 dan toko refill (belum ada satu pun)
+- [x] Nama tim dan anggota terisi (Tentang, README)
+- [ ] Cocokkan “kebiasaan zero-waste” tiap anggota di Tentang dengan kenyataan (draf awal); email tim sudah terisi (Kontak), Instagram tidak dicantumkan; sebutkan peran masing-masing anggota bila ingin dicantumkan
 - [ ] Aktifkan formulir kontak (`data-endpoint`)
 - [ ] Terbitkan ke GitHub Pages dan isi tautannya di atas
 - [ ] Cek dengan Lighthouse (Chrome DevTools) dan di HP

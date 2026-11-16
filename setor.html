@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Setor · Jejak Nol</title>
-<meta name="description" content="Persiapan sebelum menyetor sampah, jenis tempat setor, dan direktori bank sampah serta drop point B3 di Kuningan.">
+<meta name="description" content="Persiapan sebelum menyetor sampah, perbandingan sampah dibuang campur dan dipilah, serta cara mencari bank sampah, drop point B3, dan toko refill di dekatmu.">
 <meta name="theme-color" content="#1B1712">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,12 +89,26 @@
     </div>
   </section>
 
-  <section class="bagian" id="direktori" data-pesan="Tahu lokasi yang belum ada? Kabari kami!">
+  <section class="bagian" id="direktori" data-lompat="Cari tempat setor" data-pesan="Cari di peta, atau kabari kami lokasi yang belum ada.">
     <div class="isi">
       <div class="kepala-bagian">
-        <span class="cap">Direktori Kuningan</span>
-        <h2 class="judul-bagian">Tempat setor <mark class="stabilo">terdekat.</mark></h2>
-        <p class="pengantar">Kami hanya mencantumkan lokasi yang sudah kami cek langsung, lengkap dengan tanggal pengecekannya.</p>
+        <span class="cap">Cari tempat setor</span>
+        <h2 class="judul-bagian">Setor ke mana <mark class="stabilo">di dekatmu?</mark></h2>
+        <p class="pengantar">Ada di kota mana pun? Cari langsung di peta, atau lihat contoh yang sudah kami kumpulkan.</p>
+      </div>
+      <div class="cari-dekat" id="cari-dekat">
+        <p class="cari-dekat-judul">Cari di sekitarmu</p>
+        <div class="cari-dekat-tombol">
+          <a class="btn kecil" href="https://www.google.com/maps/search/bank+sampah+terdekat" target="_blank" rel="noopener">Bank sampah →</a>
+          <a class="btn kecil putih" href="https://www.google.com/maps/search/drop+point+limbah+B3+atau+e-waste+terdekat" target="_blank" rel="noopener">Drop point B3 / e-waste →</a>
+          <a class="btn kecil putih" href="https://www.google.com/maps/search/toko+isi+ulang+refill+terdekat" target="_blank" rel="noopener">Toko refill →</a>
+        </div>
+        <p class="cari-dekat-ket">Peta akan memakai lokasimu bila kamu mengizinkan. Tanyakan juga ke RT/RW, kelurahan, atau
+          <a href="https://sampahnasional.kemenlh.go.id" target="_blank" rel="noopener">portal SIPSN KLH</a>. Pastikan jam buka dan jenis sampah yang diterima sebelum berangkat.</p>
+      </div>
+      <div class="kepala-bagian kepala-contoh">
+        <h3 class="judul-contoh">Contoh dari Kabupaten Kuningan</h3>
+        <p class="pengantar">Lokasi bertanda <b>“Dicek tim”</b> sudah kami konfirmasi langsung, lengkap dengan tanggalnya. Yang bertanda <b>“Belum dikonfirmasi”</b> baru kami temukan dari dokumen publik, jadi hubungi dulu sebelum berkunjung.</p>
       </div>
       <div class="filter" id="filter-tempat" role="group" aria-label="Saring jenis tempat"></div>
       <div id="daftar-lokasi"></div>

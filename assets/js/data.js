@@ -4,7 +4,7 @@
    PENTING sebelum submit:
    - Cocokkan pengelompokan tong (kat) dengan aturan bank sampah / TPS di Kuningan.
    - Fakta dan sumber diperbarui 16 Nov 2026 (semua data maksimal 5 tahun terakhir). Cek ulang angka SIPSN sebelum submit.
-   - DIREKTORI hanya diisi lokasi yang sudah dicek langsung oleh tim. */
+   - DIREKTORI (contoh tempat setor) hanya diisi lokasi yang sudah dicek, atau yang diberi `sumber` agar tampil "Belum dikonfirmasi". */
 window.JN = window.JN || {};
 
 JN.KAT = {
@@ -199,7 +199,7 @@ JN.KOMPOSISI_ARAH = {
   residu:    { judul: 'sulit diolah, jadi harus dikurangi', langkah: 'kurangi' }
 };
 
-/* Direktori Kuningan. Contoh isi:
+/* Contoh tempat setor (Kabupaten Kuningan). Contoh isi:
   { nama: 'Bank Sampah …', jenis: 'bank-sampah', alamat: 'Jl. …', kecamatan: '…', jam: 'Sabtu 08.00–11.00',
     menerima: ['anorganik'], kontak: '08…', maps: 'https://maps.app.goo.gl/…', dicek: '2026-11-20' } */
 JN.JENIS_TEMPAT = {
@@ -208,7 +208,24 @@ JN.JENIS_TEMPAT = {
   'drop-point-b3': { nama: 'Drop point B3',    isi: 'Titik pengumpulan baterai, lampu, elektronik, dan obat bekas.' },
   'toko-curah':    { nama: 'Toko curah/refill', isi: 'Tempat membeli sabun, sampo, atau bahan makanan dengan wadah sendiri.' }
 };
-JN.DIREKTORI = [];
+/* Contoh tempat setor (Kabupaten Kuningan). Daerah lain bisa ditambah dengan menambah field `daerah`. Entri dengan `sumber` = data hasil penelusuran dokumen publik yang BELUM dikonfirmasi tim
+   (kartu menampilkan chip "Belum dikonfirmasi"). Setelah tim menelepon/mengunjungi lokasinya, isi `jam`, `menerima`,
+   `kontak` (bila diizinkan), ganti `sumber` dengan `dicek: 'YYYY-MM-DD'`, maka chip itu hilang dan kartu tertulis "Dicek tim".
+   Format lengkap: { nama, jenis, alamat, kecamatan, jam, menerima: [], kontak, maps, dicek } */
+JN.DIREKTORI = [
+  { nama: 'Bank Sampah Induk Kelurahan Cipari', jenis: 'bank-sampah', alamat: 'Kelurahan Cipari', kecamatan: 'Kec. Cigugur',
+    jam: '', menerima: [], kontak: '', maps: '',
+    sumber: '<a href="https://info3r.kemenlh.go.id/berita/detail/Z25jank4ZkkxK1lJcmhOSkFiVnNmbVh4UkE1MmRHZ0R4RXNrOVhBbHFNYz0" target="_blank" rel="noopener">KLH, serah terima fasilitas Bank Sampah Induk Cipari, 31 Des 2024</a>' },
+  { nama: 'Bank Sampah Situsari Sejahtera (Bassis)', jenis: 'bank-sampah', alamat: 'Jl. Pahing Desa, RT 02/RW 01, Desa Situsari', kecamatan: 'Kec. Darma',
+    jam: '', menerima: [], kontak: '', maps: '',
+    sumber: '<a href="https://zerowaste.id/peta-minim-sampah/bassis-bank-sampah-situsari-sejahtera/" target="_blank" rel="noopener">Peta Minim Sampah, Zero Waste Indonesia</a>' },
+  { nama: 'TPS3R Desa Cibinuang', jenis: 'tps3r', alamat: 'Desa Cibinuang', kecamatan: 'Kec. Kuningan',
+    jam: '', menerima: [], kontak: '', maps: '',
+    sumber: '<a href="https://kuningankab.go.id/home/8-desa-siap-kelola-sampah-melalui-tps-3r/" target="_blank" rel="noopener">Pemkab Kuningan, peluncuran 8 TPS3R, 10 Feb 2022</a>' },
+  { nama: 'TPS3R Desa Padamenak', jenis: 'tps3r', alamat: 'Desa Padamenak', kecamatan: 'Kec. Jalaksana',
+    jam: '', menerima: [], kontak: '', maps: '',
+    sumber: '<a href="https://kuningankab.go.id/home/8-desa-siap-kelola-sampah-melalui-tps-3r/" target="_blank" rel="noopener">Pemkab Kuningan, peluncuran 8 TPS3R, 10 Feb 2022</a>' }
+];
 
 /* Kamus istilah untuk orang awam. Kemunculan pertama di setiap bagian halaman diberi garis putus-putus;
    diketuk → muncul penjelasan satu kalimat. `cocok` = pola teks (regex, tanpa beda huruf besar kecuali B3).

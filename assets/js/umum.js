@@ -540,7 +540,7 @@ function pasangIstilah() {
   const main = $('main');
   if (!main || !JN.ISTILAH) return;
   const daftar = JN.ISTILAH.map(t => ({ t, re: new RegExp(`(?<![\\p{L}\\p{N}-])(?:${t.cocok})(?![\\p{L}\\p{N}])`, t.huruf ? 'u' : 'iu') }));
-  const LEWATI = 'a,button,input,textarea,select,option,label,summary,legend,output,h1,h2,h3,b,strong,mark,svg,nav,.cap,.label,.saran,.istilah,.chip,.tong-kecil,.tong-mini,.kepala-tong,#daftar-mitos p.m,[role=button],[data-tanpa-istilah]';
+  const LEWATI = 'a,button,input,textarea,select,option,label,summary,legend,output,h1,h2,h3,b,strong,mark,svg,nav,.cap,.label,.saran,.istilah,.chip,.kebiasaan-anggota small,.tong-kecil,.tong-mini,.kepala-tong,#daftar-mitos p.m,[role=button],[data-tanpa-istilah]';
   function tandai() {
     $$('section', main).forEach(sec => {
       const ada = new Set($$('.istilah', sec).filter(el => el.closest('section') === sec).map(el => el.dataset.istilah));
