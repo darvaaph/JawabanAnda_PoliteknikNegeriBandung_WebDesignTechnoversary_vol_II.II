@@ -52,7 +52,7 @@ JN.jejak = {
   tampilkan() {
     const d = this.data(), st = this.status(d), n = this.jumlah(st), b = this.berikut(st);
     const kunci = a => (a.getAttribute('href') || '').replace(/[#?].*/, '').replace('.html', '');
-    $$('nav.menu a.titik, .langkah-nav a, .bar-bawah a').forEach(a => {
+    $$('nav.menu a.titik, .langkah-nav a').forEach(a => {
       const k = kunci(a); if (!(k in st)) return;
       a.classList.toggle('jejak', st[k]);
       a.title = st[k] ? 'Jejak sudah tercatat' : 'Belum ada jejak';
@@ -502,14 +502,6 @@ function pasangIstilah() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape') tutup(true); });
   addEventListener('resize', () => tutup());
 }
-/* Bar bawah (hanya tampil di HP lewat CSS): Beranda + empat langkah, titiknya terisi bila jejak tercatat */
-function pasangBarBawah() {
-  const kini = (location.pathname.split('/').pop() || 'index.html').replace(/[#?].*/, '');
-  const rumah = '<svg class="ikon-rumah" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.5 12 4.5l8.5 7M6.5 9.5V19.5h4v-5h3v5h4V9.5"/></svg>';
-  const tautan = [{ url: 'index.html', nama: 'Beranda', ikon: rumah }, ...JN.LANGKAH.map(l => ({ url: l.url, nama: l.nama, ikon: `<span class="titik-bar" style="--w:${l.warna}"></span>` }))];
-  document.body.insertAdjacentHTML('beforeend', `<nav class="bar-bawah" aria-label="Navigasi cepat">${tautan.map(t =>
-    `<a href="${t.url}"${t.url === kini ? ' aria-current="page"' : ''}>${t.ikon}<span>${t.nama}</span></a>`).join('')}</nav>`);
-}
 function pasangPita() {
   const pita = $$('[data-pita]');
   pita.forEach(p => { p.textContent = p.textContent.repeat(3); });
@@ -531,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
     el.innerHTML = JN.kardiSVG(el.dataset.kardi === 'lambai');
     if (['senang', 'bingung', 'kaget'].includes(el.dataset.kardi)) el.firstElementChild.dataset.eks = el.dataset.kardi;
   });
-  pasangBarBawah(); pasangSobek(); pasangPita(); pasangTeman();
+  pasangSobek(); pasangPita(); pasangTeman();
   $$('form.cari').forEach(JN.pasangCari);
   const diam = new IntersectionObserver(ent => ent.forEach(e => e.target.classList.toggle('diam', !e.isIntersecting)), { rootMargin: '120px 0px' });
   $$('.bagian').forEach(b => diam.observe(b));

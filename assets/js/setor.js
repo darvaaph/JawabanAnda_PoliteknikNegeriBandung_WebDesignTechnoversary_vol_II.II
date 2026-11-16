@@ -90,9 +90,10 @@ function pasangPanggungSetor(wadah, panggung, status) {
   return centang => {
     for (let i = 0; i < 5; i++) panggung.classList.toggle('c' + i, centang.includes(i));
     panggung.classList.toggle('siap', centang.length >= 5);
+    panggung.style.setProperty('--isi', `${(centang.length / 5) * 100}%`);
     const baru = centang.find(i => !sebelum.includes(i));
     status.innerHTML = centang.length >= 5 ? '<b>5/5 siap.</b> Sampah anorganikmu siap dibawa ke bank sampah!'
-      : `<b>${centang.length}/5 siap.</b> ${baru != null ? PESAN[baru] : 'Centang persiapan di samping untuk merapikan tumpukan ini.'}`;
+      : `<b>${centang.length}/5 siap.</b> ${baru != null ? PESAN[baru] : 'Centang persiapannya untuk merapikan tumpukan ini.'}`;
     sebelum = [...centang];
   };
 }

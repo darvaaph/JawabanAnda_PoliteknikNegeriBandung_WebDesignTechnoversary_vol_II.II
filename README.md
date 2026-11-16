@@ -24,7 +24,7 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 
 ### Dibuat untuk orang awam
 
-- **Selalu bisa pulang ke Beranda:** logo, penanda posisi *Beranda › Langkah n dari 4* di atas setiap halaman, tautan “Kembali ke Beranda” di akhir halaman langkah, dan **bar navigasi bawah di HP** (Beranda + empat langkah).
+- **Selalu bisa pulang ke Beranda:** logo, penanda posisi *Beranda › Langkah n dari 4* di atas setiap halaman, dan tautan “Kembali ke Beranda” di akhir halaman langkah.
 - **Kerangka yang sama di keempat langkah:** posisi → judul → kotak **Intinya** (satu kalimat) → tujuan halaman → aksi jejak → isi → langkah berikutnya.
 - **Istilah bisa diketuk:** kata seperti B3, residu, TPS3R, kompos, dan bank sampah diberi garis putus-putus; diketuk → penjelasan satu kalimat. Kamusnya ada di `JN.ISTILAH` (`assets/js/data.js`).
 
