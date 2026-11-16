@@ -163,7 +163,18 @@ JN.IKON = {
   pot: `<path ${T} fill="#CFE7F0" d="M14 24h20v16a3 3 0 0 1-3 3H17a3 3 0 0 1-3-3z"/><path ${T} fill="#7A5230" d="M14 24h20v5H14z"/><path ${T} fill="#6FA36A" d="M24 24c-1-7-6-11-11-11 0 6 4 10 11 11zM24 24c1-9 6-14 12-14 0 7-5 13-12 14z"/>`,
   ember: `<path ${T} fill="#7BB7E0" d="M10 16h28l-3 26H13z"/><path ${T} fill="none" d="M12 16c0-10 24-10 24 0"/><path ${T} fill="#7A5230" d="M11 22h26"/><path fill="#6FA36A" d="M16 19h4v3h-4zM26 18h5v4h-5z"/>`,
   ecobrick: `<path ${T} fill="#CFE7F0" d="M20 5h8v6l5 6v24a3 3 0 0 1-3 3H18a3 3 0 0 1-3-3V17l5-6z"/><path fill="#7E3FA0" d="M17 20h14v7H17z"/><path fill="#F2C230" d="M17 27h14v6H17z"/><path fill="#D64532" d="M17 33h14v7H17z"/><path ${T} fill="none" d="M15 20h18"/>`,
-  tas: `<path ${T} fill="#F59BB0" d="M10 18h28l-2 24H12z"/><path ${T} fill="none" d="M16 18c0-6 2-10 4-12M32 18c0-6-2-10-4-12M12 38h24"/><path ${T} fill="none" d="M15 42v3M20 42v3M25 42v3M30 42v3M34 42v3"/>`
+  tas: `<path ${T} fill="#F59BB0" d="M10 18h28l-2 24H12z"/><path ${T} fill="none" d="M16 18c0-6 2-10 4-12M32 18c0-6-2-10-4-12M12 38h24"/><path ${T} fill="none" d="M15 42v3M20 42v3M25 42v3M30 42v3M34 42v3"/>`,
+  jelantah: `<path ${T} fill="#F9E79F" d="M18 7h12v5l6 7v20a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V19l6-7z"/><path fill="#E59824" d="M13 28c6-3 15 3 22 0v11a3 3 0 0 1-3 3H16a3 3 0 0 1-3-3z"/><path ${T} fill="none" d="M13 28c6-3 15 3 22 0M19 7h10"/>`,
+  papercup: `<path ${T} fill="#F4ECDD" d="M13 15h22l-3 27H16z"/><path fill="#C7A06A" d="M14.5 23h19l-1 10h-17z"/><path ${T} fill="none" d="M14.5 23h19M15.5 33h17"/><path ${T} fill="#fff" d="M11 10h26v5H11z"/>`,
+  thinwall: `<rect ${T} fill="#EAF6FB" x="7" y="18" width="34" height="19" rx="4"/><path ${T} fill="#fff" d="M6 14h36v5H6z"/><path ${T} fill="none" d="M14 25h20M14 31h12"/>`,
+  tetrapak: `<path ${T} fill="#fff" d="M14 14h20v28H14z"/><path ${T} fill="#5B8FD6" d="M14 14l10-7 10 7z"/><path fill="#F2C230" d="M15 24h18v10H15z"/><path ${T} fill="none" d="M29 9l5-4"/>`,
+  tulang: `<path ${T} fill="#FBF3E0" d="M13 17a5 5 0 1 1 6-6l14 14a5 5 0 1 1-6 6L13 17z"/><circle ${T} fill="#FBF3E0" cx="11" cy="18" r="4"/><circle ${T} fill="#FBF3E0" cx="34" cy="33" r="4"/>`,
+  'alat-makan': `<ellipse ${T} fill="#fff" cx="16" cy="14" rx="5" ry="7"/><path ${T} fill="none" d="M16 21v21"/><path ${T} fill="none" d="M29 8v34M35 8v34M29 16h6"/>`,
+  struk: `<path ${T} fill="#fff" d="M13 7h22v34l-3-2-3 2-3-2-3 2-3-2-3 2-4-2z"/><path ${T} fill="none" d="M17 15h14M17 21h10M17 27h14M17 33h8"/>`,
+  pecahan: `<path ${T} fill="#FBF3E0" d="M11 12l16 3 9 14-14 11-12-10z"/><path ${T} fill="none" d="M19 19l5 6-2 7"/><circle fill="#A8231B" cx="36" cy="12" r="4"/>`,
+  silet: `<rect ${T} fill="#B9C3CC" x="8" y="15" width="32" height="18" rx="3"/><path ${T} fill="#fff" d="M16 24h16"/><circle ${T} fill="#F4ECDD" cx="13" cy="24" r="2.5"/><circle ${T} fill="#F4ECDD" cx="35" cy="24" r="2.5"/>`,
+  korek: `<rect ${T} fill="#D64532" x="15" y="16" width="18" height="26" rx="3"/><rect ${T} fill="#B9C3CC" x="16" y="10" width="10" height="6"/><circle ${T} fill="#1B1712" cx="29" cy="12" r="3.5"/>`,
+  pakaian: `<path ${T} fill="#7BB7E0" d="M15 9l6 4h6l6-4 8 7-5 7-4-2v19H16V21l-4 2-5-7z"/>`
 };
 JN.svg = (n, label, kelas) => `<svg ${kelas ? `class="${kelas}" ` : ''}viewBox="0 0 48 48" ${label ? `role="img" aria-label="${JN.esc(label)}"` : 'aria-hidden="true"'}>${JN.IKON[n] || ''}</svg>`;
 
@@ -228,63 +239,335 @@ function pasangTeman() {
   $$('[data-pesan]').forEach(s => pengamat.observe(s));
 }
 
-/* ---------- pencarian "Ini dibuang ke mana?" ---------- */
-/* Skor kecocokan: nama/alias persis > diawali kata yang diketik > semua kata ada di nama/alias.
-   Hanya kalau tidak ada yang cocok, baru dipakai kecocokan longgar (alias terselip di kalimat yang diketik). */
+/* ---------- pencarian "Ini dibuang ke mana?" + Wizard 2-Klik untuk user non-IT ---------- */
+const STOP_CARI = new Set(['sampah', 'bekas', 'sisa', 'tempat', 'wadah', 'buang', 'yang', 'dari', 'habis', 'pakai', 'bungkus']);
+const normCari = s => JN.norm(s)
+  .replace(/[^a-z0-9\s]/g, ' ')
+  .replace(/\bsh/g, 's')
+  .replace(/ph/g, 'f')
+  .replace(/oe/g, 'u')
+  .replace(/\s+/g, ' ')
+  .trim();
+
+function jarakKetik(a, b) {
+  if (Math.abs(a.length - b.length) > 2) return 99;
+  const dp = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      dp[i][j] = a[i - 1] === b[j - 1]
+        ? dp[i - 1][j - 1]
+        : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+    }
+  }
+  return dp[a.length][b.length];
+}
+
 JN.cariBarang = q => {
-  q = JN.norm(q); if (!q) return [];
-  const kata = q.split(' ');
-  const skor = b => Math.max(...[b.nama, ...b.alias].map(t => {
-    t = JN.norm(t);
-    if (t === q) return 100;
-    if (t.startsWith(q)) return 80;
-    if (kata.every(k => t.includes(k))) return 60;
+  const qNorm = normCari(q);
+  if (!qNorm) return [];
+  const kata = qNorm.split(' ').filter(k => k.length >= 2);
+  if (!kata.length) return [];
+
+  const skor = b => {
+    const namaNorm = normCari(b.nama);
+    const istilah = [namaNorm, ...(b.alias || []).map(normCari)];
+    const gabungan = istilah.join(' ');
+    const kataNama = [...new Set(namaNorm.split(' ').filter(w => w.length >= 2))];
+    const kataGabungan = [...new Set(gabungan.split(' ').filter(w => w.length >= 2))];
+
+    let maks = Math.max(...istilah.map((t, idx) => {
+      const bonusNama = idx === 0 ? 3 : 0;
+      if (t === qNorm) return 120 + bonusNama;
+      if (t.startsWith(qNorm)) return 95 + bonusNama;
+      if (t.includes(qNorm)) return 85 + bonusNama;
+      if (kata.every(k => t.includes(k))) return 80 + bonusNama;
+      return 0;
+    }));
+    if (maks >= 80) return maks;
+
+    // Cocokkan seluruh kata lintas nama + alias (misal: "cup kopi" -> "cup" + "gelas kopi")
+    if (kata.every(k => gabungan.includes(k))) return 70;
+
+    // Cocokkan sebagian kata bermakna (abaikan kata umum seperti "sampah", "bekas", "bungkus")
+    const inti = kata.filter(k => !STOP_CARI.has(k));
+    const targetKata = inti.length ? inti : kata;
+    let cocokSebagian = 0;
+    let cocokTypo = 0;
+    let cocokDiNama = false;
+
+    targetKata.forEach(k => {
+      if (gabungan.includes(k)) {
+        cocokSebagian += 1;
+        if (namaNorm.includes(k)) cocokDiNama = true;
+      } else if (k.length >= 4) {
+        const maksTypo = k.length >= 7 ? 2 : 1;
+        if (kataNama.some(w => jarakKetik(k, w) <= maksTypo)) {
+          cocokTypo += 1;
+          cocokDiNama = true;
+        } else if (kataGabungan.some(w => jarakKetik(k, w) <= maksTypo)) {
+          cocokTypo += 1;
+        }
+      }
+    });
+
+    const bonus = cocokDiNama ? 4 : 0;
+    if (cocokSebagian === targetKata.length) return 65 + bonus;
+    if (cocokSebagian > 0) return Math.round((cocokSebagian / targetKata.length) * 50) + bonus;
+    if (cocokTypo > 0) return Math.round((cocokTypo / targetKata.length) * 40) + bonus;
     return 0;
-  }));
-  let hasil = JN.BARANG.map(b => ({ b, s: skor(b) })).filter(x => x.s > 0);
-  if (!hasil.length) hasil = JN.BARANG.filter(b => [b.nama, ...b.alias].some(t => JN.norm(t).length >= 4 && q.includes(JN.norm(t)))).map(b => ({ b, s: 30 }));
-  return hasil.sort((a, b) => b.s - a.s).map(x => x.b);
+  };
+
+  return JN.BARANG
+    .map(b => ({ b, s: skor(b) }))
+    .filter(x => x.s > 0)
+    .sort((a, b) => b.s - a.s)
+    .map(x => x.b);
 };
+
 const AKSI_KATEGORI = {
   organik: b => `<a class="btn kecil" href="olah.html#kompos">Jadikan kompos →</a>`,
-  anorganik: b => `<a class="btn kecil" href="setor.html#siapkan">Siapkan untuk bank sampah →</a>`,
+  anorganik: b => b.id === 'pakaian'
+    ? `<a class="btn kecil" href="olah.html#tas-kaos">Ubah jadi tas / olah →</a>`
+    : `<a class="btn kecil" href="setor.html#siapkan">Siapkan untuk bank sampah →</a>`,
   b3: b => `<a class="btn kecil" href="setor.html#tempat">Cari tempat setor B3 →</a>`,
   residu: b => b.hitung ? `<a class="btn kecil" href="kurangi.html?tambah=${b.id}">Kurangi pemakaiannya →</a>` : ''
 };
+
+/* Pohon keputusan 2-klik khusus pengguna awam yang bingung nama barangnya */
+const WIZARD_ALUR = [
+  {
+    id: 'organik',
+    label: 'Sisa makanan, buah, sayur, atau daun',
+    contoh: 'Kulit buah, nasi, tulang, daun kering, minyak goreng',
+    ikon: 'pisang',
+    tanya2: 'Apakah di dalamnya ada tulang, daging, santan, atau minyak goreng bekas?',
+    opsi2: [
+      {
+        label: 'Tidak ada (cuma sayur, buah, daun, ampas kopi/teh)',
+        ikon: 'pisang', kat: 'organik', judul: 'Sampah Dapur & Kebun (Organik)',
+        langkah: ['Pisahkan dari plastik atau karet pengikatnya', 'Tiriskan airnya, lalu masukkan ke kompos ember atau eco-enzyme'],
+        alt: 'Bisa langsung diolah jadi pupuk atau pembersih alami.',
+        aksi: '<a class="btn kecil" href="olah.html#kompos">Lihat cara kompos →</a>'
+      },
+      {
+        label: 'Ya, ini minyak goreng bekas (jelantah)',
+        ikon: 'jelantah', kat: 'anorganik', labelKat: 'Penampungan jelantah · jangan ke wastafel',
+        judul: 'Minyak Jelantah',
+        langkah: ['Jangan pernah buang ke wastafel atau selokan', 'Tunggu dingin, saring, lalu simpan dalam botol/jeriken tertutup', 'Setorkan ke pengepul jelantah atau bank sampah penerima'],
+        alt: 'Kurangi pemakaian minyak berulang dan tukar jelantah jadi saldo.',
+        aksi: '<a class="btn kecil" href="setor.html#siapkan">Persiapan setor →</a>'
+      },
+      {
+        label: 'Ya, ada tulang, daging, kuah santan, atau sisa lemak',
+        ikon: 'tulang', kat: 'residu', judul: 'Sisa Lauk Berlemak / Tulang',
+        langkah: ['Tiriskan air/kuahnya dulu supaya tidak berbau di tempat sampah', 'Jangan masukkan ke kompos ember kos biasa karena mengundang belatung', 'Bungkus rapat lalu masukkan ke tong residu (atau pengolah maggot BSF)'],
+        alt: 'Ambil porsi lauk secukupnya agar tidak bersisa.',
+        aksi: ''
+      }
+    ]
+  },
+  {
+    id: 'kemasan',
+    label: 'Kemasan, plastik, kertas, kaleng, atau kaca',
+    contoh: 'Botol, gelas cup, wadah makan, dus pizza, kertas, kaleng',
+    ikon: 'botol',
+    tanya2: 'Bagaimana kondisi barangnya sekarang?',
+    opsi2: [
+      {
+        label: 'Bersih / bisa dibilas air dan dikeringkan',
+        ikon: 'botol', kat: 'anorganik', judul: 'Kemasan Bersih Siap Daur Ulang',
+        langkah: ['Kosongkan isinya dan bilas sebentar agar tidak bau', 'Keringkan dan pipihkan/lipat supaya tidak makan tempat', 'Kumpulkan terpisah untuk disetor ke bank sampah'],
+        alt: 'Pakai wadah guna ulang seperti tumbler atau kotak makan sendiri.',
+        aksi: '<a class="btn kecil" href="setor.html#siapkan">Siapkan untuk bank sampah →</a>'
+      },
+      {
+        label: 'Kena minyak parah / berlapis aluminium foil atau plastik (kertas nasi, cup kertas, sachet)',
+        ikon: 'kertas-minyak', kat: 'residu', judul: 'Kemasan Kotor Minyak / Berlapis',
+        langkah: ['Buang sisa makanan di dalamnya', 'Kertas berminyak & kemasan berlapis (sachet/paper cup) tidak bisa masuk daur ulang biasa, masukkan ke tong residu'],
+        alt: 'Bawa wadah sendiri atau minta kemasan terpisah saat beli makan.',
+        aksi: '<a class="btn kecil" href="kurangi.html">Hitung pengurangannya →</a>'
+      }
+    ]
+  },
+  {
+    id: 'khusus',
+    label: 'Baterai, elektronik, obat, benda tajam, atau aerosol',
+    contoh: 'Lampu, charger, obat kedaluwarsa, silet, pecahan beling, korek',
+    ikon: 'baterai',
+    tanya2: 'Mana yang paling cocok dengan barang di tanganmu?',
+    opsi2: [
+      {
+        label: 'Baterai, lampu, kabel/charger rusak, atau kaleng semprot',
+        ikon: 'baterai', kat: 'b3', judul: 'Limbah Elektronik & Berbahaya (B3)',
+        langkah: ['Jangan dibuang campur sampah rumah, jangan dibakar atau dilubangi', 'Simpan terpisah di wadah tertutup/kardus bekas', 'Antar ke drop point B3 / e-waste terdekat'],
+        alt: 'Pakai baterai isi ulang dan rawat kabel agar awet.',
+        aksi: '<a class="btn kecil" href="setor.html#tempat">Cari tempat setor B3 →</a>'
+      },
+      {
+        label: 'Obat kedaluwarsa (pil, kapsul, sirup)',
+        ikon: 'obat', kat: 'b3', judul: 'Obat Kedaluwarsa',
+        langkah: ['Jangan pernah tuang sirup atau buang pil ke wastafel/kloset', 'Kembalikan ke apotek yang menerima atau serahkan ke drop point B3'],
+        alt: 'Beli dan simpan obat secukupnya sesuai resep.',
+        aksi: '<a class="btn kecil" href="setor.html#tempat">Cari tempat setor B3 →</a>'
+      },
+      {
+        label: 'Pecahan beling/keramik, silet, pisau cukur, atau jarum',
+        ikon: 'pecahan', kat: 'b3', labelKat: 'Benda tajam · wajib dibungkus aman',
+        judul: 'Benda Tajam & Pecahan Berbahaya',
+        langkah: ['Jangan dibuang langsung di kantong plastik tipis', 'Masukkan ke kaleng/botol bekas keras atau bungkus kardus berlapis', 'Tulis jelas "AWAS BELING / TAJAM" di luar bungkusan agar petugas aman'],
+        alt: 'Pilih alat cukur logam (safety razor) dan wadah tahan pecah.',
+        aksi: ''
+      }
+    ]
+  },
+  {
+    id: 'sekali-pakai',
+    label: 'Tisu, popok, pembalut, masker, atau kotak styrofoam',
+    contoh: 'Barang kebersihan diri atau pembungkus sekali pakai kotor',
+    ikon: 'tisu',
+    tanya2: 'Barang mana yang ingin kamu buang?',
+    opsi2: [
+      {
+        label: 'Tisu, masker, popok, atau pembalut bekas',
+        ikon: 'masker', kat: 'residu', judul: 'Sampah Kebersihan Sekali Pakai',
+        langkah: ['Untuk popok/pembalut: buang kotoran ke kloset lalu gulung rapat', 'Untuk masker: gunting talinya supaya tidak menjerat hewan', 'Masukkan ke tong residu (jangan dicampur kompos atau daur ulang)'],
+        alt: 'Gunakan saputangan kain, masker kain, atau pembalut/popok kain.',
+        aksi: '<a class="btn kecil" href="kurangi.html">Lihat penggantinya →</a>'
+      },
+      {
+        label: 'Kotak styrofoam atau sachet kopi/bumbu',
+        ikon: 'styrofoam', kat: 'residu', judul: 'Styrofoam / Sachet Berlapis',
+        langkah: ['Bersihkan sisa makanan/cairannya', 'Masukkan ke tong residu, atau khusus sachet bersih & kering bisa dijadikan Ecobrick'],
+        alt: 'Bawa wadah makan sendiri dan pilih kemasan isi besar.',
+        aksi: '<a class="btn kecil" href="olah.html#ecobrick">Lihat cara buat Ecobrick →</a>'
+      }
+    ]
+  }
+];
+
 JN.pasangCari = form => {
   const input = $('input', form), hasil = $('.hasil', form);
   // tombol hapus sendiri (menggantikan tanda × bawaan browser)
   $('.baris', form).insertAdjacentHTML('beforeend', '<button type="button" class="hapus-cari" aria-label="Hapus pencarian" hidden>×</button>');
   const hapus = $('.hapus-cari', form);
   hapus.addEventListener('click', () => { input.value = ''; tampil(''); input.focus(); });
-  function jawaban(b, lain) {
-    const k = JN.KAT[b.kat];
+
+  // Sisipkan tombol & panel Wizard 2-Klik setelah contoh saran pencarian
+  const saran = $('.saran', form);
+  const wizardHTML = `
+    <div class="wizard-bungkus">
+      <button type="button" class="btn-wizard" aria-expanded="false">
+        <span aria-hidden="true">?</span> Bingung ketik apa? Jawab 2 pertanyaan singkat →
+      </button>
+      <div class="wizard-panel" hidden aria-live="polite"></div>
+    </div>`;
+  if (saran) saran.insertAdjacentHTML('afterend', wizardHTML);
+  else hasil.insertAdjacentHTML('beforebegin', wizardHTML);
+
+  const btnWizard = $('.btn-wizard', form), panelWizard = $('.wizard-panel', form);
+
+  function gambarKartuHasil(cfg) {
+    const k = JN.KAT[cfg.kat];
+    const subLabel = cfg.labelKat || `Masuk tong ${k.nama.toLowerCase()} · ${k.ke.toLowerCase()}`;
     return `<div class="jawaban" style="--w:${k.warna}">
       <div class="jawaban-visual" aria-hidden="true">
-        <span class="jv-barang">${JN.svg(b.ikon)}</span>
-        <span class="tong-kecil${b.kat === 'anorganik' ? '' : ' putih-teks'}"><span class="bibir"></span><span class="badan">${k.nama}</span></span>
+        <span class="jv-barang">${JN.svg(cfg.ikon)}</span>
+        <span class="tong-kecil${cfg.kat === 'anorganik' ? '' : ' putih-teks'}"><span class="bibir"></span><span class="badan">${k.nama}</span></span>
       </div>
       <div class="jawaban-isi">
-        <span class="label">Masuk tong ${k.nama.toLowerCase()} · ${k.ke.toLowerCase()}</span>
-        <strong>${b.nama}</strong>
-        <ol>${b.langkah.map(l => `<li>${l}</li>`).join('')}</ol>
-        <p><b>Penggantinya:</b> ${b.alt}</p>
-        <div>${AKSI_KATEGORI[b.kat](b)}</div>
+        <span class="label">${subLabel}</span>
+        <strong>${cfg.judul}</strong>
+        <ol>${cfg.langkah.map(l => `<li>${l}</li>`).join('')}</ol>
+        <p><b>Penggantinya:</b> ${cfg.alt}</p>
+        <div>${cfg.aksi || ''}</div>
       </div>
-    </div>
+    </div>`;
+  }
+
+  function bukaWizard(paksaBuka) {
+    const buka = paksaBuka !== undefined ? paksaBuka : panelWizard.hidden;
+    panelWizard.hidden = !buka;
+    btnWizard.setAttribute('aria-expanded', buka);
+    if (buka) gambarLangkah1();
+  }
+
+  function gambarLangkah1() {
+    panelWizard.innerHTML = `
+      <div class="wizard-kepala">
+        <span class="label">Pertanyaan 1 dari 2</span>
+        <strong>Sampah di tanganmu paling mirip yang mana?</strong>
+      </div>
+      <div class="wizard-opsi">${WIZARD_ALUR.map((item, idx) => `
+        <button type="button" class="wizard-pilihan" data-w1="${idx}">
+          <span class="w-ikon">${JN.svg(item.ikon)}</span>
+          <span><b>${item.label}</b><small>${item.contoh}</small></span>
+        </button>`).join('')}
+      </div>`;
+    $$('[data-w1]', panelWizard).forEach(b => b.addEventListener('click', () => gambarLangkah2(+b.dataset.w1)));
+  }
+
+  function gambarLangkah2(idx1) {
+    const grup = WIZARD_ALUR[idx1];
+    panelWizard.innerHTML = `
+      <div class="wizard-kepala">
+        <span class="label">Pertanyaan 2 dari 2 · ${grup.label}</span>
+        <strong>${grup.tanya2}</strong>
+      </div>
+      <div class="wizard-opsi tunggal">${grup.opsi2.map((op, idx2) => `
+        <button type="button" class="wizard-pilihan" data-w2="${idx2}">
+          <span class="w-ikon">${JN.svg(op.ikon)}</span>
+          <span><b>${op.label}</b></span>
+        </button>`).join('')}
+      </div>
+      <div class="wizard-bawah"><button type="button" class="tombol-teks" data-wulang>← Ganti pilihan pertama</button></div>`;
+    $('[data-wulang]', panelWizard).addEventListener('click', gambarLangkah1);
+    $$('[data-w2]', panelWizard).forEach(b => b.addEventListener('click', () => gambarHasilWizard(grup.opsi2[+b.dataset.w2])));
+  }
+
+  function gambarHasilWizard(res) {
+    panelWizard.innerHTML = `
+      ${gambarKartuHasil(res)}
+      <div class="wizard-bawah">
+        <button type="button" class="tombol-teks" data-wreset>↺ Tanya barang lain lagi</button>
+        <button type="button" class="tombol-teks" data-wtutup>Tutup pemandu</button>
+      </div>`;
+    $('[data-wreset]', panelWizard).addEventListener('click', gambarLangkah1);
+    $('[data-wtutup]', panelWizard).addEventListener('click', () => bukaWizard(false));
+    JN.eks('senang', 1600); JN.lompat();
+    JN.jejak.ubah(d => { d.pilah.cari = true; });
+  }
+
+  btnWizard.addEventListener('click', () => bukaWizard());
+
+  function jawaban(b, lain) {
+    return `${gambarKartuHasil({
+      ikon: b.ikon, kat: b.kat, labelKat: b.labelKat, judul: b.nama,
+      langkah: b.langkah, alt: b.alt, aksi: AKSI_KATEGORI[b.kat](b)
+    })}
     ${lain.length ? `<div class="mungkin"><span>Mungkin maksudmu:</span>${lain.map(x => `<button type="button" data-pilih="${x.id}">${x.nama}</button>`).join('')}</div>` : ''}`;
   }
+
   function tampil(q, pilihId) {
     hapus.hidden = !q;
     if (!JN.norm(q)) { hasil.innerHTML = ''; return; }
     let cocok = JN.cariBarang(q);
     if (pilihId) cocok = [JN.byId[pilihId], ...cocok.filter(b => b.id !== pilihId)];
-    hasil.innerHTML = cocok.length ? jawaban(cocok[0], cocok.slice(1, 4))
-      : `<p class="kosong">Belum ada “${JN.esc(JN.norm(q))}” di daftar kami. Coba kata lain, misalnya “botol” atau “sisa makanan”, atau <a href="kontak.html?jenis=barang">usulkan barang ini</a>.</p>`;
+    hasil.innerHTML = cocok.length ? jawaban(cocok[0], cocok.slice(1, 5))
+      : `<div class="kosong-kotak">
+          <p class="kosong">Belum ketemu persis untuk “${JN.esc(JN.norm(q))}”. Nggak apa-apa — pakai tanya cepat 2 klik supaya langsung ketahuan tongnya, atau <a href="kontak.html?jenis=barang">usulkan barang ini</a>.</p>
+          <button type="button" class="btn kecil" data-buka-wizard>Jawab 2 pertanyaan untuk “${JN.esc(JN.norm(q))}” →</button>
+        </div>`;
     $$('[data-pilih]', hasil).forEach(t => t.addEventListener('click', () => tampil(q, t.dataset.pilih)));
+    const pemicuWizard = $('[data-buka-wizard]', hasil);
+    if (pemicuWizard) pemicuWizard.addEventListener('click', () => {
+      bukaWizard(true);
+      panelWizard.scrollIntoView({ behavior: JN.kurangGerak ? 'auto' : 'smooth', block: 'nearest' });
+    });
     JN.eks(cocok.length ? 'senang' : 'bingung', cocok.length ? 1500 : 2200);
     if (cocok.length) JN.jejak.ubah(d => { d.pilah.cari = true; });
   }
+
   input.addEventListener('input', e => tampil(e.target.value));
   form.addEventListener('submit', e => { e.preventDefault(); tampil(input.value); });
   $$('[data-cari]', form).forEach(b => b.addEventListener('click', () => { input.value = b.dataset.cari; tampil(b.dataset.cari); }));
