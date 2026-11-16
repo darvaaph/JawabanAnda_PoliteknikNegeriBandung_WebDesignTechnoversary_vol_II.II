@@ -1,164 +1,219 @@
 <!doctype html>
 <html lang="id">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Jejak Nol · Panduan zero-waste dari rumah</title>
-<meta name="description" content="Jejak Nol membantu pelajar dan mahasiswa memilah, mengurangi, mengolah, dan menyetor sampah dari rumah sendiri dalam empat langkah.">
-<meta name="theme-color" content="#1B1712">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap">
-<link rel="stylesheet" href="assets/css/gaya.css">
-<script src="assets/js/data.js" defer></script>
-<script src="assets/js/umum.js" defer></script>
-<script src="assets/js/beranda.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Jejak Nol · Panduan zero-waste dari rumah</title>
+  <meta name="description"
+    content="Jejak Nol membantu kamu dan keluargamu memilah, mengurangi, mengolah, dan menyetor sampah dari rumah sendiri dalam empat langkah.">
+  <meta name="theme-color" content="#1B1712">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap">
+  <link rel="stylesheet" href="assets/css/gaya.css">
+  <script src="assets/js/data.js" defer></script>
+  <script src="assets/js/umum.js" defer></script>
+  <script src="assets/js/beranda.js" defer></script>
 </head>
+
 <body>
-<a class="lewati" href="#utama">Lewati ke isi</a>
-<header class="atas">
-  <div class="isi">
-    <a class="logo" href="index.html" aria-current="page">Jejak<b>Nol</b></a>
-    <button class="tombol-menu" id="tombol-menu" aria-expanded="false" aria-controls="menu">Menu</button>
-    <nav class="menu" id="menu" aria-label="Menu utama">
-      <a class="titik" style="--w:var(--anorganik)" href="pilah.html">Pilah</a>
-      <a class="titik" style="--w:var(--stempel)" href="kurangi.html">Kurangi</a>
-      <a class="titik" style="--w:var(--organik)" href="olah.html">Olah</a>
-      <a class="titik" style="--w:var(--setor)" href="setor.html">Setor</a>
-      <a href="tentang.html">Tentang</a>
-      <a href="kontak.html">Kontak</a>
-    </nav>
-  </div>
-</header>
-
-<main class="jalur" id="utama">
-  <div class="botol-jalan" id="botol-jalan" aria-hidden="true"></div>
-
-  <!-- 1. Hero: jalur cepat (pencarian) dan ajakan memulai perjalanan -->
-  <section class="bagian hero">
+  <a class="lewati" href="#utama">Lewati ke isi</a>
+  <header class="atas">
     <div class="isi">
-      <div class="hero-teks">
-        <span class="cap">Panduan zero-waste untuk pelajar &amp; mahasiswa</span>
-        <h1>Sampahmu dimulai dari <mark class="stabilo">rumahmu</mark> sendiri.</h1>
-        <p class="pengantar">Jejak Nol menemanimu dalam empat langkah: memilah, mengurangi, mengolah, dan menyetor sampah. Gulir ke bawah untuk melihat masalahnya dan langkah-langkahnya.</p>
-        <div class="aksi-hero">
-          <a class="btn" href="#masalah">Gulir ke bawah ↓</a>
-        </div>
-        <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span class="coret">ikuti botol ini!</span></span>
-      </div>
-      <form class="cari kertas selotip" role="search">
-        <div class="kardi-hero" data-kardi="lambai"></div>
-        <div class="anotasi" aria-hidden="true"><span class="coret">butuh jawaban cepat?</span><svg viewBox="0 0 58 54"><path class="panah" pathLength="1" d="M4 6 C 30 2, 48 18, 46 46 M38 38 L46 48 L53 37"/></svg></div>
-        <label for="input-cari">Ini dibuang ke mana?</label>
-        <div class="baris"><input id="input-cari" type="search" placeholder="Ketik: baterai, sachet, kulit pisang…" autocomplete="off"></div>
-        <div class="saran" aria-label="Contoh pencarian">
-          <button type="button" data-cari="baterai">baterai</button><button type="button" data-cari="styrofoam">styrofoam</button><button type="button" data-cari="kresek">kresek</button><button type="button" data-cari="obat">obat</button>
-        </div>
-        <div class="hasil" aria-live="polite"></div>
-      </form>
+      <a class="logo" href="index.html" aria-current="page">Jejak<b>Nol</b></a>
+      <button class="tombol-menu" id="tombol-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="menu" id="menu" aria-label="Menu utama">
+        <a class="titik" style="--w:var(--anorganik)" href="pilah.html">Pilah</a>
+        <a class="titik" style="--w:var(--stempel)" href="kurangi.html">Kurangi</a>
+        <a class="titik" style="--w:var(--organik)" href="olah.html">Olah</a>
+        <a class="titik" style="--w:var(--setor)" href="setor.html">Setor</a>
+        <a href="tentang.html">Tentang</a>
+        <a href="kontak.html">Kontak</a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <!-- 2. Masalah -->
-  <section class="bagian gelap" id="masalah" data-sobek data-pesan="Botol tadi cuma satu dari banyak. Ikuti terus, ya." data-eks="kaget">
-    <div class="isi">
-      <div class="kepala-bagian">
-        <span class="cap">Kenapa ini penting</span>
-        <h2 class="judul-bagian">Masalahnya dimulai dari tempat sampah <mark class="stabilo">kita sendiri.</mark></h2>
-        <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span class="coret">botol tadi salah satunya</span></span>
-        <p class="pengantar">Banyak orang sebenarnya mau memilah, tapi bingung: barang ini masuk tong mana, apa penggantinya, dan sisanya disetor ke mana.</p>
-      </div>
-      <div class="fakta" id="fakta" style="margin-bottom:0"></div>
-    </div>
-  </section>
+  <main class="jalur" id="utama">
+    <div class="botol-jalan" id="botol-jalan" aria-hidden="true"></div>
 
-  <!-- 3. Jalan empat langkah: satu jalur, botol berjalan di atasnya -->
-  <section class="bagian" id="jalan" data-pesan="Empat langkah, empat jejak. Yuk mulai!">
-    <div class="isi">
-      <div class="kepala-bagian">
-        <span class="cap">Perjalanan 4 langkah</span>
-        <h2 class="judul-bagian">Satu botol, <mark class="stabilo">empat langkah.</mark></h2>
-        <p class="pengantar">Setiap langkah punya satu aksi kecil yang meninggalkan jejak. Kumpulkan keempatnya untuk mendapat Kartu Jejak-ku. Kamu boleh mulai dari langkah mana saja.</p>
-      </div>
-      <div class="jalan" id="jalan-isi">
-        <svg class="jalan-garis" aria-hidden="true"><path id="garis-jalan"/></svg>
-
-        <article class="henti kertas" style="--w:var(--anorganik)">
-          <span class="singgah" data-singgah aria-hidden="true"></span>
-          <span class="bulat" aria-hidden="true">1</span>
-          <h3>Pilah</h3>
-          <p>Cari tahu setiap barang di rumahmu masuk tong mana, dan bagaimana menyiapkannya sebelum dibuang.</p>
-          <p class="tugas-mini"><b>Jejak</b> Buka 3 barang di Jelajah ruangan <span class="status-jejak" data-status-jejak="pilah">Belum</span></p>
-          <div class="aksi"><a class="btn kecil" href="pilah.html">Buka Pilah →</a><span class="coret">botol → tong kuning</span></div>
-        </article>
-
-        <article class="henti kertas kanan putih-teks" style="--w:var(--stempel)">
-          <span class="singgah" data-singgah aria-hidden="true"></span>
-          <span class="bulat" aria-hidden="true">2</span>
-          <h3>Kurangi</h3>
-          <p>Hitung berapa barang sekali pakai yang bisa kamu cegah dalam setahun kalau kamu menggantinya.</p>
-          <p class="tugas-mini"><b>Jejak</b> Pilih 1 barang yang sanggup kamu ganti <span class="status-jejak" data-status-jejak="kurangi">Belum</span></p>
-          <div class="aksi"><a class="btn kecil" href="kurangi.html">Buka Kurangi →</a><span class="coret">2 botol sehari = 730 setahun</span></div>
-        </article>
-
-        <article class="henti kertas putih-teks" style="--w:var(--organik)">
-          <span class="singgah" data-singgah aria-hidden="true"></span>
-          <span class="bulat" aria-hidden="true">3</span>
-          <h3>Olah</h3>
-          <p>Ubah sisa dapur jadi kompos, kulit buah jadi eco-enzyme, dan barang bekas jadi barang berguna.</p>
-          <p class="tugas-mini"><b>Jejak</b> Simpan 1 ide yang ingin kamu coba <span class="status-jejak" data-status-jejak="olah">Belum</span></p>
-          <div class="aksi"><a class="btn kecil" href="olah.html">Buka Olah →</a><span class="coret">botol bekas bisa jadi pot</span></div>
-        </article>
-
-        <article class="henti kertas kanan putih-teks" style="--w:var(--setor)">
-          <span class="bulat" aria-hidden="true">4</span>
-          <h3>Setor</h3>
-          <p>Siapkan sampah yang tersisa dengan benar, lalu antar ke bank sampah atau drop point yang menerimanya.</p>
-          <p class="tugas-mini"><b>Jejak</b> Centang 5 persiapan sebelum setor <span class="status-jejak" data-status-jejak="setor">Belum</span></p>
-          <div class="aksi"><a class="btn kecil" href="setor.html">Buka Setor →</a><span class="coret">botolnya sampai di sini</span></div>
-          <div class="tong-mini" id="tong-mini" aria-hidden="true">
-            <span class="singgah" data-singgah></span><span class="botol-dalam" id="botol-dalam"></span>
-            <div class="bibir"></div><div class="badan">Anorganik</div>
+    <!-- 1. Hero: jalur cepat (pencarian) dan ajakan memulai perjalanan -->
+    <section class="bagian hero">
+      <div class="isi">
+        <div class="hero-teks">
+          <span class="cap">Panduan zero-waste untuk kamu &amp; keluargamu</span>
+          <h1>Sampahmu dimulai dari <mark class="stabilo">rumahmu</mark> sendiri.</h1>
+          <p class="pengantar">Setelah membaca halaman ini, kamu bisa paham masalah sampah dalam 10 detik, tahu 4
+            langkahnya, dan dapat jawaban cepat untuk satu barang di rumah atau kos.</p>
+          <div class="aksi-hero">
+            <a class="btn" href="#masalah">Gulir ke bawah ↓</a>
           </div>
-        </article>
+          <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span
+              class="coret">ikuti botol ini!</span></span>
+        </div>
+        <form class="cari kertas selotip" role="search">
+          <div class="kardi-hero" data-kardi="lambai"></div>
+          <div class="anotasi" aria-hidden="true"><span class="coret">butuh jawaban cepat?</span><svg
+              viewBox="0 0 58 54">
+              <path class="panah" pathLength="1" d="M4 6 C 30 2, 48 18, 46 46 M38 38 L46 48 L53 37" />
+            </svg></div>
+          <label for="input-cari">Ini dibuang ke mana?</label>
+          <div class="baris"><input id="input-cari" type="search" placeholder="Ketik: baterai, sachet, kulit pisang…"
+              autocomplete="off"></div>
+          <div class="saran" aria-label="Contoh pencarian">
+            <button type="button" data-cari="baterai">baterai</button><button type="button"
+              data-cari="styrofoam">styrofoam</button><button type="button" data-cari="kresek">kresek</button><button
+              type="button" data-cari="obat">obat</button>
+          </div>
+          <div class="hasil" aria-live="polite"></div>
+        </form>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="pita-wadah" aria-hidden="true"><div class="pita"><span data-pita>Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦ Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦ Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦ Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦</span></div></div>
-
-  <!-- 4. Hasil akhir -->
-  <section class="bagian" id="hasil" data-pesan="Kartu ini bisa kamu bagikan ke teman." data-eks="senang">
-    <div class="isi hasil-akhir">
-      <div class="kepala-bagian" style="margin:0">
-        <span class="cap">Di akhir perjalanan</span>
-        <h2 class="judul-bagian">Bawa pulang <mark class="stabilo">Kartu Jejak-ku.</mark></h2>
-        <p class="pengantar">Setiap aksi kecil di empat langkah tercatat dan dirangkum dalam satu kartu: barang yang sudah kamu kenali, janji yang kamu buat, ide yang ingin kamu coba, dan kesiapanmu menyetor. Kartu ini terbuka setelah keempat langkah selesai, dan bisa diunduh sebagai gambar untuk dibagikan.</p>
-        <a class="btn" href="pilah.html" data-lanjut>Mulai dari Langkah 1: Pilah →</a>
+    <!-- 2. Masalah -->
+    <section class="bagian gelap" id="masalah" data-sobek
+      data-pesan="Botol tadi cuma satu dari banyak. Ikuti terus, ya." data-eks="kaget">
+      <div class="isi">
+        <div class="kepala-bagian">
+          <span class="cap">Kenapa ini penting</span>
+          <h2 class="judul-bagian">Masalahnya dimulai dari tempat sampah <mark class="stabilo">kita sendiri.</mark></h2>
+          <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span
+              class="coret">botol tadi salah satunya</span></span>
+          <p class="pengantar">Banyak orang sebenarnya mau memilah, tapi bingung: barang ini masuk tong mana, apa
+            penggantinya, dan sisanya disetor ke mana.</p>
+        </div>
+        <div class="fakta" id="fakta" style="margin-bottom:0"></div>
       </div>
-      <div class="contoh-kartu">
-        <div class="kartu-jejak">
-          <div class="kj-atas"><span class="kj-logo">Jejak Nol</span><span class="kj-cap">Lengkap</span></div>
-          <div class="kj-nama">Rani menyelesaikan 4 langkah!</div>
-          <div class="kj-baris" style="--w:var(--anorganik)"><span><b>Pilah</b>Sudah mengenali tong untuk 6 barang.</span></div>
-          <div class="kj-baris" style="--w:var(--stempel)"><span><b>Kurangi</b>Ganti botol air mineral dengan tumbler; kantong kresek dengan tas kain.</span></div>
-          <div class="kj-baris" style="--w:var(--organik)"><span><b>Olah</b>Akan mencoba: Kompos ember.</span></div>
-          <div class="kj-baris" style="--w:var(--setor)"><span><b>Setor</b>Siap menyetor sampah yang bersih, kering, dan terpilah.</span></div>
-          <div class="kj-total"><span class="kj-angka">808</span><br><strong>barang sekali pakai per tahun tidak jadi sampah</strong></div>
-          <div class="kj-kardi" data-kardi="senang"></div>
+    </section>
+
+    <!-- 3. Jalan empat langkah: satu jalur, botol berjalan di atasnya -->
+    <section class="bagian" id="jalan" data-pesan="Empat langkah, empat jejak. Yuk mulai!">
+      <div class="isi">
+        <div class="kepala-bagian">
+          <span class="cap">Perjalanan 4 langkah</span>
+          <h2 class="judul-bagian">Satu botol, <mark class="stabilo">empat langkah.</mark></h2>
+          <p class="pengantar">Setiap langkah punya satu aksi kecil yang meninggalkan jejak. Kumpulkan keempatnya untuk
+            mendapat Kartu Jejak-ku. Kamu boleh mulai dari langkah mana saja.</p>
+        </div>
+        <div class="jalan" id="jalan-isi">
+          <svg class="jalan-garis" aria-hidden="true">
+            <path id="garis-jalan" />
+          </svg>
+
+          <article class="henti kertas" style="--w:var(--anorganik)">
+            <span class="singgah" data-singgah aria-hidden="true"></span>
+            <span class="bulat" aria-hidden="true">1</span>
+            <h3>Pilah</h3>
+            <p>Cari tahu setiap barang di rumahmu masuk tong mana, dan bagaimana menyiapkannya sebelum dibuang.</p>
+            <p class="tugas-mini"><b>Jejak</b> Buka 3 barang di Jelajah ruangan <span class="status-jejak"
+                data-status-jejak="pilah">Belum</span></p>
+            <div class="aksi"><a class="btn kecil" href="pilah.html">Buka Pilah →</a><span class="coret">botol → tong
+                kuning</span></div>
+          </article>
+
+          <article class="henti kertas kanan putih-teks" style="--w:var(--stempel)">
+            <span class="singgah" data-singgah aria-hidden="true"></span>
+            <span class="bulat" aria-hidden="true">2</span>
+            <h3>Kurangi</h3>
+            <p>Hitung berapa barang sekali pakai yang bisa kamu cegah dalam setahun kalau kamu menggantinya.</p>
+            <p class="tugas-mini"><b>Jejak</b> Pilih 1 barang yang sanggup kamu ganti <span class="status-jejak"
+                data-status-jejak="kurangi">Belum</span></p>
+            <div class="aksi"><a class="btn kecil" href="kurangi.html">Buka Kurangi →</a><span class="coret">2 botol
+                sehari = 730 setahun</span></div>
+          </article>
+
+          <article class="henti kertas putih-teks" style="--w:var(--organik)">
+            <span class="singgah" data-singgah aria-hidden="true"></span>
+            <span class="bulat" aria-hidden="true">3</span>
+            <h3>Olah</h3>
+            <p>Ubah sisa dapur jadi kompos, kulit buah jadi eco-enzyme, dan barang bekas jadi barang berguna.</p>
+            <p class="tugas-mini"><b>Jejak</b> Simpan 1 ide yang ingin kamu coba <span class="status-jejak"
+                data-status-jejak="olah">Belum</span></p>
+            <div class="aksi"><a class="btn kecil" href="olah.html">Buka Olah →</a><span class="coret">botol bekas bisa
+                jadi pot</span></div>
+          </article>
+
+          <article class="henti kertas kanan putih-teks" style="--w:var(--setor)">
+            <span class="bulat" aria-hidden="true">4</span>
+            <h3>Setor</h3>
+            <p>Siapkan sampah yang tersisa dengan benar, lalu antar ke bank sampah atau drop point yang menerimanya.</p>
+            <p class="tugas-mini"><b>Jejak</b> Centang 5 persiapan sebelum setor <span class="status-jejak"
+                data-status-jejak="setor">Belum</span></p>
+            <div class="aksi"><a class="btn kecil" href="setor.html">Buka Setor →</a><span class="coret">botolnya sampai
+                di sini</span></div>
+            <div class="tong-mini" id="tong-mini" aria-hidden="true">
+              <span class="singgah" data-singgah></span><span class="botol-dalam" id="botol-dalam"></span>
+              <div class="bibir"></div>
+              <div class="badan">Anorganik</div>
+            </div>
+          </article>
         </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
 
-<footer>
-  <div class="isi">
-    <section><h2>Jejak Nol</h2><p>Media informasi zero-waste untuk pelajar dan mahasiswa: panduan memilah, menghitung, mengolah, dan menyetor sampah dari rumah sendiri.</p></section>
-    <section><h2>Jelajahi</h2><ul><li><a href="pilah.html">Pilah</a></li><li><a href="kurangi.html">Kurangi</a></li><li><a href="olah.html">Olah</a></li><li><a href="setor.html">Setor</a></li><li><a href="kartu.html">Kartu Jejak-ku</a></li><li><a href="tentang.html">Tentang</a></li><li><a href="kontak.html">Kontak</a></li></ul></section>
-    <section><h2>Lomba</h2><p>Dibuat untuk Lomba Web Design Techno Versary Vol. II, HIMA-TI FKOM Universitas Kuningan.</p></section>
-  </div>
-</footer>
+    <div class="pita-wadah" aria-hidden="true">
+      <div class="pita"><span data-pita>Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦ Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦ Pilah ✦
+          Kurangi ✦ Olah ✦ Setor ✦ Pilah ✦ Kurangi ✦ Olah ✦ Setor ✦</span></div>
+    </div>
+
+    <!-- 4. Hasil akhir -->
+    <section class="bagian" id="hasil" data-pesan="Kartu ini bisa kamu bagikan ke teman." data-eks="senang">
+      <div class="isi hasil-akhir">
+        <div class="kepala-bagian" style="margin:0">
+          <span class="cap">Di akhir perjalanan</span>
+          <h2 class="judul-bagian">Bawa pulang <mark class="stabilo">Kartu Jejak-ku.</mark></h2>
+          <p class="pengantar">Setiap aksi kecil di empat langkah tercatat dan dirangkum dalam satu kartu: barang yang
+            sudah kamu kenali, janji yang kamu buat, ide yang ingin kamu coba, dan kesiapanmu menyetor. Kartu ini
+            terbuka setelah keempat langkah selesai, dan bisa diunduh sebagai gambar untuk dibagikan.</p>
+          <a class="btn" href="pilah.html" data-lanjut>Mulai dari Langkah 1: Pilah →</a>
+        </div>
+        <div class="contoh-kartu">
+          <div class="kartu-jejak">
+            <div class="kj-atas"><span class="kj-logo">Jejak Nol</span><span class="kj-cap">Lengkap</span></div>
+            <div class="kj-nama">Citra menyelesaikan 4 langkah!</div>
+            <div class="kj-baris" style="--w:var(--anorganik)"><span><b>Pilah</b>Sudah mengenali tong untuk 6
+                barang.</span></div>
+            <div class="kj-baris" style="--w:var(--stempel)"><span><b>Kurangi</b>Ganti botol air mineral dengan tumbler;
+                kantong kresek dengan tas kain.</span></div>
+            <div class="kj-baris" style="--w:var(--organik)"><span><b>Olah</b>Akan mencoba: Kompos ember.</span></div>
+            <div class="kj-baris" style="--w:var(--setor)"><span><b>Setor</b>Siap menyetor sampah yang bersih, kering,
+                dan terpilah.</span></div>
+            <div class="kj-total"><span class="kj-angka">808</span><br><strong>barang sekali pakai per tahun tidak jadi
+                sampah</strong></div>
+            <div class="kj-kardi" data-kardi="senang"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="isi">
+      <section>
+        <h2>Jejak Nol</h2>
+        <p>Media informasi zero-waste untuk kamu dan keluargamu: panduan memilah, menghitung, mengolah, dan menyetor
+          sampah dari rumah sendiri.</p>
+      </section>
+      <section>
+        <h2>Jelajahi</h2>
+        <ul>
+          <li><a href="pilah.html">Pilah</a></li>
+          <li><a href="kurangi.html">Kurangi</a></li>
+          <li><a href="olah.html">Olah</a></li>
+          <li><a href="setor.html">Setor</a></li>
+          <li><a href="kartu.html">Kartu Jejak-ku</a></li>
+          <li><a href="tentang.html">Tentang</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+        </ul>
+      </section>
+      <section>
+        <h2>Lomba</h2>
+        <p>Dibuat untuk Lomba Web Design Techno Versary Vol. II, HIMA-TI FKOM Universitas Kuningan.</p>
+      </section>
+    </div>
+  </footer>
 </body>
+
 </html>

@@ -18,15 +18,13 @@ const simpan = {
 
 /* ---------- jejak: kemajuan pengunjung di empat langkah ----------
    Setiap langkah punya satu aksi kecil. Disimpan di browser, jadi tetap ada saat pindah halaman.
-   Urutan 1–4 hanya saran: halaman tidak pernah dikunci. */
+   Pengunjung bebas mulai dan menyelesaikan langkah dari mana saja tanpa dikunci berurutan. */
 JN.LANGKAH = [
   { id: 'pilah',   nama: 'Pilah',   warna: 'var(--anorganik)', url: 'pilah.html',   tugas: 'Buka 3 barang di Jelajah ruangan, atau cari 1 barang.' },
   { id: 'kurangi', nama: 'Kurangi', warna: 'var(--stempel)',   url: 'kurangi.html', tugas: 'Pilih minimal 1 barang yang sanggup kamu ganti.' },
   { id: 'olah',    nama: 'Olah',    warna: 'var(--organik)',   url: 'olah.html',    tugas: 'Simpan 1 panduan atau ide yang ingin kamu coba.' },
   { id: 'setor',   nama: 'Setor',   warna: 'var(--setor)',     url: 'setor.html',   tugas: 'Centang kelima persiapan sebelum menyetor.' }
 ];
-/* gembok: ikon SVG sendiri (bukan emoji) supaya sama di semua perangkat dan sesuai gaya ikon lain */
-JN.GEMBOK = '<svg class="gembok" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 11V8a4.5 4.5 0 0 1 9 0v3" fill="none" stroke="#1B1712" stroke-width="2.6" stroke-linecap="round"/><rect x="4" y="10.5" width="16" height="11.5" rx="2.5" fill="#F2C230" stroke="#1B1712" stroke-width="2.6"/><path d="M12 15v3" stroke="#1B1712" stroke-width="2.6" stroke-linecap="round"/></svg>';
 const KUNCI_JEJAK = 'jejaknol:jejak', KUNCI_BARIS = 'jejaknol:baris';
 JN.jejak = {
   data() {
@@ -34,22 +32,10 @@ JN.jejak = {
     return { nama: s.nama || '', pilah: { dilihat: [], cari: false, ...(s.pilah || {}) }, kurangi: { janji: false, ...(s.kurangi || {}) },
       olah: { simpan: [], ...(s.olah || {}) }, setor: { centang: [], ...(s.setor || {}) } };
   },
-  /* Jejak harus berurutan 1 → 2 → 3 → 4: sebuah langkah hanya dihitung kalau langkah sebelumnya sudah.
-     Isi halaman tetap bebas dibaca; yang dikunci hanya aksi yang meninggalkan jejak. */
   status(d = this.data()) {
-    const mentah = { pilah: d.pilah.dilihat.length >= 3 || d.pilah.cari, kurangi: !!d.kurangi.janji, olah: d.olah.simpan.length > 0, setor: d.setor.centang.length >= 5 };
-    let lanjut = true; const st = {};
-    JN.LANGKAH.forEach(l => { st[l.id] = lanjut && mentah[l.id]; lanjut = st[l.id]; });
-    return st;
+    return { pilah: d.pilah.dilihat.length >= 3 || d.pilah.cari, kurangi: !!d.kurangi.janji, olah: d.olah.simpan.length > 0, setor: d.setor.centang.length >= 5 };
   },
-  terbuka(id, st = this.status()) {
-    const i = JN.LANGKAH.findIndex(l => l.id === id);
-    return JN.LANGKAH.slice(0, i).every(l => st[l.id]);
-  },
-  pesanKunci(id) {
-    const i = JN.LANGKAH.findIndex(l => l.id === id), sebelum = JN.LANGKAH.slice(0, i).map(l => l.nama);
-    return `Jejak langkah ${i + 1} terbuka setelah kamu menyelesaikan ${sebelum.length > 1 ? sebelum.slice(0, -1).join(', ') + ' dan ' + sebelum.slice(-1) : sebelum[0]}.`;
-  },
+  terbuka() { return true; },
   jumlah(st = this.status()) { return Object.values(st).filter(Boolean).length; },
   berikut(st = this.status()) { return JN.LANGKAH.find(l => !st[l.id]); },
   ubah(fn) {
@@ -68,30 +54,27 @@ JN.jejak = {
     const kunci = a => (a.getAttribute('href') || '').replace(/[#?].*/, '').replace('.html', '');
     $$('nav.menu a.titik, .langkah-nav a').forEach(a => {
       const k = kunci(a); if (!(k in st)) return;
-      const kunciLangkah = !st[k] && !this.terbuka(k, st);
-      a.classList.toggle('jejak', st[k]); a.classList.toggle('kunci', kunciLangkah);
-      a.title = st[k] ? 'Jejak sudah tercatat' : kunciLangkah ? 'Jejak langkah ini masih terkunci, isinya tetap bisa dibaca' : 'Belum ada jejak';
+      a.classList.toggle('jejak', st[k]);
+      a.title = st[k] ? 'Jejak sudah tercatat' : 'Belum ada jejak';
     });
     $$('[data-tugas]').forEach(el => {
-      const l = JN.LANGKAH.find(x => x.id === el.dataset.tugas), dikunci = !st[l.id] && !this.terbuka(l.id, st);
-      el.classList.toggle('beres', st[l.id]); el.classList.toggle('terkunci', dikunci);
+      const l = JN.LANGKAH.find(x => x.id === el.dataset.tugas);
+      el.classList.toggle('beres', st[l.id]);
       el.innerHTML = st[l.id]
-        ? `<span class="label">✓ Jejak ${l.nama} tercatat · ${n}/4</span><span>${b ? `Lanjut ke <a href="${b.url}">${b.nama} →</a>` : `Keempat jejak lengkap. <a href="kartu.html">Lihat Kartu Jejak-ku →</a>`}</span>`
-        : dikunci
-          ? `<span class="label">${JN.GEMBOK} Jejak terkunci · ${n}/4</span><span>${this.pesanKunci(l.id)} Isi halaman ini tetap bisa kamu baca. <a href="${b.url}">${n ? "Lanjut ke" : "Mulai dari"} ${b.nama} →</a></span>`
-          : `<span class="label">Jejakmu di sini · ${n}/4</span><span>${l.tugas}${l.id === 'pilah' ? ` (${Math.min(3, d.pilah.dilihat.length)}/3)` : ''}</span>`;
+        ? `<span class="label">✓ Jejak ${l.nama} tercatat · ${n}/4</span><span>Bagus! Kamu bisa lanjut membaca halaman ini sampai bawah.</span>`
+        : `<span class="label">Jejakmu di sini · ${n}/4</span><span>${l.tugas}${l.id === 'pilah' ? ` (${Math.min(3, d.pilah.dilihat.length)}/3)` : ''}</span>`;
     });
     $$('[data-status-jejak]').forEach(el => {
-      const k = el.dataset.statusJejak, s = st[k], dikunci = !s && !this.terbuka(k, st);
-      el.classList.toggle('sudah', s); el.classList.toggle('terkunci', dikunci);
-      el.innerHTML = s ? '✓ Sudah' : dikunci ? `${JN.GEMBOK} Terkunci` : 'Belum';
+      const k = el.dataset.statusJejak, s = st[k];
+      el.classList.toggle('sudah', s);
+      el.innerHTML = s ? '✓ Sudah' : 'Belum';
     });
     $$('[data-lanjut]').forEach(a => {
       if (!n) return;
       if (b) { a.href = b.url; a.textContent = `Lanjutkan: ${b.nama} →`; } else { a.href = 'kartu.html'; a.textContent = 'Lihat Kartu Jejak-ku →'; }
     });
     $$('[data-kartu-jejak]').forEach(JN.gambarKartuJejak);
-    document.dispatchEvent(new Event('jejakberubah')); // halaman pilar memperbarui tombol yang terkunci
+    document.dispatchEvent(new Event('jejakberubah'));
   }
 };
 function rayakan(l, n) {
@@ -105,6 +88,7 @@ JN.isiKartuJejak = (d = JN.jejak.data()) => {
   const n = JN.jejak.jumlah(JN.jejak.status(d));
   const janji = JN.hitungJanji(simpan.ambil(KUNCI_BARIS)).filter(x => x.r.k > 0);
   const semuaIde = [...JN.PANDUAN, ...JN.DIY];
+  const judulIde = d.olah.simpan.map(id => (semuaIde.find(x => x.id === id) || {}).judul).filter(Boolean);
   const nama = d.nama || 'Aku';
   return {
     judul: n === 4 ? `${nama} menyelesaikan 4 langkah!` : `Jejak ${nama} sejauh ini`,
@@ -112,7 +96,7 @@ JN.isiKartuJejak = (d = JN.jejak.data()) => {
     baris: {
       pilah: d.pilah.dilihat.length ? `Sudah mengenali tong untuk ${d.pilah.dilihat.length} barang.` : 'Sudah mencari tahu tong yang benar.',
       kurangi: janji.length ? `Ganti ${janji.slice(0, 3).map(x => `${x.b.nama.toLowerCase()} dengan ${x.b.hitung.ganti}`).join('; ')}${janji.length > 3 ? `, dan ${janji.length - 3} lainnya` : ''}.` : '',
-      olah: `Akan mencoba: ${d.olah.simpan.map(id => (semuaIde.find(x => x.id === id) || {}).judul).filter(Boolean).join(', ')}.`,
+      olah: `Akan mencoba: ${judulIde.slice(0, 3).join(', ')}${judulIde.length > 3 ? `, dan ${judulIde.length - 3} lainnya` : ''}.`,
       setor: 'Siap menyetor sampah yang bersih, kering, dan terpilah.'
     }
   };
@@ -163,7 +147,11 @@ JN.IKON = {
   pot: `<path ${T} fill="#CFE7F0" d="M14 24h20v16a3 3 0 0 1-3 3H17a3 3 0 0 1-3-3z"/><path ${T} fill="#7A5230" d="M14 24h20v5H14z"/><path ${T} fill="#6FA36A" d="M24 24c-1-7-6-11-11-11 0 6 4 10 11 11zM24 24c1-9 6-14 12-14 0 7-5 13-12 14z"/>`,
   ember: `<path ${T} fill="#7BB7E0" d="M10 16h28l-3 26H13z"/><path ${T} fill="none" d="M12 16c0-10 24-10 24 0"/><path ${T} fill="#7A5230" d="M11 22h26"/><path fill="#6FA36A" d="M16 19h4v3h-4zM26 18h5v4h-5z"/>`,
   ecobrick: `<path ${T} fill="#CFE7F0" d="M20 5h8v6l5 6v24a3 3 0 0 1-3 3H18a3 3 0 0 1-3-3V17l5-6z"/><path fill="#7E3FA0" d="M17 20h14v7H17z"/><path fill="#F2C230" d="M17 27h14v6H17z"/><path fill="#D64532" d="M17 33h14v7H17z"/><path ${T} fill="none" d="M15 20h18"/>`,
-  tas: `<path ${T} fill="#F59BB0" d="M10 18h28l-2 24H12z"/><path ${T} fill="none" d="M16 18c0-6 2-10 4-12M32 18c0-6-2-10-4-12M12 38h24"/><path ${T} fill="none" d="M15 42v3M20 42v3M25 42v3M30 42v3M34 42v3"/>`
+  tas: `<path ${T} fill="#F59BB0" d="M10 18h28l-2 24H12z"/><path ${T} fill="none" d="M16 18c0-6 2-10 4-12M32 18c0-6-2-10-4-12M12 38h24"/><path ${T} fill="none" d="M15 42v3M20 42v3M25 42v3M30 42v3M34 42v3"/>`,
+  'karton-susu': `<path ${T} fill="#fff" d="M14 14l10-6 10 6v28H14z"/><path ${T} fill="#5B8FD6" d="M14 23h20v11H14z"/><path ${T} fill="none" d="M14 14h20M24 8v6"/>`,
+  minyak: `<path ${T} fill="#CFE7F0" d="M20 5h8v5l4 5v25a3 3 0 0 1-3 3H19a3 3 0 0 1-3-3V15l4-5z"/><rect fill="#E8A838" x="17" y="21" width="14" height="20" rx="1"/><path ${T} fill="none" d="M17 21h14"/>`,
+  'pecahan-kaca': `<path ${T} fill="#CFE7F0" d="M10 18l8 6-6 14 10-4 8 8 4-12 6-8-10-8-4 8-8-8z"/><path ${T} fill="none" d="M18 24l12 4"/>`,
+  'wadah-makan': `<rect ${T} fill="#EAF6FB" x="8" y="17" width="32" height="19" rx="4"/><path ${T} fill="#fff" d="M6 15h36v5H6z"/>`
 };
 JN.svg = (n, label, kelas) => `<svg ${kelas ? `class="${kelas}" ` : ''}viewBox="0 0 48 48" ${label ? `role="img" aria-label="${JN.esc(label)}"` : 'aria-hidden="true"'}>${JN.IKON[n] || ''}</svg>`;
 
@@ -214,7 +202,7 @@ function pasangTeman() {
   const teman = $('#teman');
   let ditutup = simpan.ambil('jejaknol:kardi-tutup') === true;
   $('#tutup-teman').addEventListener('click', () => { ditutup = true; teman.hidden = true; simpan.taruh('jejaknol:kardi-tutup', true); });
-  const TIPS = ['Bilas botol sebelum disetor, biar bank sampah mau terima.', 'Simpan satu tas kain di tas kuliahmu.', 'Baterai bekas jangan dicampur, ya!', 'Sisa sayur bisa jadi kompos.', 'Pisahkan tutup dari botolnya.'];
+  const TIPS = ['Bilas botol sebelum disetor, biar bank sampah mau terima.', 'Simpan satu tas kain di tasmu atau bagasi motor.', 'Baterai bekas jangan dicampur, ya!', 'Sisa sayur bisa jadi kompos.', 'Pisahkan tutup dari botolnya.'];
   let ke = 0;
   $('.teman-badan').addEventListener('click', () => { JN.lompat(); JN.eks('senang', 1200); JN.bilang(TIPS[ke++ % TIPS.length]); });
   const kepala = $('.hero, .halaman-kepala');
@@ -246,10 +234,16 @@ JN.cariBarang = q => {
   return hasil.sort((a, b) => b.s - a.s).map(x => x.b);
 };
 const AKSI_KATEGORI = {
-  organik: b => `<a class="btn kecil" href="olah.html#kompos">Jadikan kompos →</a>`,
-  anorganik: b => `<a class="btn kecil" href="setor.html#siapkan">Siapkan untuk bank sampah →</a>`,
-  b3: b => `<a class="btn kecil" href="setor.html#tempat">Cari tempat setor B3 →</a>`,
-  residu: b => b.hitung ? `<a class="btn kecil" href="kurangi.html?tambah=${b.id}">Kurangi pemakaiannya →</a>` : ''
+  organik: () => `<a class="tautan-cari" href="olah.html#kompos">Baca cara mengolahnya di halaman Olah →</a>`,
+  anorganik: () => `<a class="tautan-cari" href="setor.html#siapkan">Baca cara menyiapkan &amp; setor di halaman Setor →</a>`,
+  b3: () => `<a class="tautan-cari" href="setor.html#tempat">Lihat jenis drop point B3 di halaman Setor →</a>`,
+  residu: b => b.hitung
+    ? `<a class="tautan-cari" href="kurangi.html#hitung">Hitung cara menguranginya di halaman Kurangi →</a>`
+    : `<a class="tautan-cari" href="pilah.html#tong">Baca penjelasan kategori tong di halaman Pilah →</a>`
+};
+const siapkanKalimat = langkah => {
+  if (!langkah || !langkah.length) return '';
+  return langkah.map((s, i) => i ? s.charAt(0).toLowerCase() + s.slice(1) : s).join(', lalu ') + '.';
 };
 JN.pasangCari = form => {
   const input = $('input', form), hasil = $('.hasil', form);
@@ -267,9 +261,9 @@ JN.pasangCari = form => {
       <div class="jawaban-isi">
         <span class="label">Masuk tong ${k.nama.toLowerCase()} · ${k.ke.toLowerCase()}</span>
         <strong>${b.nama}</strong>
-        <ol>${b.langkah.map(l => `<li>${l}</li>`).join('')}</ol>
+        <p><b>Cara menyiapkan:</b> ${siapkanKalimat(b.langkah)}</p>
         <p><b>Penggantinya:</b> ${b.alt}</p>
-        <div>${AKSI_KATEGORI[b.kat](b)}</div>
+        <div class="tautan-hasil">${AKSI_KATEGORI[b.kat](b)}</div>
       </div>
     </div>
     ${lain.length ? `<div class="mungkin"><span>Mungkin maksudmu:</span>${lain.map(x => `<button type="button" data-pilih="${x.id}">${x.nama}</button>`).join('')}</div>` : ''}`;
@@ -302,8 +296,8 @@ JN.pasangJelajah = root => {
     let aksi = '';
     if (b.hitung) aksi = JN.kalkulatorPenuh
       ? `<div><button type="button" class="btn kecil" data-tambah="${b.id}">Hitung di Kurangi →</button></div>`
-      : `<div><a class="btn kecil" href="kurangi.html?tambah=${b.id}">Hitung di Kurangi →</a></div>`;
-    else if (b.kat === 'b3') aksi = `<div><a class="btn kecil putih" href="setor.html#tempat">Tempat setor B3 →</a></div>`;
+      : `<div><a class="tautan-cari" href="kurangi.html?tambah=${b.id}#hitung">Hitung pengurangannya di halaman Kurangi →</a></div>`;
+    else if (b.kat === 'b3') aksi = `<div><a class="tautan-cari" href="setor.html#tempat">Lihat jenis tempat setor B3 →</a></div>`;
     detail.innerHTML = `<span class="label">${JN.RUANG.find(r => r[0] === b.ruang)[1]}</span><h3>${b.nama}</h3>
       <span><span class="chip k-${b.kat}">Tong ${JN.KAT[b.kat].nama}</span></span>
       <span class="label">Cara menyiapkan</span><ol>${b.langkah.map(l => `<li>${l}</li>`).join('')}</ol>
@@ -343,9 +337,9 @@ JN.pasangKalkulator = (root, opsi = {}) => {
         <div class="tumpukan-wadah"><span class="judul-t">Sekarang · <b data-n="sekarang">0</b></span><div class="tumpukan" data-t="sekarang" aria-hidden="true"></div></div>
         <div class="tumpukan-wadah"><span class="judul-t">Setelah ganti · <b data-n="setelah">0</b></span><div class="tumpukan setelah" data-t="setelah" aria-hidden="true"></div></div>
       </div>
-      <p class="keterangan">Setiap ikon = 10 barang sekali pakai dalam setahun.</p>
+      <p class="keterangan" data-skala>Setiap ikon = 10 barang sekali pakai dalam setahun.</p>
       ${ringkas ? `<div class="ringkas-lanjut"><a class="btn kecil" href="kurangi.html">Hitung semua kebiasaanmu →</a></div>` : `
-      <p class="kelompok">Kalau satu kelas (40 orang) melakukan hal yang sama: <b data-n="kelompok">0</b> barang per tahun tidak jadi sampah.</p>
+      <p class="kelompok">Kalau satu RT (40 rumah) melakukan hal yang sama: <b data-n="kelompok">0</b> barang per tahun tidak jadi sampah.</p>
       <p class="catatan-jejak">Janjimu otomatis tercatat dan akan masuk ke <a href="kartu.html">Kartu Jejak-ku</a> di akhir perjalanan.</p>`}
     </div></div>`;
   const form = $('form', root);
@@ -375,7 +369,8 @@ JN.pasangKalkulator = (root, opsi = {}) => {
   }
   function tambah(id, gulir) {
     if (!byId[id] || !byId[id].hitung) return;
-    if (!baris.some(r => r.id === id)) { baris.push(awal(id)); gambarForm(); hitung(true); }
+    if (!baris.some(r => r.id === id)) { baris.push(awal(id)); gambarForm(); hitung(true, true); }
+    else if (!ringkas) hitung(true, true);
     if (gulir) {
       root.scrollIntoView({ behavior: JN.kurangGerak ? 'auto' : 'smooth', block: 'start' });
       const fs = $(`[data-baris="${id}"]`, root); fs.classList.add('sorot'); setTimeout(() => fs.classList.remove('sorot'), 1800);
@@ -385,7 +380,7 @@ JN.pasangKalkulator = (root, opsi = {}) => {
   form.addEventListener('click', e => {
     const u = e.target.closest('[data-ubah]'), h = e.target.closest('[data-hapus]');
     if (u) { const r = baris.find(x => x.id === u.dataset.ubah); r.jumlah = Math.max(0, Math.min(30, r.jumlah + +u.dataset.n)); $('#j-' + r.id, root).textContent = r.jumlah; hitung(); }
-    if (h) { baris = baris.filter(x => x.id !== h.dataset.hapus); gambarForm(); hitung(true); }
+    if (h) { baris = baris.filter(x => x.id !== h.dataset.hapus); gambarForm(); hitung(true, true); }
   });
   form.addEventListener('change', e => {
     const t = e.target;
@@ -395,12 +390,12 @@ JN.pasangKalkulator = (root, opsi = {}) => {
   });
 
   let lalu = null, jeda, hasil = [];
-  const tumpuk = (el, daftar) => {
+  const tumpuk = (el, daftar, skala) => {
     const ikon = [];
-    daftar.forEach(([n, jml]) => { for (let i = 0; i < Math.round(jml / 10); i++) ikon.push(n); });
+    daftar.forEach(([n, jml]) => { for (let i = 0; i < Math.round(jml / skala); i++) ikon.push(n); });
     el.innerHTML = ikon.slice(0, 110).map((n, i) => `<svg viewBox="0 0 48 48" style="--i:${i}">${JN.IKON[n]}</svg>`).join('');
   };
-  function hitung(diam) {
+  function hitung(diam, catat) {
     hasil = baris.map(r => {
       const b = byId[r.id], sekarang = r.jumlah * JN.PER[r.per], dicegah = Math.round(sekarang * r.k);
       return { r, b, sekarang, dicegah, setelah: sekarang - dicegah };
@@ -418,16 +413,18 @@ JN.pasangKalkulator = (root, opsi = {}) => {
     lalu = tot;
     if (!ringkas) {
       simpan.taruh(KUNCI_BARIS, baris);
-      // kalkulator selalu bisa dipakai; janji baru dicatat sebagai jejak kalau langkah Pilah sudah selesai
-      if (!diam && JN.jejak.terbuka('kurangi')) JN.jejak.ubah(d => { d.kurangi.janji = hasil.some(x => x.r.k > 0); });
+      if (!diam || catat) JN.jejak.ubah(d => { d.kurangi.janji = hasil.some(x => x.r.k > 0); });
     }
+    const skala = [10, 20, 25, 50, 100, 250].find(s => Math.ceil(totS / s) <= 105) || 500;
+    const infoSkala = $('[data-skala]', root);
+    if (infoSkala) infoSkala.textContent = `Setiap ikon = ${fmt(skala)} barang sekali pakai dalam setahun.`;
     clearTimeout(jeda);
     jeda = setTimeout(() => {
-      tumpuk($('[data-t="sekarang"]', root), hasil.map(x => [x.b.ikon, x.sekarang]));
-      tumpuk($('[data-t="setelah"]', root), hasil.map(x => [x.b.ikon, x.setelah]));
+      tumpuk($('[data-t="sekarang"]', root), hasil.map(x => [x.b.ikon, x.sekarang]), skala);
+      tumpuk($('[data-t="setelah"]', root), hasil.map(x => [x.b.ikon, x.setelah]), skala);
     }, 120);
   }
-  gambarForm(); hitung(true);
+  gambarForm(); hitung(true, false);
   return { tambah };
 };
 
@@ -472,5 +469,22 @@ document.addEventListener('DOMContentLoaded', () => {
   $$('.bagian').forEach(b => diam.observe(b));
   if (JN.mulai) JN.mulai();
   JN.jejak.tampilkan();
+
+  /* Pulihkan posisi scroll saat pengunjung kembali ke halaman sebelumnya (Back/Forward) */
+  const kunciScroll = 'jejaknol:scroll:' + location.pathname + location.search;
+  const simpanScroll = () => { try { sessionStorage.setItem(kunciScroll, String(Math.round(scrollY))); } catch (e) { /* abaikan */ } };
+  addEventListener('pagehide', simpanScroll);
+  document.addEventListener('click', e => { if (e.target.closest('a[href]')) simpanScroll(); });
+  const nav = performance.getEntriesByType?.('navigation')?.[0];
+  if (!location.hash && nav?.type === 'back_forward') {
+    let y = 0;
+    try { y = Number(sessionStorage.getItem(kunciScroll) || 0); } catch (e) { /* abaikan */ }
+    if (y > 0) {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      const pulihkan = () => { window.scrollTo({ top: y, behavior: 'instant' }); dispatchEvent(new Event('scroll')); };
+      requestAnimationFrame(pulihkan);
+      document.fonts?.ready.then(pulihkan);
+    }
+  }
 });
 })();
