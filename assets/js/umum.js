@@ -238,7 +238,7 @@ function pasangTeman() {
   $$('[data-pesan]').forEach(s => pengamat.observe(s));
 }
 
-/* ---------- pencarian "Ini dibuang ke mana?" + Wizard 2-Klik untuk user non-IT ---------- */
+/* ---------- pencarian "Ini dibuang ke mana?" dan tanya cepat 2 langkah ---------- */
 const STOP_CARI = new Set(['sampah', 'bekas', 'sisa', 'tempat', 'wadah', 'buang', 'yang', 'dari', 'habis', 'pakai', 'bungkus']);
 const normCari = s => JN.norm(s)
   .replace(/[^a-z0-9\s]/g, ' ')
@@ -333,7 +333,7 @@ const AKSI_KATEGORI = {
   residu: b => b.hitung ? `<a class="btn kecil" href="kurangi.html?tambah=${b.id}">Kurangi pemakaiannya →</a>` : ''
 };
 
-/* Pohon keputusan 2-klik khusus pengguna awam yang bingung nama barangnya */
+/* Tanya cepat 2 langkah kalau bingung nama barangnya */
 const WIZARD_ALUR = [
   {
     id: 'organik',
@@ -346,21 +346,21 @@ const WIZARD_ALUR = [
         label: 'Tidak ada (cuma sayur, buah, daun, ampas kopi/teh)',
         ikon: 'pisang', kat: 'organik', judul: 'Sampah Dapur & Kebun (Organik)',
         langkah: ['Pisahkan dari plastik atau karet pengikatnya', 'Tiriskan airnya, lalu masukkan ke kompos ember atau eco-enzyme'],
-        alt: 'Bisa langsung diolah jadi pupuk atau pembersih alami.',
+        alt: 'Jadikan kompos ember atau eco-enzyme.',
         aksi: '<a class="btn kecil" href="olah.html#kompos">Lihat cara kompos →</a>'
       },
       {
         label: 'Ya, ini minyak goreng bekas (jelantah)',
         ikon: 'jelantah', kat: 'anorganik', labelKat: 'Penampungan jelantah · jangan ke wastafel',
         judul: 'Minyak Jelantah',
-        langkah: ['Jangan pernah buang ke wastafel atau selokan', 'Tunggu dingin, saring, lalu simpan dalam botol/jeriken tertutup', 'Setorkan ke pengepul jelantah atau bank sampah penerima'],
-        alt: 'Kurangi pemakaian minyak berulang dan tukar jelantah jadi saldo.',
+        langkah: ['Jangan buang ke wastafel atau selokan', 'Tunggu dingin, saring, lalu simpan dalam botol/jeriken tertutup', 'Setorkan ke pengepul jelantah atau bank sampah penerima'],
+        alt: 'Saring dan kumpulkan ke botol bekas untuk disetor ke pengepul jelantah atau bank sampah.',
         aksi: '<a class="btn kecil" href="setor.html#siapkan">Persiapan setor →</a>'
       },
       {
         label: 'Ya, ada tulang, daging, kuah santan, atau sisa lemak',
         ikon: 'tulang', kat: 'residu', judul: 'Sisa Lauk Berlemak / Tulang',
-        langkah: ['Tiriskan air/kuahnya dulu supaya tidak berbau di tempat sampah', 'Jangan masukkan ke kompos ember kos biasa karena mengundang belatung', 'Bungkus rapat lalu masukkan ke tong residu (atau pengolah maggot BSF)'],
+        langkah: ['Tiriskan air/kuahnya dulu supaya tidak berbau di tempat sampah', 'Jangan masukkan ke kompos ember kos biasa karena mengundang belatung', 'Bungkus rapat lalu masukkan ke tong residu'],
         alt: 'Ambil porsi lauk secukupnya agar tidak bersisa.',
         aksi: ''
       }
@@ -391,7 +391,7 @@ const WIZARD_ALUR = [
   },
   {
     id: 'khusus',
-    label: 'Baterai, elektronik, obat, benda tajam, atau aerosol',
+    label: 'Baterai, elektronik, obat, benda tajam, atau kaleng semprot',
     contoh: 'Lampu, charger, obat kedaluwarsa, silet, pecahan beling, korek',
     ikon: 'baterai',
     tanya2: 'Mana yang paling cocok dengan barang di tanganmu?',
@@ -406,7 +406,7 @@ const WIZARD_ALUR = [
       {
         label: 'Obat kedaluwarsa (pil, kapsul, sirup)',
         ikon: 'obat', kat: 'b3', judul: 'Obat Kedaluwarsa',
-        langkah: ['Jangan pernah tuang sirup atau buang pil ke wastafel/kloset', 'Kembalikan ke apotek yang menerima atau serahkan ke drop point B3'],
+        langkah: ['Jangan tuang sirup atau buang obat ke wastafel/kloset', 'Kembalikan ke apotek yang menerima atau serahkan ke drop point B3'],
         alt: 'Beli dan simpan obat secukupnya sesuai resep.',
         aksi: '<a class="btn kecil" href="setor.html#tempat">Cari tempat setor B3 →</a>'
       },
@@ -415,7 +415,7 @@ const WIZARD_ALUR = [
         ikon: 'pecahan', kat: 'b3', labelKat: 'Benda tajam · wajib dibungkus aman',
         judul: 'Benda Tajam & Pecahan Berbahaya',
         langkah: ['Jangan dibuang langsung di kantong plastik tipis', 'Masukkan ke kaleng/botol bekas keras atau bungkus kardus berlapis', 'Tulis jelas "AWAS BELING / TAJAM" di luar bungkusan agar petugas aman'],
-        alt: 'Pilih alat cukur logam (safety razor) dan wadah tahan pecah.',
+        alt: 'Pilih alat cukur logam (safety razor) dan wadah yang tidak mudah pecah.',
         aksi: ''
       }
     ]
@@ -423,7 +423,7 @@ const WIZARD_ALUR = [
   {
     id: 'sekali-pakai',
     label: 'Tisu, popok, pembalut, masker, atau kotak styrofoam',
-    contoh: 'Barang kebersihan diri atau pembungkus sekali pakai kotor',
+    contoh: 'Popok, pembalut, masker, tisu, atau styrofoam bekas',
     ikon: 'tisu',
     tanya2: 'Barang mana yang ingin kamu buang?',
     opsi2: [
@@ -457,7 +457,7 @@ JN.pasangCari = form => {
   const wizardHTML = `
     <div class="wizard-bungkus">
       <button type="button" class="btn-wizard" aria-expanded="false">
-        <span aria-hidden="true">?</span> Bingung ketik apa? Jawab 2 pertanyaan singkat →
+        <span aria-hidden="true">?</span> Bingung namanya? Jawab 2 pertanyaan →
       </button>
       <div class="wizard-panel" hidden aria-live="polite"></div>
     </div>`;
@@ -554,7 +554,7 @@ JN.pasangCari = form => {
     if (pilihId) cocok = [JN.byId[pilihId], ...cocok.filter(b => b.id !== pilihId)];
     hasil.innerHTML = cocok.length ? jawaban(cocok[0], cocok.slice(1, 5))
       : `<div class="kosong-kotak">
-          <p class="kosong">Belum ketemu persis untuk “${JN.esc(JN.norm(q))}”. Nggak apa-apa — pakai tanya cepat 2 klik supaya langsung ketahuan tongnya, atau <a href="kontak.html?jenis=barang">usulkan barang ini</a>.</p>
+          <p class="kosong">Belum ketemu “${JN.esc(JN.norm(q))}”. Coba jawab 2 pertanyaan cepat di bawah ini, atau <a href="kontak.html?jenis=barang">usulkan barang ini</a>.</p>
           <button type="button" class="btn kecil" data-buka-wizard>Jawab 2 pertanyaan untuk “${JN.esc(JN.norm(q))}” →</button>
         </div>`;
     $$('[data-pilih]', hasil).forEach(t => t.addEventListener('click', () => tampil(q, t.dataset.pilih)));

@@ -31,7 +31,7 @@ JN.BARANG = [
   { id: 'telur', nama: 'Cangkang telur', alias: ['kulit telur', 'telur'], kat: 'organik', ruang: 'dapur', ikon: 'telur',
     langkah: ['Bilas sebentar', 'Remukkan', 'Masukkan ke kompos'], alt: 'Remukan cangkang bisa jadi campuran media tanam.' },
   { id: 'jelantah', nama: 'Minyak goreng bekas (jelantah)', alias: ['minyak jelantah', 'jelantah', 'minyak goreng bekas', 'minyak goreng', 'minyak kotor'], kat: 'anorganik', labelKat: 'Penampungan jelantah · jangan ke wastafel', ruang: 'dapur', ikon: 'jelantah',
-    langkah: ['Jangan dibuang ke wastafel, selokan, atau tanah karena menyumbat dan mencemari air', 'Tunggu dingin lalu saring remah makanannya', 'Simpan di botol/jeriken tertutup dan setor ke pengepul jelantah atau bank sampah'], alt: 'Kurangi gorengan berlebih dan tukarkan jelantah jadi biodiesel/tabungan.' },
+    langkah: ['Jangan dibuang ke wastafel, selokan, atau tanah karena menyumbat dan mencemari air', 'Tunggu dingin lalu saring remah makanannya', 'Simpan di botol/jeriken tertutup dan setor ke pengepul jelantah atau bank sampah'], alt: 'Pakai minyak secukupnya saat masak, lalu kumpulkan sisanya untuk disetor.' },
   { id: 'thinwall', nama: 'Wadah makan plastik (thinwall)', alias: ['thinwall', 'kotak makan plastik', 'box plastik', 'mika makanan', 'wadah gofood', 'wadah shopeefood', 'bowl plastik', 'bento plastik'], kat: 'anorganik', ruang: 'dapur', ikon: 'thinwall',
     langkah: ['Buang sisa makanan dan kuahnya', 'Cuci bersih dengan sedikit sabun agar tidak berminyak', 'Pakai ulang di kulkas atau setor ke bank sampah (kode #5 PP)'], alt: 'Bawa wadah makan sendiri saat beli bungkus atau makan di tempat.' },
   { id: 'tetrapak', nama: 'Kotak susu & teh (Tetra Pak)', alias: ['kotak susu', 'dus susu', 'kardus susu', 'ultra milk', 'teh kotak', 'tetrapak', 'tetra pak', 'minuman kotak'], kat: 'anorganik', ruang: 'dapur', ikon: 'tetrapak',
@@ -47,7 +47,7 @@ JN.BARANG = [
   { id: 'kertas-minyak', nama: 'Kertas nasi berminyak', alias: ['kertas nasi', 'bungkus nasi', 'kertas minyak', 'kertas padang', 'kertas warteg', 'kertas cokelat'], kat: 'residu', ruang: 'dapur', ikon: 'kertas-minyak',
     langkah: ['Buang sisa makanan', 'Masukkan ke residu karena berminyak dan berlapis plastik'], alt: 'Wadah makan sendiri.' },
   { id: 'tulang', nama: 'Tulang, daging & sisa berlemak', alias: ['tulang', 'tulang ayam', 'tulang ikan', 'duri ikan', 'sisa daging', 'lemak', 'kulit ayam', 'kuah santan'], kat: 'residu', ruang: 'dapur', ikon: 'tulang',
-    langkah: ['Tiriskan kuahnya', 'Jangan dimasukkan ke kompos ember kos karena menimbulkan bau dan belatung', 'Bungkus rapat ke residu atau serahkan ke pengolah maggot BSF'], alt: 'Ambil porsi lauk secukupnya agar tidak bersisa.' },
+    langkah: ['Tiriskan kuahnya', 'Jangan dimasukkan ke kompos ember kos karena menimbulkan bau dan belatung', 'Bungkus rapat lalu masukkan ke residu'], alt: 'Ambil porsi lauk secukupnya agar tidak bersisa.' },
   { id: 'alat-makan', nama: 'Sendok plastik & sumpit sekali pakai', alias: ['sendok plastik', 'garpu plastik', 'sumpit kayu', 'tusuk sate', 'alat makan plastik', 'pisau plastik'], kat: 'residu', ruang: 'dapur', ikon: 'alat-makan',
     langkah: ['Jika masih bersih dan kuat, simpan untuk dipakai lagi di kos', 'Jika patah atau sekali pakai, masukkan ke residu'], alt: 'Centang "tanpa alat makan" di aplikasi pesan-antar dan bawa sendok lipat.',
     hitung: { satuan: 'set', ganti: 'sendok sendiri', jumlah: 4, per: 'minggu', k: .75 } },
@@ -112,7 +112,7 @@ JN.BARANG = [
   { id: 'daun', nama: 'Daun kering & ranting', alias: ['daun', 'daun kering', 'ranting', 'rumput', 'bunga layu'], kat: 'organik', ruang: 'halaman', ikon: 'daun',
     langkah: ['Kumpulkan', 'Jadikan lapisan cokelat penutup bau di kompos'], alt: 'Mulsa alami di atas tanah tanaman.' },
   { id: 'pecahan', nama: 'Pecahan piring, keramik & cermin', alias: ['pecahan piring', 'keramik pecah', 'gelas pecah', 'cermin pecah', 'beling', 'mangkok pecah'], kat: 'residu', ruang: 'halaman', ikon: 'pecahan',
-    langkah: ['Jangan dibuang telanjang di plastik tipis', 'Bungkus tebal pakai koran atau kardus bekas', 'Tulis "AWAS BELING" di luar bungkusan agar petugas aman'], alt: 'Gunakan alas anti-selip atau wadah tahan pecah.' },
+    langkah: ['Jangan dibuang langsung di kantong tipis', 'Bungkus tebal pakai koran atau kardus bekas', 'Tulis "AWAS BELING" di luar bungkusan agar petugas aman'], alt: 'Gunakan alas anti-selip atau wadah yang tidak mudah pecah.' },
   { id: 'korek', nama: 'Korek api gas bekas', alias: ['korek gas', 'korek api', 'pemantik', 'mancis', 'gas korek'], kat: 'b3', ruang: 'halaman', ikon: 'korek',
     langkah: ['Pastikan sisa gasnya sudah habis', 'Jangan dibakar atau dicampur sampah panas/organik', 'Simpan terpisah ke drop point B3'], alt: 'Gunakan korek isi ulang atau pemantik listrik USB.' },
   { id: 'pakaian', nama: 'Baju, kaos & kain bekas', alias: ['baju bekas', 'kaos bekas', 'pakaian robek', 'celana bekas', 'kain perca', 'sepatu bekas', 'tas robek'], kat: 'anorganik', labelKat: 'Donasi / daur ulang tekstil', ruang: 'halaman', ikon: 'pakaian',
@@ -180,12 +180,12 @@ JN.FAKTA = [
     menerima: ['anorganik'], kontak: '08…', maps: 'https://maps.app.goo.gl/…', dicek: '2026-11-20' } */
 JN.JENIS_TEMPAT = {
   'bank-sampah':   { nama: 'Bank sampah',      isi: 'Menerima sampah anorganik bersih (plastik, kertas, kaleng), sering ditukar tabungan.',
-    keterangan: 'Cocok untuk botol plastik, kardus, kaleng, dan kadang minyak jelantah — ditimbang lalu dicatat jadi saldo tabungan atau uang.' },
+    keterangan: 'Cocok untuk botol plastik, kardus, kaleng, dan kadang minyak jelantah. Ditimbang lalu dicatat jadi saldo tabungan atau uang.' },
   'tps3r':         { nama: 'TPS3R',            isi: 'Tempat pengolahan sampah tingkat desa atau kelurahan: memilah, mengompos, mendaur ulang.',
-    keterangan: 'Pos pengolahan warga satu desa atau kelurahan. Biasanya terhubung dengan petugas gerobak sampah, atau menerima setor sampah terpilah.' },
+    keterangan: 'Pos pengolahan warga satu desa atau kelurahan. Biasanya terhubung dengan petugas gerobak sampah, tapi ada juga yang menerima setor langsung.' },
   'drop-point-b3': { nama: 'Drop point B3',    isi: 'Titik pengumpulan baterai, lampu, elektronik, dan obat bekas.',
     keterangan: 'Tempat khusus barang berbahaya dan elektronik rusak: baterai bekas, bohlam/neon, charger rusak, obat kedaluwarsa, dan kaleng semprot.' },
   'toko-curah':    { nama: 'Toko curah/refill', isi: 'Tempat membeli sabun, sampo, atau bahan makanan dengan wadah sendiri.',
-    keterangan: 'Catatan: ini tempat belanja isi ulang dengan membawa wadah sendiri dari rumah, bukan tempat membuang sampah.' }
+    keterangan: 'Ini tempat belanja isi ulang (bawa wadah sendiri dari rumah), bukan tempat membuang sampah.' }
 };
 JN.DIREKTORI = [];

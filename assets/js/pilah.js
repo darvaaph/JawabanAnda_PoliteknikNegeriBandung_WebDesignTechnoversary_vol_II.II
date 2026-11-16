@@ -1,4 +1,4 @@
-/* Pilah: jelajah ruangan, empat tong interaktif, kode plastik ramah awam. */
+/* Pilah: jelajah ruangan, empat tong yang bisa diklik, kode plastik. */
 JN.mulai = () => {
   const { $, $$, svg, KAT, byId } = JN;
   JN.pasangJelajah($('#jelajah'));
@@ -41,7 +41,7 @@ JN.mulai = () => {
   $('#daftar-plastik').innerHTML = JN.PLASTIK.map(p => `<article>
       ${segitiga(p.kode)}<b>${p.nama}</b>
       <p><b>Sering ada di:</b> ${p.awam || p.contoh}.</p>
-      <small class="nama-kimia">Istilah kemasan: ${p.lengkap}</small>
+      <small class="nama-kimia">${p.lengkap}</small>
       <span class="chip st st-${p.status}">${JN.STATUS_PLASTIK[p.status]}</span>
     </article>`).join('');
 };
