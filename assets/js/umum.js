@@ -21,7 +21,7 @@ const simpan = {
    Pengunjung bebas mulai dan menyelesaikan langkah dari mana saja tanpa dikunci berurutan. */
 JN.LANGKAH = [
   { id: 'pilah',   nama: 'Pilah',   warna: 'var(--anorganik)', url: 'pilah.html',   tugas: 'Selesaikan Pilah Cepat, buka 3 barang di Jelajah ruangan, atau cari 1 barang.' },
-  { id: 'kurangi', nama: 'Kurangi', warna: 'var(--stempel)',   url: 'kurangi.html', tugas: 'Pilih minimal 1 barang yang sanggup kamu ganti.' },
+  { id: 'kurangi', nama: 'Kurangi', warna: 'var(--stempel)',   url: 'kurangi.html', tugas: 'Atur kebiasaanmu di kalkulator, lalu tekan “Ini janjiku”.' },
   { id: 'olah',    nama: 'Olah',    warna: 'var(--organik)',   url: 'olah.html',    tugas: 'Tekan “Aku mau coba” pada 1 ide yang ingin kamu lakukan.' },
   { id: 'setor',   nama: 'Setor',   warna: 'var(--setor)',     url: 'setor.html',   tugas: 'Centang kelima persiapan sebelum menyetor.' }
 ];
@@ -353,115 +353,169 @@ JN.pasangJelajah = root => {
 };
 
 /* ---------- kalkulator Kurangi (rumus sama dengan rancangan/hitung.js) ----------
-   ringkas: satu baris saja (Beranda), tanpa tambah barang dan tanpa mencatat jejak */
+   Tiap barang = satu kalimat + chip pilihan + batang mini. Janji dicatat ke jejak lewat tombol "Ini janjiku". */
 JN.PER = { hari: 365, minggu: 52, bulan: 12 };
 JN.SANGGUP = [[0, 'Belum bisa'], [0.25, 'Kadang-kadang'], [0.5, 'Sering'], [0.75, 'Hampir selalu'], [1, 'Selalu']];
-JN.pasangKalkulator = (root, opsi = {}) => {
-  const ringkas = !!opsi.ringkas, fmt = JN.fmt, byId = JN.byId;
-  const awal = id => { const h = byId[id].hitung; return { id, jumlah: h.jumlah, per: h.per, k: h.k }; };
-  let baris = ringkas ? ['botol'].map(awal)
-    : ((simpan.ambil('jejaknol:baris') || []).filter(r => byId[r.id] && byId[r.id].hitung && JN.PER[r.per]));
-  if (!baris.length) baris = ['botol', 'kresek', 'gelas'].map(awal);
+JN.pasangKalkulator = root => {
+  const fmt = JN.fmt, byId = JN.byId;
+  /* label singkat + artinya, supaya "seberapa sering" tidak abstrak */
+  const SANGGUP = [[0, 'Belum', '0 dari 4'], [0.25, 'Kadang', '1 dari 4'], [0.5, 'Sering', '2 dari 4'], [0.75, 'Hampir selalu', '3 dari 4'], [1, 'Selalu', '4 dari 4']];
+  const KELOMPOK = { kelas: ['satu kelas', 30, 'orang'], kos: ['satu kos', 10, 'kamar'], rt: ['satu RT', 40, 'rumah'] };
+  const awal = id => { const h = byId[id].hitung; return { id, jumlah: h.jumlah, per: h.per, k: h.k, contoh: true }; };
+  let baris = (simpan.ambil(KUNCI_BARIS) || []).filter(r => byId[r.id] && byId[r.id].hitung && JN.PER[r.per]);
+  if (!baris.length) baris = ['botol'].map(awal); // mulai dari satu contoh; barang lain ditambah sendiri lewat chip
+  let kelompok = 'kelas';
 
   root.innerHTML = `<div class="hitung">
     <form class="form-hitung kertas selotip" aria-label="Kebiasaanmu"></form>
-    ${ringkas ? '' : `<a class="bar-hasil" href="#panel-hasil" aria-hidden="true" tabindex="-1"><b data-n="bar">0</b><span>barang/tahun tidak jadi sampah</span><span class="bar-lihat">Lihat ↓</span></a>`}
+    <a class="bar-hasil" href="#panel-hasil" aria-hidden="true" tabindex="-1"><b data-n="bar">0</b><span>barang/tahun tidak jadi sampah</span><span class="bar-delta" data-delta></span><span class="bar-lihat">Lihat ↓</span></a>
     <div class="panel-hasil kertas selotip" id="panel-hasil">
       <span class="cap">Hasil per tahun</span>
-      <div aria-live="polite"><div class="angka">0</div><p class="angka-sub">barang sekali pakai tidak jadi sampah</p></div>
+      <div aria-live="polite"><div class="angka">0</div><p class="angka-sub">barang sekali pakai tidak jadi sampah</p>
+        <p class="angka-skala" data-n="skala"></p></div>
       <div class="dua-tumpukan">
         <div class="tumpukan-wadah"><span class="judul-t">Sekarang · <b data-n="sekarang">0</b></span><div class="tumpukan" data-t="sekarang" aria-hidden="true"></div></div>
         <div class="tumpukan-wadah"><span class="judul-t">Setelah ganti · <b data-n="setelah">0</b></span><div class="tumpukan setelah" data-t="setelah" aria-hidden="true"></div></div>
       </div>
       <p class="keterangan" data-skala>Setiap ikon = 10 barang sekali pakai dalam setahun.</p>
-      ${ringkas ? `<div class="ringkas-lanjut"><a class="btn kecil" href="kurangi.html">Hitung semua kebiasaanmu →</a></div>` : `
-      <p class="kelompok">Kalau satu RT (40 rumah) melakukan hal yang sama: <b data-n="kelompok">0</b> barang per tahun tidak jadi sampah.</p>
-      <p class="catatan-jejak">Janjimu otomatis tercatat dan akan masuk ke <a href="kartu.html">Kartu Jejak-ku</a> di akhir perjalanan.</p>`}
+      <div class="kelompok">
+        <div class="kelompok-pilih" role="group" aria-label="Bayangkan kalau yang ikut">${Object.entries(KELOMPOK).map(([k, [n]]) =>
+          `<button type="button" data-kelompok="${k}" aria-pressed="${k === kelompok}">${n[0].toUpperCase() + n.slice(1)}</button>`).join('')}</div>
+        <p data-n="kelompok"></p>
+      </div>
+      <div class="janji">
+        <button type="button" class="btn" data-janji>✓ Ini janjiku</button>
+        <div class="janji-ket" data-janji-ket aria-live="polite"></div>
+      </div>
     </div></div>`;
   const form = $('form', root);
+
+  const pilihan = (nama, isian, kunci, idBaris, aktif, label) => `<div class="pilih-chip" role="radiogroup" aria-label="${label}">${isian.map(([v, t, sub]) =>
+    `<label><input type="radio" name="${nama}" value="${v}" ${kunci}="${idBaris}" ${String(v) === String(aktif) ? 'checked' : ''}><span>${t}${sub ? `<small>${sub}</small>` : ''}</span></label>`).join('')}</div>`;
 
   function gambarForm() {
     const sisa = JN.BARANG.filter(b => b.hitung && !baris.some(r => r.id === b.id));
     form.innerHTML = baris.map(r => { const b = byId[r.id], h = b.hitung; return `
-      <fieldset class="kebiasaan" data-baris="${r.id}">
-        <legend>${JN.svg(b.ikon)}<span>${b.nama}</span></legend>
-        ${!ringkas && baris.length > 1 ? `<button type="button" class="hapus" data-hapus="${r.id}" aria-label="Hapus ${b.nama} dari hitungan">×</button>` : ''}
+      <fieldset class="kebiasaan${r.contoh ? ' contoh' : ''}" data-baris="${r.id}">
+        <legend>${JN.svg(b.ikon)}<span>${b.nama}</span>${r.contoh ? '<em class="label-contoh" title="Angka contoh. Ubah sesuai kebiasaanmu.">contoh</em>' : ''}</legend>
+        ${baris.length > 1 ? `<button type="button" class="hapus" data-hapus="${r.id}" aria-label="Hapus ${b.nama} dari hitungan">Hapus ×</button>` : ''}
         <div class="tanya">
-          <label for="j-${r.id}">① Berapa banyak kamu pakai?</label>
-          <div class="kontrol">
-            <span class="stepper"><button type="button" data-ubah="${r.id}" data-n="-1" aria-label="Kurangi jumlah ${b.nama}">−</button><output id="j-${r.id}">${r.jumlah}</output><button type="button" data-ubah="${r.id}" data-n="1" aria-label="Tambah jumlah ${b.nama}">+</button></span>
-            <label class="sr" for="p-${r.id}">Satuan waktu untuk ${b.nama}</label>
-            <select id="p-${r.id}" data-per="${r.id}">${Object.keys(JN.PER).map(p => `<option value="${p}" ${p === r.per ? 'selected' : ''}>${h.satuan} per ${p}</option>`).join('')}</select>
-          </div>
+          <span class="kalimat">Aku pakai
+            <span class="stepper"><button type="button" data-ubah="${r.id}" data-n="-1" aria-label="Kurangi jumlah ${b.nama}">−</button><output id="j-${r.id}" aria-label="Jumlah ${b.nama}">${r.jumlah}</output><button type="button" data-ubah="${r.id}" data-n="1" aria-label="Tambah jumlah ${b.nama}">+</button></span>
+            ${h.satuan} setiap</span>
+          ${pilihan('per-' + r.id, Object.keys(JN.PER).map(p => [p, p]), 'data-per', r.id, r.per, `Satuan waktu untuk ${b.nama}`)}
+          <small class="batas" data-batas="${r.id}" hidden>Maksimal 30. Kalau lebih, pilih satuan waktu yang lebih pendek.</small>
         </div>
         <div class="tanya">
-          <label for="k-${r.id}">② Kalau diganti <b>${h.ganti}</b>, seberapa sering kamu sanggup?</label>
-          <select id="k-${r.id}" data-k="${r.id}">${JN.SANGGUP.map(([v, l]) => `<option value="${v}" ${v === r.k ? 'selected' : ''}>${l}</option>`).join('')}</select>
+          <span class="kalimat">Kalau pakai <b>${h.ganti}</b>, dari 4 kesempatan aku bisa ganti…</span>
+          ${pilihan('k-' + r.id, SANGGUP, 'data-k', r.id, r.k, `Seberapa sering ${b.nama} bisa diganti ${h.ganti}`)}
         </div>
-        <p class="hasil-baris" data-hb="${r.id}"></p>
-      </fieldset>`; }).join('') + (!ringkas && sisa.length ? `
+        <div class="batang" data-hb="${r.id}"></div>
+      </fieldset>`; }).join('') + (sisa.length ? `
       <div class="tambah"><span class="tambah-judul">+ Tambah barang lain dan penggantinya</span>
         <div class="tambah-chip">${sisa.map(b => `<button type="button" data-tambah-chip="${b.id}">${JN.svg(b.ikon)}<span><b>${b.nama}</b>→ ${b.hitung.ganti}</span></button>`).join('')}</div></div>` : '');
   }
+  const sorot = id => { const fs = $(`[data-baris="${id}"]`, root); fs?.classList.add('sorot'); setTimeout(() => fs?.classList.remove('sorot'), 1800); };
   function tambah(id, gulir) {
     if (!byId[id] || !byId[id].hitung) return;
-    if (!baris.some(r => r.id === id)) { baris.push(awal(id)); gambarForm(); hitung(true, true); }
-    else if (!ringkas) hitung(true, true);
-    if (gulir) {
-      root.scrollIntoView({ behavior: JN.kurangGerak ? 'auto' : 'smooth', block: 'start' });
-      const fs = $(`[data-baris="${id}"]`, root); fs.classList.add('sorot'); setTimeout(() => fs.classList.remove('sorot'), 1800);
-    }
+    if (!baris.some(r => r.id === id)) { baris.push({ ...awal(id), contoh: false }); gambarForm(); }
+    hitung(true);
+    if (gulir) root.scrollIntoView({ behavior: JN.kurangGerak ? 'auto' : 'smooth', block: 'start' });
+    sorot(id);
   }
+  /* angka yang diubah pengunjung tidak lagi berlabel "contoh" */
+  const bukanContoh = r => { if (r.contoh) { r.contoh = false; const fs = $(`[data-baris="${r.id}"]`, root); fs.classList.remove('contoh'); $('.label-contoh', fs)?.remove(); } };
   form.addEventListener('submit', e => e.preventDefault());
   form.addEventListener('click', e => {
     const u = e.target.closest('[data-ubah]'), h = e.target.closest('[data-hapus]'), c = e.target.closest('[data-tambah-chip]');
-    if (c) { tambah(c.dataset.tambahChip, false); const fs = $(`[data-baris="${c.dataset.tambahChip}"]`, root); fs?.classList.add('sorot'); setTimeout(() => fs?.classList.remove('sorot'), 1800); return; }
-    if (u) { const r = baris.find(x => x.id === u.dataset.ubah); r.jumlah = Math.max(0, Math.min(30, r.jumlah + +u.dataset.n)); $('#j-' + r.id, root).textContent = r.jumlah; hitung(); }
-    if (h) { baris = baris.filter(x => x.id !== h.dataset.hapus); gambarForm(); hitung(true, true); }
+    if (c) return tambah(c.dataset.tambahChip, false);
+    if (u) {
+      const r = baris.find(x => x.id === u.dataset.ubah), baru = Math.max(0, Math.min(30, r.jumlah + +u.dataset.n));
+      $(`[data-batas="${r.id}"]`, root).hidden = !(r.jumlah === 30 && +u.dataset.n > 0);
+      r.jumlah = baru; $('#j-' + r.id, root).textContent = baru; bukanContoh(r); hitung();
+    }
+    if (h) { baris = baris.filter(x => x.id !== h.dataset.hapus); gambarForm(); hitung(true); }
   });
   form.addEventListener('change', e => {
-    const t = e.target;
-    if (t.dataset.per) { baris.find(x => x.id === t.dataset.per).per = t.value; hitung(); }
-    if (t.dataset.k) { baris.find(x => x.id === t.dataset.k).k = +t.value; hitung(); }
+    const t = e.target, r = baris.find(x => x.id === (t.dataset.per || t.dataset.k));
+    if (!r) return;
+    if (t.dataset.per) r.per = t.value; else r.k = +t.value;
+    bukanContoh(r); hitung();
   });
+  $$('[data-kelompok]', root).forEach(b => b.addEventListener('click', () => {
+    kelompok = b.dataset.kelompok;
+    $$('[data-kelompok]', root).forEach(x => x.setAttribute('aria-pressed', x === b));
+    hitung(true);
+  }));
+  /* janji: dicatat ke jejak hanya saat pengunjung menekan tombol */
+  $('[data-janji]', root).addEventListener('click', () => {
+    if (!hasil.some(x => x.dicegah > 0)) return;
+    JN.jejak.ubah(d => { d.kurangi.janji = true; });
+    tulisJanji(true);
+  });
+  function tulisJanji(baruDisimpan) {
+    const tombol = $('[data-janji]', root), ket = $('[data-janji-ket]', root), ada = hasil.filter(x => x.dicegah > 0);
+    const sudah = JN.jejak.data().kurangi.janji;
+    tombol.disabled = !ada.length;
+    tombol.textContent = sudah ? '✓ Janji tersimpan' : '✓ Ini janjiku';
+    tombol.classList.toggle('tersimpan', sudah);
+    if (!ada.length) { ket.innerHTML = '<p>Pilih minimal satu barang yang bisa kamu ganti dulu.</p>'; return; }
+    const daftar = ada.map(x => `<li>Pakai <b>${x.b.hitung.ganti}</b> ${SANGGUP.find(s => s[0] === x.r.k)[1].toLowerCase()} <span>(−${fmt(x.dicegah)} ${x.b.hitung.satuan}/tahun)</span></li>`).join('');
+    ket.innerHTML = sudah
+      ? `<p>${baruDisimpan ? 'Mantap! ' : ''}Janjimu masuk ke <a href="kartu.html">Kartu Jejak-ku</a>. Ubah angkanya kapan saja, janjimu ikut diperbarui.</p><ul>${daftar}</ul>`
+      : `<p>Tekan tombol ini kalau kamu siap mencoba:</p><ul>${daftar}</ul>`;
+  }
 
-  let lalu = null, jeda, hasil = [];
+  let lalu = null, jeda, jedaDelta, hasil = [];
   const tumpuk = (el, daftar, skala) => {
     const ikon = [];
     daftar.forEach(([n, jml]) => { for (let i = 0; i < Math.round(jml / skala); i++) ikon.push(n); });
     el.innerHTML = ikon.slice(0, 110).map((n, i) => `<svg viewBox="0 0 48 48" style="--i:${i}">${JN.IKON[n]}</svg>`).join('');
   };
-  function hitung(diam, catat) {
+  function hitung(diam) {
     hasil = baris.map(r => {
       const b = byId[r.id], sekarang = r.jumlah * JN.PER[r.per], dicegah = Math.round(sekarang * r.k);
       return { r, b, sekarang, dicegah, setelah: sekarang - dicegah };
     });
-    hasil.forEach(x => { $(`[data-hb="${x.r.id}"]`, root).innerHTML = `Sekarang <b>${fmt(x.sekarang)}</b> → setelah ganti <b>${fmt(x.setelah)}</b> ${x.b.hitung.satuan} per tahun`; });
+    /* batang mini per barang: setahun vs setelah ganti */
+    hasil.forEach(x => {
+      const s = x.b.hitung.satuan, pct = x.sekarang ? Math.round(x.setelah / x.sekarang * 100) : 0;
+      $(`[data-hb="${x.r.id}"]`, root).innerHTML = `
+        <div class="batang-baris"><span>Setahun</span><i style="width:${x.sekarang ? 100 : 0}%"></i><b>${fmt(x.sekarang)} ${s}</b></div>
+        <div class="batang-baris setelah"><span>Setelah ganti</span><i style="width:${pct}%"></i><b>${fmt(x.setelah)} ${s}</b></div>
+        ${x.dicegah ? `<p class="batang-hemat">−${fmt(x.dicegah)} ${s} tidak jadi sampah</p>` : ''}`;
+    });
     const totS = hasil.reduce((s, x) => s + x.sekarang, 0), tot = hasil.reduce((s, x) => s + x.dicegah, 0);
     $('.angka', root).textContent = fmt(tot);
     $('[data-n="sekarang"]', root).textContent = fmt(totS);
     $('[data-n="setelah"]', root).textContent = fmt(totS - tot);
-    const kel = $('[data-n="kelompok"]', root); if (kel) kel.textContent = fmt(tot * 40);
-    const bar = $('[data-n="bar"]', root); if (bar) bar.textContent = fmt(tot);
+    const perMinggu = tot / 52;
+    $('[data-n="skala"]', root).innerHTML = !tot ? '' : perMinggu >= 1
+      ? `Artinya sekitar <b>${fmt(Math.round(perMinggu))} barang setiap minggu</b>.`
+      : `Artinya sekitar <b>${fmt(Math.max(1, Math.round(tot / 12)))} barang setiap bulan</b>.`;
+    const [nama, orang, unit] = KELOMPOK[kelompok];
+    $('[data-n="kelompok"]', root).innerHTML = `Kalau ${nama} (${orang} ${unit}) ikut melakukan hal yang sama: <b>${fmt(tot * orang)}</b> barang setahun tidak jadi sampah.`;
+    $('[data-n="bar"]', root).textContent = fmt(tot);
     if (!diam && lalu !== null && tot !== lalu) {
-      if (tot > lalu) { JN.eks('senang', 1600); JN.lompat(); JN.bilang(`Mantap! ${fmt(tot)} barang tidak jadi sampah.`); }
+      const d = $('[data-delta]', root), selisih = tot - lalu;
+      d.textContent = (selisih > 0 ? '+' : '−') + fmt(Math.abs(selisih));
+      d.className = 'bar-delta tampil ' + (selisih > 0 ? 'naik' : 'turun');
+      clearTimeout(jedaDelta); jedaDelta = setTimeout(() => { d.className = 'bar-delta'; }, 1400);
+      if (selisih > 0) { JN.eks('senang', 1600); JN.lompat(); JN.bilang(`Mantap! ${fmt(tot)} barang tidak jadi sampah.`); }
       else { JN.eks('kaget', 1400); JN.bilang('Pelan-pelan juga nggak apa-apa. Yang penting mulai.'); }
     }
     lalu = tot;
-    if (!ringkas) {
-      simpan.taruh(KUNCI_BARIS, baris);
-      if (!diam || catat) JN.jejak.ubah(d => { d.kurangi.janji = hasil.some(x => x.r.k > 0); });
-    }
+    simpan.taruh(KUNCI_BARIS, baris);
+    tulisJanji(false);
     const skala = [10, 20, 25, 50, 100, 250].find(s => Math.ceil(totS / s) <= 105) || 500;
-    const infoSkala = $('[data-skala]', root);
-    if (infoSkala) infoSkala.textContent = `Setiap ikon = ${fmt(skala)} barang sekali pakai dalam setahun.`;
+    $('[data-skala]', root).textContent = `Setiap ikon = ${fmt(skala)} barang sekali pakai dalam setahun.`;
     clearTimeout(jeda);
     jeda = setTimeout(() => {
       tumpuk($('[data-t="sekarang"]', root), hasil.map(x => [x.b.ikon, x.sekarang]), skala);
       tumpuk($('[data-t="setelah"]', root), hasil.map(x => [x.b.ikon, x.setelah]), skala);
     }, 120);
   }
-  gambarForm(); hitung(true, false);
+  gambarForm(); hitung(true);
   return { tambah };
 };
 
