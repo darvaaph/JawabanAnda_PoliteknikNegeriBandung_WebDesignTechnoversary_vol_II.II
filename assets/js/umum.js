@@ -302,9 +302,13 @@ JN.pasangJelajah = root => {
   /* HP: penjelasan barang tampil sebagai lembar dari bawah layar, bukan jauh di bawah daftar barang */
   const hpKecil = matchMedia('(max-width:820px)');
   let latar = null, pemicu = null;
+  /* Saat terbuka, lembar dipindah ke <body> supaya berada di atas latar gelap
+     (di dalam section ia terkunci di lapisan section, sehingga ikut tertutup latar). */
+  const asal = detail.parentNode;
   function tutupLembar() {
     if (!detail.classList.contains('lembar')) return;
     detail.classList.remove('lembar'); detail.removeAttribute('role'); detail.removeAttribute('aria-modal');
+    asal.append(detail);
     latar?.remove(); latar = null;
     pemicu?.focus({ preventScroll: true });
   }
@@ -313,7 +317,7 @@ JN.pasangJelajah = root => {
     detail.classList.add('lembar'); detail.setAttribute('role', 'dialog'); detail.setAttribute('aria-modal', 'true');
     latar = document.createElement('div'); latar.className = 'lembar-latar';
     latar.addEventListener('click', tutupLembar);
-    document.body.append(latar);
+    document.body.append(latar, detail);
     $('.tutup-lembar', detail)?.focus({ preventScroll: true });
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') tutupLembar(); });

@@ -174,10 +174,10 @@ nav.menu a.titik.jejak::before{background:var(--w)}
 .tutup-lembar{display:none}
 @media (max-width:820px){
   .jelajah-isi .detail{display:none}
-  .jelajah-isi .detail.lembar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:45;max-height:78vh;overflow:auto;margin:0;
+  .detail.lembar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:45;max-height:78vh;overflow:auto;margin:0;
     border-radius:22px 22px 0 0;border:3px solid var(--tinta);border-bottom:0;box-shadow:0 -12px 40px rgba(27,23,18,.35);
     padding:16px 18px calc(22px + env(safe-area-inset-bottom,0px));animation:naikLembar .3s cubic-bezier(.3,1.2,.5,1)}
-  .jelajah-isi .detail.lembar::before,.jelajah-isi .detail.lembar::after{display:none}
+  .detail.lembar::before,.detail.lembar::after{display:none}
   .detail.lembar .tutup-lembar{display:inline-flex;align-self:flex-end;background:var(--tinta);color:var(--kertas);border:0;border-radius:999px;padding:8px 14px;font:700 13px/1 var(--f-teks);cursor:pointer}
   .lembar-latar{position:fixed;inset:0;z-index:44;background:rgba(27,23,18,.45);animation:muncul .2s both}
 }
@@ -413,7 +413,8 @@ fieldset.kebiasaan.sorot{background:#FFF4CC}
 /* galeri daur ulang: 2 kolom ringkas di HP */
 @media (max-width:560px){
   #daftar-diy{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  #daftar-diy .kartu-isi{padding:18px 12px 12px;gap:8px}
+  #daftar-diy .kartu-isi{padding:14px 12px 12px;gap:8px}
+  #daftar-diy .selotip::before{display:none} /* tanpa selotip di HP supaya grid 2 kolom tidak terlalu ramai */
   #daftar-diy .kartu-isi svg.ilus{width:44px;height:44px}
   #daftar-diy .kartu-isi h3{font-size:19px}
   #daftar-diy .meta{gap:4px}
@@ -585,7 +586,15 @@ footer a:hover{text-decoration:underline}
 .tong-mini .singgah{position:absolute;left:50%;top:calc(var(--botol) * -0.7);transform:translateX(-50%)}
 .botol-jalan.masuk{opacity:0;transition:opacity .2s}
 .hasil-akhir{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,56px);align-items:center}
-@media (max-width:820px){.hasil-akhir{grid-template-columns:1fr}}
+@media (max-width:820px){
+  /* HP: tombol mulai pindah ke bawah contoh kartu, supaya pengunjung melihat hadiahnya dulu */
+  .hasil-akhir{display:flex;flex-direction:column;align-items:stretch;gap:18px}
+  .hasil-akhir > .kepala-bagian{display:contents}
+  .hasil-akhir > .kepala-bagian > *{align-self:flex-start}
+  .hasil-akhir .pengantar{order:1}
+  .hasil-akhir .contoh-kartu{order:2;align-self:stretch}
+  .hasil-akhir [data-lanjut]{order:3;margin-top:6px}
+}
 .contoh-kartu{position:relative;transform:rotate(2deg)}
 .contoh-kartu::after{content:"CONTOH";position:absolute;top:-14px;left:18px;font:700 11px/1 var(--f-mono);letter-spacing:.14em;background:var(--tinta);color:var(--kertas);padding:6px 9px;border-radius:4px}
 
@@ -900,9 +909,10 @@ footer a:hover{text-decoration:underline}
 @media (max-width:640px){
   .j-baris{flex-direction:column;align-items:stretch;gap:4px;padding:10px;border:2px dashed var(--garis);border-radius:14px}
   .j-node:first-child{min-width:0}
-  .j-panah{width:4px;height:22px;align-self:center;background:repeating-linear-gradient(180deg,var(--tinta) 0 6px,transparent 6px 10px)}
-  .j-panah::after{right:auto;left:-5px;top:auto;bottom:-7px;border:7px solid transparent;border-top-color:var(--tinta);border-bottom:0}
-  .j-panah i{top:0;left:-4px;animation-name:jalanTitikBawah}
+  /* penghubung rapi: garis tipis di tengah + ujung panah, tanpa titik berjalan */
+  .j-panah{width:2px;height:16px;margin:2px 0 8px;align-self:center;background:var(--tinta-2)}
+  .j-panah::after{right:auto;left:50%;top:auto;bottom:-8px;transform:translateX(-50%);border:6px solid transparent;border-top:7px solid var(--tinta-2);border-bottom:0}
+  .j-panah i{display:none}
 }
 @keyframes jalanTitikBawah{from{top:-4px}to{top:calc(100% - 8px)}}
 /* Kardi di HP: lebih kecil dan lebih ke pojok supaya tidak menutupi tombol atau teks */
