@@ -19,7 +19,7 @@
 <a class="lewati" href="#utama">Lewati ke isi</a>
 <header class="atas">
   <div class="isi">
-    <a class="logo" href="index.html">Jejak<b>Nol</b></a>
+    <a class="logo" href="index.html" aria-label="Jejak Nol, ke Beranda">Jejak<b>Nol</b></a>
     <button class="tombol-menu" id="tombol-menu" aria-expanded="false" aria-controls="menu">Menu</button>
     <nav class="menu" id="menu" aria-label="Menu utama">
       <a class="titik" style="--w:var(--anorganik)" href="pilah.html" aria-current="page">Pilah</a>
@@ -36,8 +36,9 @@
   <section class="halaman-kepala">
     <div class="isi">
       <div class="teks">
-        <span class="cap">Langkah 1 dari 4</span>
+        <nav class="remah" aria-label="Posisi halaman"><a href="index.html"><svg class="ikon-rumah" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.5 12 4.5l8.5 7M6.5 9.5V19.5h4v-5h3v5h4V9.5"/></svg><span>Beranda</span></a><span class="remah-sep" aria-hidden="true">›</span><span class="cap" aria-current="page">Langkah 1 dari 4</span></nav>
         <h1 class="judul-halaman"><mark class="stabilo">Pilah</mark> sebelum dibuang.</h1>
+        <p class="intinya"><span>Intinya</span><span>Pisahkan sampah ke empat tong: organik, anorganik, B3, dan residu. Yang anorganik dibilas dan dikeringkan dulu.</span></p>
         <p class="pengantar">Setelah membaca halaman ini, kamu bisa menentukan tong untuk barang sehari-hari di rumah atau kos dan menyiapkannya (bilas, keringkan) sebelum dibuang.</p>
         <nav class="langkah-nav" aria-label="Empat langkah">
           <a style="--w:var(--anorganik)" href="pilah.html" aria-current="page">Pilah</a><a style="--w:var(--stempel)" href="kurangi.html">Kurangi</a><a style="--w:var(--organik)" href="olah.html">Olah</a><a style="--w:var(--setor)" href="setor.html">Setor</a>
@@ -91,10 +92,10 @@
         <p class="pengantar">Di bawah banyak kemasan plastik ada angka 1 sampai 7 di dalam segitiga panah. Angka itu menunjukkan jenis plastiknya, bukan jaminan bahwa kemasan itu pasti didaur ulang.</p>
       </div>
       <div class="plastik" id="daftar-plastik"></div>
-      <p class="isi-sumber belum" style="margin-top:14px">Status penerimaan bisa berbeda di setiap bank sampah. Sumber: ISI sebelum submit.</p>
+      <p class="isi-sumber" style="margin-top:14px">Status penerimaan bisa berbeda di setiap bank sampah. Sumber: kode resin ASTM D7611; rantai daur ulang PET dan turunnya nilai PP, <a href="https://lestari.kompas.com/read/2025/02/27/165716186/fakta-daur-ulang-di-balik-plastik-pet-kemasan-besar-yang-jadi-primadona" target="_blank" rel="noopener">Kompas.com, 27 Februari 2025</a>; sachet multilayer, <a href="https://mongabay.co.id/2025/07/11/riset-sebut-sampah-saset-penuhi-sungai-di-indonesia/" target="_blank" rel="noopener">Mongabay Indonesia, 11 Juli 2025</a>.</p>
       <div class="lanjut">
         <div><span class="label">Langkah berikutnya</span><b>Kurangi: hitung sampah yang bisa kamu cegah</b></div>
-        <a class="btn" href="kurangi.html">Ke Kurangi →</a>
+        <div class="lanjut-aksi"><a class="btn" href="kurangi.html">Ke Kurangi →</a><a class="pulang" href="index.html"><svg class="ikon-rumah" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.5 12 4.5l8.5 7M6.5 9.5V19.5h4v-5h3v5h4V9.5"/></svg>Kembali ke Beranda</a></div>
       </div>
     </div>
   </section>
@@ -102,7 +103,7 @@
 
 <footer>
   <div class="isi">
-    <section><h2>Jejak Nol</h2><p>Media informasi zero-waste untuk kamu dan keluargamu: panduan memilah, menghitung, mengolah, dan menyetor sampah dari rumah sendiri.</p></section>
+    <section><h2>Jejak Nol</h2><p>Media informasi zero-waste untuk pelajar dan mahasiswa: panduan memilah, mengurangi, mengolah, dan menyetor sampah dari rumah maupun kos.</p></section>
     <section><h2>Jelajahi</h2><ul><li><a href="pilah.html">Pilah</a></li><li><a href="kurangi.html">Kurangi</a></li><li><a href="olah.html">Olah</a></li><li><a href="setor.html">Setor</a></li><li><a href="kartu.html">Kartu Jejak-ku</a></li><li><a href="tentang.html">Tentang</a></li><li><a href="kontak.html">Kontak</a></li></ul></section>
     <section><h2>Lomba</h2><p>Dibuat untuk Lomba Web Design Techno Versary Vol. II, HIMA-TI FKOM Universitas Kuningan.</p></section>
   </div>

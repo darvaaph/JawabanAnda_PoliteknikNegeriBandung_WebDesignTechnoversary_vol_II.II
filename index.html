@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Jejak Nol · Panduan zero-waste dari rumah</title>
   <meta name="description"
-    content="Jejak Nol membantu kamu dan keluargamu memilah, mengurangi, mengolah, dan menyetor sampah dari rumah sendiri dalam empat langkah.">
+    content="Jejak Nol membantu pelajar dan mahasiswa memilah, mengurangi, mengolah, dan menyetor sampah dari rumah maupun kos dalam empat langkah.">
   <meta name="theme-color" content="#1B1712">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +23,7 @@
   <a class="lewati" href="#utama">Lewati ke isi</a>
   <header class="atas">
     <div class="isi">
-      <a class="logo" href="index.html" aria-current="page">Jejak<b>Nol</b></a>
+      <a class="logo" href="index.html" aria-label="Jejak Nol, ke Beranda">Jejak<b>Nol</b></a>
       <button class="tombol-menu" id="tombol-menu" aria-expanded="false" aria-controls="menu">Menu</button>
       <nav class="menu" id="menu" aria-label="Menu utama">
         <a class="titik" style="--w:var(--anorganik)" href="pilah.html">Pilah</a>
@@ -43,7 +43,7 @@
     <section class="bagian hero">
       <div class="isi">
         <div class="hero-teks">
-          <span class="cap">Panduan zero-waste untuk kamu &amp; keluargamu</span>
+          <span class="cap">Panduan zero-waste untuk pelajar &amp; mahasiswa</span>
           <h1>Sampahmu dimulai dari <mark class="stabilo">rumahmu</mark> sendiri.</h1>
           <p class="pengantar">Setelah membaca halaman ini, kamu bisa paham masalah sampah dalam 10 detik, tahu 4
             langkahnya, dan dapat jawaban cepat untuk satu barang di rumah atau kos.</p>
@@ -79,12 +79,33 @@
         <div class="kepala-bagian">
           <span class="cap">Kenapa ini penting</span>
           <h2 class="judul-bagian">Masalahnya dimulai dari tempat sampah <mark class="stabilo">kita sendiri.</mark></h2>
-          <span class="singgah-baris"><span class="singgah" data-singgah aria-hidden="true"></span><span
-              class="coret">botol tadi salah satunya</span></span>
           <p class="pengantar">Banyak orang sebenarnya mau memilah, tapi bingung: barang ini masuk tong mana, apa
             penggantinya, dan sisanya disetor ke mana.</p>
         </div>
-        <div class="fakta" id="fakta" style="margin-bottom:0"></div>
+        <!-- Hook: 100 sampah di satu tong. Botol dari hero jatuh ke salah satu kotaknya, lalu ikut dipilah. -->
+        <div class="tong100" id="tong100">
+          <div class="t100-panel">
+            <span class="label" id="t100-tahap">Isi tong sampah Indonesia</span>
+            <p class="t100-soal">Kalau semua sampah di Indonesia dikumpulkan lalu diambil <b>100 buah</b>, isinya kira-kira
+              <mark class="stabilo">begini.</mark></p>
+            <div class="t100-pesan" id="t100-pesan" aria-live="polite"></div>
+            <button class="btn" id="t100-pilah" type="button">Pilah isinya!</button>
+            <span class="coret t100-coret">botol tadi ikut masuk ke tong ini</span>
+          </div>
+          <div class="t100-tong">
+            <div class="t100-grid" id="t100-grid" role="img" aria-label="100 sampah tercampur di dalam satu tong"></div>
+            <div class="t100-kelompok" id="t100-kelompok" hidden></div>
+          </div>
+        </div>
+        <p class="t100-sumber" id="t100-sumber"></p>
+        <div class="fakta-lokal" aria-label="Fakta sampah terbaru">
+          <div><strong>56,7%</strong><span>sampah nasional berasal dari rumah tangga, sumber terbesar (SIPSN 2025).</span>
+            <small><a href="https://goodstats.id/article/persentase-sumber-sampah-indonesia-2025-rumah-tangga-dominasi-timbulan-nasional-GR9A5" target="_blank" rel="noopener">GoodStats</a>, data SIPSN KLH 2025</small></div>
+          <div><strong>495 ton</strong><span>sampah per hari dihasilkan Kabupaten Kuningan; sekitar 260 ton masuk TPA Ciniru.</span>
+            <small>DLH Kuningan via <a href="https://www.metrotvnews.com/read/bVDCPjAP-dlh-kuningan-siapkan-tpst-pengganti-tpa-ciniru" target="_blank" rel="noopener">Metrotvnews, 12 Maret 2026</a></small></div>
+          <div><strong>12 Agt 2026</strong><span>TPA Ciniru terbakar; sekitar 5 hektare area timbunan sampah ikut terbakar.</span>
+            <small>BPBD Kuningan via <a href="https://www.antaranews.com/berita/5693389/bpbd-kuningan-200-personel-masih-tangani-kebakaran-tpsa-ciniru" target="_blank" rel="noopener">ANTARA, 13 Agustus 2026</a></small></div>
+        </div>
       </div>
     </section>
 
@@ -193,8 +214,8 @@
     <div class="isi">
       <section>
         <h2>Jejak Nol</h2>
-        <p>Media informasi zero-waste untuk kamu dan keluargamu: panduan memilah, menghitung, mengolah, dan menyetor
-          sampah dari rumah sendiri.</p>
+        <p>Media informasi zero-waste untuk pelajar dan mahasiswa: panduan memilah, mengurangi, mengolah, dan menyetor
+          sampah dari rumah maupun kos.</p>
       </section>
       <section>
         <h2>Jelajahi</h2>
