@@ -6,7 +6,10 @@ JN.mulai = () => {
   $('#jenis-tempat').innerHTML = Object.entries(JN.JENIS_TEMPAT).map(([k, t]) => `
     <article class="kartu-tong${k === 'bank-sampah' ? '' : ' putih-teks'}" style="--w:${WARNA[k]}">
       <div class="kepala-tong"><b>${t.nama}</b></div>
-      <div class="badan-tong" style="color:var(--tinta)"><p>${t.isi}</p></div>
+      <div class="badan-tong" style="color:var(--tinta)">
+        <p>${t.isi}</p>
+        ${t.keterangan ? `<p class="ket-awam">${t.keterangan}</p>` : ''}
+      </div>
     </article>`).join('');
 
   let jenis = 'semua';

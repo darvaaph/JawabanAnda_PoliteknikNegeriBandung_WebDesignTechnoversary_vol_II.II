@@ -34,22 +34,17 @@ JN.jejak = {
     return { nama: s.nama || '', pilah: { dilihat: [], cari: false, ...(s.pilah || {}) }, kurangi: { janji: false, ...(s.kurangi || {}) },
       olah: { simpan: [], ...(s.olah || {}) }, setor: { centang: [], ...(s.setor || {}) } };
   },
-  /* Jejak harus berurutan 1 → 2 → 3 → 4: sebuah langkah hanya dihitung kalau langkah sebelumnya sudah.
-     Isi halaman tetap bebas dibaca; yang dikunci hanya aksi yang meninggalkan jejak. */
+  /* Jejak bebas urutan: pengunjung boleh mulai dari Pilah, Kurangi, Olah, atau Setor mana saja. */
   status(d = this.data()) {
-    const mentah = { pilah: d.pilah.dilihat.length >= 3 || d.pilah.cari, kurangi: !!d.kurangi.janji, olah: d.olah.simpan.length > 0, setor: d.setor.centang.length >= 5 };
-    let lanjut = true; const st = {};
-    JN.LANGKAH.forEach(l => { st[l.id] = lanjut && mentah[l.id]; lanjut = st[l.id]; });
-    return st;
+    return {
+      pilah: d.pilah.dilihat.length >= 3 || d.pilah.cari,
+      kurangi: !!d.kurangi.janji,
+      olah: d.olah.simpan.length > 0,
+      setor: d.setor.centang.length >= 5
+    };
   },
-  terbuka(id, st = this.status()) {
-    const i = JN.LANGKAH.findIndex(l => l.id === id);
-    return JN.LANGKAH.slice(0, i).every(l => st[l.id]);
-  },
-  pesanKunci(id) {
-    const i = JN.LANGKAH.findIndex(l => l.id === id), sebelum = JN.LANGKAH.slice(0, i).map(l => l.nama);
-    return `Jejak langkah ${i + 1} terbuka setelah kamu menyelesaikan ${sebelum.length > 1 ? sebelum.slice(0, -1).join(', ') + ' dan ' + sebelum.slice(-1) : sebelum[0]}.`;
-  },
+  terbuka() { return true; },
+  pesanKunci() { return ''; },
   jumlah(st = this.status()) { return Object.values(st).filter(Boolean).length; },
   berikut(st = this.status()) { return JN.LANGKAH.find(l => !st[l.id]); },
   ubah(fn) {
@@ -212,25 +207,29 @@ JN.lompat = () => {
 JN.bilang = t => {
   const gel = $('.gelembung'); if (!gel) return;
   $('#gelembung').textContent = t; gel.hidden = false;
-  clearTimeout(jedaGel); jedaGel = setTimeout(() => { gel.hidden = true; }, 5000);
+  clearTimeout(jedaGel); jedaGel = setTimeout(() => { gel.hidden = true; }, 3500);
 };
 
-/* Kardi teman: muncul setelah kepala halaman terlewati, berkomentar sesuai bagian (atribut data-pesan / data-eks) */
+/* Kardi teman: muncul setelah kepala halaman terlewati, tidak menutupi footer atau menghalangi klik elemen */
 function pasangTeman() {
   document.body.insertAdjacentHTML('beforeend', `
   <div class="teman" id="teman" hidden>
-    <p class="gelembung"><span id="gelembung" aria-live="polite">Halo, aku Kardi!</span><button class="tutup-teman" id="tutup-teman" aria-label="Sembunyikan Kardi">×</button></p>
+    <p class="gelembung" hidden><span id="gelembung" aria-live="polite">Halo, aku Kardi!</span><button type="button" class="tutup-teman" id="tutup-balon" aria-label="Tutup pesan Kardi">×</button></p>
     <button type="button" class="teman-badan" aria-label="Minta tips dari Kardi">${JN.kardiSVG(false, '')}</button>
   </div>`);
-  const teman = $('#teman');
-  let ditutup = simpan.ambil('jejaknol:kardi-tutup') === true;
-  $('#tutup-teman').addEventListener('click', () => { ditutup = true; teman.hidden = true; simpan.taruh('jejaknol:kardi-tutup', true); });
+  const teman = $('#teman'), gel = $('.gelembung');
+  $('#tutup-balon').addEventListener('click', () => { gel.hidden = true; clearTimeout(jedaGel); });
   const TIPS = ['Bilas botol sebelum disetor, biar bank sampah mau terima.', 'Simpan satu tas kain di tas kuliahmu.', 'Baterai bekas jangan dicampur, ya!', 'Sisa sayur bisa jadi kompos.', 'Pisahkan tutup dari botolnya.'];
   let ke = 0;
   $('.teman-badan').addEventListener('click', () => { JN.lompat(); JN.eks('senang', 1200); JN.bilang(TIPS[ke++ % TIPS.length]); });
-  const kepala = $('.hero, .halaman-kepala');
-  if (kepala) new IntersectionObserver(([e]) => { if (!ditutup) teman.hidden = e.isIntersecting; }, { threshold: 0.15 }).observe(kepala);
-  else if (!ditutup) teman.hidden = false;
+
+  const kepala = $('.hero, .halaman-kepala'), kaki = $('footer');
+  let diKepala = !!kepala, diFooter = false;
+  const perbaruiTeman = () => { teman.hidden = diKepala || diFooter; };
+  if (kepala) new IntersectionObserver(([e]) => { diKepala = e.isIntersecting; perbaruiTeman(); }, { threshold: 0.15 }).observe(kepala);
+  if (kaki) new IntersectionObserver(([e]) => { diFooter = e.isIntersecting; perbaruiTeman(); }, { threshold: 0.05 }).observe(kaki);
+  if (!kepala) perbaruiTeman();
+
   const pengamat = new IntersectionObserver(ent => ent.forEach(e => {
     if (!e.isIntersecting) return;
     const x = e.target.dataset.eks || 'biasa';

@@ -179,9 +179,13 @@ JN.FAKTA = [
   { nama: 'Bank Sampah …', jenis: 'bank-sampah', alamat: 'Jl. …', kecamatan: '…', jam: 'Sabtu 08.00–11.00',
     menerima: ['anorganik'], kontak: '08…', maps: 'https://maps.app.goo.gl/…', dicek: '2026-11-20' } */
 JN.JENIS_TEMPAT = {
-  'bank-sampah':   { nama: 'Bank sampah',      isi: 'Menerima sampah anorganik bersih (plastik, kertas, kaleng), sering ditukar tabungan.' },
-  'tps3r':         { nama: 'TPS3R',            isi: 'Tempat pengolahan sampah tingkat desa atau kelurahan: memilah, mengompos, mendaur ulang.' },
-  'drop-point-b3': { nama: 'Drop point B3',    isi: 'Titik pengumpulan baterai, lampu, elektronik, dan obat bekas.' },
-  'toko-curah':    { nama: 'Toko curah/refill', isi: 'Tempat membeli sabun, sampo, atau bahan makanan dengan wadah sendiri.' }
+  'bank-sampah':   { nama: 'Bank sampah',      isi: 'Menerima sampah anorganik bersih (plastik, kertas, kaleng), sering ditukar tabungan.',
+    keterangan: 'Cocok untuk botol plastik, kardus, kaleng, dan kadang minyak jelantah — ditimbang lalu dicatat jadi saldo tabungan atau uang.' },
+  'tps3r':         { nama: 'TPS3R',            isi: 'Tempat pengolahan sampah tingkat desa atau kelurahan: memilah, mengompos, mendaur ulang.',
+    keterangan: 'Pos pengolahan warga satu desa atau kelurahan. Biasanya terhubung dengan petugas gerobak sampah, atau menerima setor sampah terpilah.' },
+  'drop-point-b3': { nama: 'Drop point B3',    isi: 'Titik pengumpulan baterai, lampu, elektronik, dan obat bekas.',
+    keterangan: 'Tempat khusus barang berbahaya dan elektronik rusak: baterai bekas, bohlam/neon, charger rusak, obat kedaluwarsa, dan kaleng semprot.' },
+  'toko-curah':    { nama: 'Toko curah/refill', isi: 'Tempat membeli sabun, sampo, atau bahan makanan dengan wadah sendiri.',
+    keterangan: 'Catatan: ini tempat belanja isi ulang dengan membawa wadah sendiri dari rumah, bukan tempat membuang sampah.' }
 };
 JN.DIREKTORI = [];
