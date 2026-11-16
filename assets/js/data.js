@@ -3,7 +3,7 @@
 
    PENTING sebelum submit:
    - Cocokkan pengelompokan tong (kat) dengan aturan bank sampah / TPS di Kuningan.
-   - Isi semua `sumber` yang masih "ISI" dan angka FAKTA dari SIPSN KLHK.
+   - Fakta dan sumber diperbarui 16 Nov 2026 (semua data maksimal 5 tahun terakhir). Cek ulang angka SIPSN sebelum submit.
    - DIREKTORI hanya diisi lokasi yang sudah dicek langsung oleh tim. */
 window.JN = window.JN || {};
 
@@ -139,20 +139,41 @@ JN.DIY = [
 ];
 JN.BAHAN_DIY = [['botol', 'Botol plastik'], ['sachet', 'Sachet & kemasan'], ['kardus', 'Kardus'], ['kaleng', 'Kaleng'], ['kain', 'Kaos bekas'], ['kaca', 'Toples kaca']];
 
-/* Mitos vs fakta. sumber: isi sebelum submit */
+/* Mitos vs fakta. Setiap kartu wajib punya sumber (maksimal 5 tahun terakhir). */
 JN.MITOS = [
-  { mitos: 'Semua plastik bisa didaur ulang.', fakta: 'Plastik berlapis seperti sachet sangat sulit dipisahkan bahannya, sehingga biasanya berakhir sebagai residu.', sumber: 'ISI' },
-  { mitos: 'Toh nanti dipilah lagi di TPA.', fakta: 'Sampah yang sudah tercampur dan kotor jauh lebih sulit diolah. Memilah paling mudah dilakukan di rumah.', sumber: 'ISI' },
-  { mitos: 'Baterai bekas boleh dibuang bersama sampah biasa.', fakta: 'Baterai termasuk limbah B3. Simpan terpisah dan serahkan ke drop point khusus.', sumber: 'ISI' },
-  { mitos: 'Botol harus dibuang bersama tutupnya supaya rapi.', fakta: 'Tutup dan botol sering terbuat dari plastik berbeda. Pisahkan supaya lebih mudah dipilah di bank sampah.', sumber: 'ISI' }
+  { mitos: 'Semua plastik bisa didaur ulang.',
+    fakta: 'Sachet adalah plastik berlapis (multilayer) yang lapisannya hampir mustahil dipisahkan, jadi tidak bisa masuk rantai daur ulang dan biasanya berakhir sebagai residu.',
+    sumber: 'Riset BRUIN 2022–2024 dan Ecoton, dimuat ' + '<a href="https://mongabay.co.id/2025/07/11/riset-sebut-sampah-saset-penuhi-sungai-di-indonesia/" target="_blank" rel="noopener">Mongabay Indonesia, 11 Juli 2025</a>' },
+  { mitos: 'Toh nanti dipilah lagi di TPA.',
+    fakta: 'Sampah tercampur di TPA umumnya hanya ditimbun. Pada 2025 masih ada sedikitnya 343 TPA yang memakai cara open dumping. Karena itu pemilahan diwajibkan sejak dari rumah.',
+    sumber: '<a href="https://kemenlh.go.id/news/detail/klhbplh-luncurkan-kebijakan-pemanfaatan-sampah-organik-untuk-pupuk-organik-dorong-swasembada-pangan-berkelanjutan" target="_blank" rel="noopener">KLH/BPLH, 9 September 2025</a>' + ' dan ' + '<a href="https://kemenlh.go.id/news/detail/menteri-lh-pilah-sampah-harus-100-tuntas-di-tingkat-kelurahan" target="_blank" rel="noopener">KLH/BPLH, 24 April 2026</a>' },
+  { mitos: 'Baterai bekas boleh dibuang bersama sampah biasa.',
+    fakta: 'Baterai bekas termasuk sampah yang mengandung B3. Aturannya: dipilah ke wadah terpisah (wadah merah), lalu diserahkan ke pengumpul atau drop point B3, bukan dicampur, dibakar, atau dibuang ke sungai.',
+    sumber: 'Permen LHK No. 9 Tahun 2024 tentang Pengelolaan Sampah yang Mengandung B3 dan Limbah B3 (' + '<a href="https://peraturan.bpk.go.id/Details/291985" target="_blank" rel="noopener">JDIH BPK</a>' + ')' },
+  { mitos: 'Sisa makanan kan membusuk sendiri, jadi aman dibuang ke TPA.',
+    fakta: 'Di TPA, sisa makanan tertimbun tanpa udara lalu menghasilkan gas metana dan air lindi yang mencemari tanah, air, dan udara. Sisa makanan juga jenis sampah terbanyak di Indonesia, jadi paling berdampak bila dikompos di rumah.',
+    sumber: '<a href="https://lestari.kompas.com/read/2026/04/11/130300186/klh-dorong-pemda-untuk-bereskan-setengah-sampah-dari-rumah" target="_blank" rel="noopener">Kompas.com, 11 April 2026 (KLH, data SIPSN 2024)</a>' }
 ];
 
-/* Fakta beranda. Isi angka dari SIPSN KLHK (https://sipsn.menlhk.go.id) */
-JN.FAKTA = [
-  { angka: '[angka]',  isi: 'Jumlah sampah Kabupaten Kuningan per tahun.',      sumber: 'SIPSN KLHK (tahun terbaru)' },
-  { angka: '[persen]', isi: 'Porsi sampah yang berasal dari rumah tangga.',     sumber: 'SIPSN KLHK (komposisi sumber sampah)' },
-  { angka: '[persen]', isi: 'Porsi sampah plastik dalam komposisi sampah.',     sumber: 'SIPSN KLHK (komposisi jenis sampah)' }
+/* Hook Beranda: "100 sampah di tong". Komposisi sampah nasional berdasarkan jenis, SIPSN 2025,
+   dibulatkan supaya totalnya 100: sisa makanan 40,77% · plastik 20,52% · kayu-ranting 13,13% · kertas-karton 11,4% ·
+   logam 3,11% + kaca 2,39% · kain 2,51% + karet-kulit & lainnya 6,17%. Kategori (kat) menentukan langkah tujuannya. */
+JN.KOMPOSISI_CONTOH = false;
+JN.KOMPOSISI_SUMBER = 'SIPSN Kementerian Lingkungan Hidup, komposisi sampah berdasarkan jenis, data 2025 (sampahnasional.kemenlh.go.id), dikutip GoodStats 21 Mei 2026';
+JN.KOMPOSISI = [
+  { id: 'makanan', nama: 'Sisa makanan',            jumlah: 41, kat: 'organik',   ikon: ['apel', 'pisang', 'telur'] },
+  { id: 'daun',    nama: 'Kayu & ranting',          jumlah: 13, kat: 'organik',   ikon: ['daun'] },
+  { id: 'plastik', nama: 'Plastik',                 jumlah: 21, kat: 'anorganik', ikon: ['botol', 'gelas', 'toples'] },
+  { id: 'kertas',  nama: 'Kertas & karton',         jumlah: 11, kat: 'anorganik', ikon: ['kardus', 'kertas'] },
+  { id: 'logam',   nama: 'Logam & kaca',            jumlah: 5,  kat: 'anorganik', ikon: ['kaleng'] },
+  { id: 'lainnya', nama: 'Kain, karet & lainnya',   jumlah: 9,  kat: 'residu',    ikon: ['popok', 'tisu', 'masker'] }
 ];
+/* Ke langkah mana setiap kelompok menuju setelah dipilah */
+JN.KOMPOSISI_ARAH = {
+  organik:   { judul: 'bisa diolah jadi kompos',          langkah: 'olah' },
+  anorganik: { judul: 'bisa disetor bila bersih & kering', langkah: 'setor' },
+  residu:    { judul: 'sulit diolah, jadi harus dikurangi', langkah: 'kurangi' }
+};
 
 /* Direktori Kuningan. Contoh isi:
   { nama: 'Bank Sampah …', jenis: 'bank-sampah', alamat: 'Jl. …', kecamatan: '…', jam: 'Sabtu 08.00–11.00',
@@ -164,3 +185,24 @@ JN.JENIS_TEMPAT = {
   'toko-curah':    { nama: 'Toko curah/refill', isi: 'Tempat membeli sabun, sampo, atau bahan makanan dengan wadah sendiri.' }
 };
 JN.DIREKTORI = [];
+
+/* Kamus istilah untuk orang awam. Kemunculan pertama di setiap bagian halaman diberi garis putus-putus;
+   diketuk → muncul penjelasan satu kalimat. `cocok` = pola teks (regex, tanpa beda huruf besar kecuali B3).
+   Urutkan yang lebih panjang lebih dulu (TPS3R sebelum TPS). */
+JN.ISTILAH = [
+  { id: 'tps3r',     nama: 'TPS3R',          cocok: 'TPS3R',                         arti: 'Tempat pengolahan sampah di tingkat desa atau kelurahan. 3R artinya reduce, reuse, recycle: mengurangi, memakai ulang, mendaur ulang.' },
+  { id: 'tps',       nama: 'TPS',            cocok: 'TPS',                           arti: 'Tempat Penampungan Sementara: tempat sampah dikumpulkan sebelum diangkut truk ke TPA.' },
+  { id: 'tpa',       nama: 'TPA',            cocok: 'TPA',                           arti: 'Tempat Pemrosesan Akhir: lokasi terakhir sampah ditimbun. Makin sedikit yang sampai ke sini, makin baik.' },
+  { id: 'b3',        nama: 'B3',             cocok: 'B3', huruf: true,               arti: 'Bahan Berbahaya dan Beracun, misalnya baterai, lampu, obat, dan kaleng semprot. Jangan dicampur sampah biasa.' },
+  { id: 'residu',    nama: 'Residu',         cocok: 'residu',                        arti: 'Sisa sampah yang sulit didaur ulang atau dikompos, misalnya sachet, styrofoam, dan popok. Akhirnya dibawa ke TPS.' },
+  { id: 'anorganik', nama: 'Anorganik',      cocok: 'anorganik',                     arti: 'Sampah yang tidak membusuk, seperti plastik, kertas, kaleng, dan kaca. Banyak yang masih bisa didaur ulang bila bersih.' },
+  { id: 'organik',   nama: 'Organik',        cocok: 'organik',                       arti: 'Sampah dari makhluk hidup yang bisa membusuk, seperti sisa makanan, kulit buah, dan daun.' },
+  { id: 'kompos',    nama: 'Kompos',         cocok: 'kompos',                        arti: 'Pupuk alami dari sampah organik yang dibiarkan terurai selama beberapa minggu.' },
+  { id: 'eco',       nama: 'Eco-enzyme',     cocok: 'eco-?enzyme',                   arti: 'Cairan hasil fermentasi kulit buah, gula, dan air selama sekitar 3 bulan. Bisa dipakai sebagai cairan pembersih.' },
+  { id: 'bank',      nama: 'Bank sampah',    cocok: 'bank sampah',                   arti: 'Tempat menabung sampah anorganik yang bersih. Sampahmu ditimbang, lalu nilainya dicatat seperti tabungan.' },
+  { id: 'drop',      nama: 'Drop point',     cocok: 'drop point',                    arti: 'Titik pengumpulan barang tertentu, misalnya kotak khusus untuk baterai atau elektronik bekas.' },
+  { id: 'ecobrick',  nama: 'Ecobrick',       cocok: 'ecobrick',                      arti: 'Botol plastik yang diisi padat dengan plastik bersih dan kering, lalu dipakai sebagai bata sederhana.' },
+  { id: 'jelantah',  nama: 'Minyak jelantah', cocok: 'minyak jelantah',              arti: 'Minyak goreng bekas pakai. Jangan dibuang ke saluran air; kumpulkan di botol lalu setor.' },
+  { id: 'daur',      nama: 'Daur ulang',     cocok: 'didaur ulang|daur ulang',       arti: 'Mengolah barang bekas menjadi bahan atau barang baru.' },
+  { id: 'zw',        nama: 'Zero-waste',     cocok: 'zero-waste',                    arti: 'Gaya hidup yang berusaha menghasilkan sampah sesedikit mungkin, bukan berarti tanpa sampah sama sekali.' }
+];

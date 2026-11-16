@@ -52,7 +52,7 @@ JN.jejak = {
   tampilkan() {
     const d = this.data(), st = this.status(d), n = this.jumlah(st), b = this.berikut(st);
     const kunci = a => (a.getAttribute('href') || '').replace(/[#?].*/, '').replace('.html', '');
-    $$('nav.menu a.titik, .langkah-nav a').forEach(a => {
+    $$('nav.menu a.titik, .langkah-nav a, .bar-bawah a').forEach(a => {
       const k = kunci(a); if (!(k in st)) return;
       a.classList.toggle('jejak', st[k]);
       a.title = st[k] ? 'Jejak sudah tercatat' : 'Belum ada jejak';
@@ -442,6 +442,74 @@ function pasangSobek() {
       `<svg class="sobek bawah" viewBox="0 0 1200 22" preserveAspectRatio="none" aria-hidden="true"><path d="${tepi()}"/></svg>`);
   });
 }
+/* Istilah: kemunculan pertama setiap istilah di tiap bagian <main> jadi tombol bergaris putus-putus.
+   Diketuk → kotak penjelasan satu kalimat. Ikut menandai isi yang dibuat JS (hasil cari, detail barang)
+   lewat MutationObserver; berhenti sendiri karena istilah yang sudah ditandai tidak ditandai lagi. */
+function pasangIstilah() {
+  const main = $('main');
+  if (!main || !JN.ISTILAH) return;
+  const daftar = JN.ISTILAH.map(t => ({ t, re: new RegExp(`(?<![\\p{L}\\p{N}-])(?:${t.cocok})(?![\\p{L}\\p{N}])`, t.huruf ? 'u' : 'iu') }));
+  const LEWATI = 'a,button,input,textarea,select,option,label,summary,legend,output,h1,h2,h3,b,strong,mark,svg,nav,.cap,.label,.saran,.istilah,.tong-kecil,.tong-mini,#daftar-mitos p.m,[role=button],[data-tanpa-istilah]';
+  function tandai() {
+    $$('section', main).forEach(sec => {
+      const ada = new Set($$('.istilah', sec).filter(el => el.closest('section') === sec).map(el => el.dataset.istilah));
+      const jalan = document.createTreeWalker(sec, NodeFilter.SHOW_TEXT, {
+        acceptNode: n => n.nodeValue.trim() && n.parentElement.closest('section') === sec && !n.parentElement.closest(LEWATI) ? 1 : 3 });
+      const teks = []; while (jalan.nextNode()) teks.push(jalan.currentNode);
+      for (const node of teks) {
+        for (const { t, re } of daftar) {
+          if (ada.has(t.id)) continue;
+          const m = re.exec(node.nodeValue); if (!m) continue;
+          const kata = node.splitText(m.index); kata.splitText(m[0].length);
+          const b = document.createElement('button');
+          Object.assign(b, { type: 'button', className: 'istilah', textContent: kata.nodeValue });
+          b.dataset.istilah = t.id; b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', 'istilah-kotak');
+          kata.replaceWith(b); ada.add(t.id);
+          break; // sisa teks di node ini ditangani putaran berikutnya
+        }
+      }
+    });
+  }
+  let antre = false;
+  const jadwal = () => { if (!antre) { antre = true; requestAnimationFrame(() => { antre = false; tandai(); }); } };
+  new MutationObserver(jadwal).observe(main, { childList: true, subtree: true });
+  tandai();
+
+  const kotak = document.createElement('div');
+  Object.assign(kotak, { id: 'istilah-kotak', className: 'istilah-kotak', hidden: true });
+  kotak.setAttribute('role', 'region'); kotak.setAttribute('aria-label', 'Arti istilah'); kotak.setAttribute('aria-live', 'polite');
+  document.body.append(kotak);
+  let aktif = null;
+  const tutup = (balikFokus) => {
+    if (!aktif) return;
+    aktif.setAttribute('aria-expanded', 'false'); kotak.hidden = true;
+    if (balikFokus) aktif.focus();
+    aktif = null;
+  };
+  document.addEventListener('click', e => {
+    const b = e.target.closest('.istilah');
+    if (!b) { if (!e.target.closest('#istilah-kotak')) tutup(); return; }
+    if (aktif === b) return tutup();
+    tutup();
+    const t = JN.ISTILAH.find(x => x.id === b.dataset.istilah);
+    kotak.innerHTML = `<b>${JN.esc(t.nama)}</b>${JN.esc(t.arti)}`;
+    kotak.hidden = false;
+    const r = b.getBoundingClientRect(), w = kotak.offsetWidth;
+    kotak.style.left = `${Math.max(8, Math.min(r.left, innerWidth - w - 8)) + scrollX}px`;
+    kotak.style.top = `${r.bottom + scrollY + 8}px`;
+    b.setAttribute('aria-expanded', 'true'); aktif = b;
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') tutup(true); });
+  addEventListener('resize', () => tutup());
+}
+/* Bar bawah (hanya tampil di HP lewat CSS): Beranda + empat langkah, titiknya terisi bila jejak tercatat */
+function pasangBarBawah() {
+  const kini = (location.pathname.split('/').pop() || 'index.html').replace(/[#?].*/, '');
+  const rumah = '<svg class="ikon-rumah" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.5 12 4.5l8.5 7M6.5 9.5V19.5h4v-5h3v5h4V9.5"/></svg>';
+  const tautan = [{ url: 'index.html', nama: 'Beranda', ikon: rumah }, ...JN.LANGKAH.map(l => ({ url: l.url, nama: l.nama, ikon: `<span class="titik-bar" style="--w:${l.warna}"></span>` }))];
+  document.body.insertAdjacentHTML('beforeend', `<nav class="bar-bawah" aria-label="Navigasi cepat">${tautan.map(t =>
+    `<a href="${t.url}"${t.url === kini ? ' aria-current="page"' : ''}>${t.ikon}<span>${t.nama}</span></a>`).join('')}</nav>`);
+}
 function pasangPita() {
   const pita = $$('[data-pita]');
   pita.forEach(p => { p.textContent = p.textContent.repeat(3); });
@@ -463,12 +531,13 @@ document.addEventListener('DOMContentLoaded', () => {
     el.innerHTML = JN.kardiSVG(el.dataset.kardi === 'lambai');
     if (['senang', 'bingung', 'kaget'].includes(el.dataset.kardi)) el.firstElementChild.dataset.eks = el.dataset.kardi;
   });
-  pasangSobek(); pasangPita(); pasangTeman();
+  pasangBarBawah(); pasangSobek(); pasangPita(); pasangTeman();
   $$('form.cari').forEach(JN.pasangCari);
   const diam = new IntersectionObserver(ent => ent.forEach(e => e.target.classList.toggle('diam', !e.isIntersecting)), { rootMargin: '120px 0px' });
   $$('.bagian').forEach(b => diam.observe(b));
   if (JN.mulai) JN.mulai();
   JN.jejak.tampilkan();
+  pasangIstilah();
 
   /* Pulihkan posisi scroll saat pengunjung kembali ke halaman sebelumnya (Back/Forward) */
   const kunciScroll = 'jejaknol:scroll:' + location.pathname + location.search;
