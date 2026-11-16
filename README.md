@@ -9,11 +9,11 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 
 | Halaman | Isi |
 |---|---|
-| **Beranda** (`index.html`) | Cerita singkat: pencarian cepat “Ini dibuang ke mana?”, interaksi **“100 sampah di tong”** (tong berisi 100 sampah rata-rata Indonesia terisi saat digulir, botol dari awal halaman jatuh ke salah satu kotaknya, lalu tombol *Pilah isinya!* mengelompokkan isinya menjadi tiga kelompok yang masing-masing menuju satu langkah), jalan empat langkah yang dilalui satu botol sampai masuk tong, dan contoh Kartu Jejak-ku |
-| **Pilah** (`pilah.html`) | Pencarian barang, jelajah ruangan (dapur, kamar mandi, belajar/kerja & kos, belanja), isi empat tong, arti kode plastik 1–7 |
+| **Beranda** (`index.html`) | Cerita singkat: pencarian cepat “Ini dibuang ke mana?”, cerita gulir (*scrollytelling*) **“tong sampah Indonesia”**: tong 100 kotak (1 kotak = 1% berat sampah, SIPSN 2025) menempel di samping teks dan berubah di setiap tahap bacaan (isi tong, sisa makanan, plastik, sisanya, lalu dipilah menjadi tiga kelompok yang masing-masing menuju satu langkah), dengan botol dari awal halaman ikut jatuh ke dalamnya, jalan empat langkah yang dilalui satu botol sampai masuk tong, dan contoh Kartu Jejak-ku |
+| **Pilah** (`pilah.html`) | Pencarian barang, jelajah ruangan (dapur, kamar mandi, belajar/kerja & kos, belanja), isi empat tong, mini-game **Pilah Cepat** (8 barang acak, ketuk tong atau tekan 1–4, barang terlempar ke tong, umpan balik langsung, skor masuk Kartu Jejak-ku), arti kode plastik 1–7 |
 | **Kurangi** (`kurangi.html`) | Kalkulator barang sekali pakai yang bisa dicegah per tahun, perbandingan tumpukan sebelum dan sesudah, cara menghitung, daftar pengganti |
-| **Olah** (`olah.html`) | Panduan kompos ember dan eco-enzyme, galeri daur ulang dengan filter “saya punya…”, tombol simpan ide, Mitos vs Fakta |
-| **Setor** (`setor.html`) | Checklist persiapan sebelum menyetor, jenis tempat setor, direktori lokasi di Kuningan |
+| **Olah** (`olah.html`) | Panduan kompos ember dan eco-enzyme dengan **slider waktu “Lihat prosesnya”** (geser atau putar: ember kompos berubah dari sisa sayur jadi kompos bertunas, cairan eco-enzyme berubah warna, bergelembung, lalu siap disaring), galeri daur ulang dengan filter “saya punya…”, tombol simpan ide, Mitos vs Fakta |
+| **Setor** (`setor.html`) | Checklist persiapan dengan **tumpukan sampah yang berubah per centang** (pisang ke kompos, baterai ke B3, noda dan lalat hilang, kardus kering, masuk karung per jenis, jadwal dicek, lalu stempel “Siap disetor”), perbandingan **dua jalur sampah** (dibuang campur: 100 dari 100 bagian ke TPA; dipilah: hanya bagian residu), jenis tempat setor, direktori lokasi di Kuningan |
 | **Kartu Jejak-ku** (`kartu.html`) | Akhir perjalanan: rangkuman keempat langkah yang bisa **diunduh sebagai gambar 1080×1920** (pas untuk Instagram Story) atau dibagikan langsung dari HP |
 
 ### Alur pengunjung

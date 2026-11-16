@@ -115,11 +115,26 @@ JN.PANDUAN = [
   { id: 'kompos', ikon: 'ember', judul: 'Kompos ember', tingkat: 'Sedang', waktu: 'Beberapa minggu',
     bahan: ['Ember atau pot bekas berlubang', 'Sisa sayur dan buah', 'Daun kering atau kardus sobek', 'Sedikit tanah'],
     langkah: ['Lubangi dasar dan sisi ember supaya ada udara.', 'Isi lapisan bawah dengan tanah atau daun kering.', 'Masukkan sisa sayur dan buah yang sudah dipotong kecil.', 'Tutup dengan lapisan daun kering atau kardus sobek setiap kali menambah sisa dapur.', 'Aduk seminggu sekali. Kompos siap saat berwarna gelap dan berbau seperti tanah.'],
-    hindari: 'Jangan masukkan daging, tulang, susu, dan minyak: menimbulkan bau dan mengundang lalat.' },
+    hindari: 'Jangan masukkan daging, tulang, susu, dan minyak: menimbulkan bau dan mengundang lalat.',
+    /* slider "Lihat prosesnya": perkiraan waktu, bisa lebih cepat atau lambat tergantung cuaca dan bahan */
+    proses: 'kompos', satuan: 'Perkiraan waktu',
+    tahap: [
+      { kapan: 'Minggu 0', judul: 'Ember baru diisi', isi: 'Lapisan tanah atau daun kering di bawah, sisa sayur dan buah di tengah, lalu ditutup daun kering lagi.' },
+      { kapan: 'Minggu 1–2', judul: 'Mulai terurai', isi: 'Mikroba bekerja, isi ember terasa hangat. Aduk seminggu sekali supaya ada udara. Kalau terlalu basah, tambah daun kering.' },
+      { kapan: 'Minggu 3–5', judul: 'Makin gelap', isi: 'Potongan sisa dapur makin kecil dan menghitam. Volumenya menyusut, jadi kamu bisa terus menambah sisa dapur.' },
+      { kapan: 'Minggu 6–8', judul: 'Kompos matang', isi: 'Warnanya gelap, teksturnya remah, dan baunya seperti tanah. Siap dicampur ke media tanam.' }
+    ] },
   { id: 'eco-enzyme', ikon: 'toples', judul: 'Eco-enzyme', tingkat: 'Sedang', waktu: 'Fermentasi ±3 bulan',
     bahan: ['Wadah plastik bertutup', 'Gula merah atau molase', 'Kulit buah dan sayur segar', 'Air bersih'],
     langkah: ['Pakai perbandingan yang umum dipakai: 1 bagian gula, 3 bagian kulit buah, 10 bagian air.', 'Larutkan gula dalam air, lalu masukkan potongan kulit buah.', 'Sisakan ruang kosong di atas, lalu tutup rapat.', 'Buka tutupnya sebentar setiap hari di minggu pertama untuk membuang gas.', 'Simpan di tempat teduh sekitar 3 bulan, lalu saring.'],
-    hindari: 'Jangan pakai wadah kaca atau logam yang ditutup rapat: gas fermentasi bisa membuatnya pecah.' }
+    hindari: 'Jangan pakai wadah kaca atau logam yang ditutup rapat: gas fermentasi bisa membuatnya pecah.',
+    proses: 'eco', satuan: 'Lama fermentasi',
+    tahap: [
+      { kapan: 'Hari 0', judul: 'Baru dicampur', isi: '1 bagian gula, 3 bagian kulit buah, 10 bagian air. Cairannya masih bening kecokelatan dan kulit buah mengapung.' },
+      { kapan: 'Minggu 1', judul: 'Fermentasi aktif', isi: 'Muncul gelembung gas. Buka tutupnya sebentar setiap hari supaya gasnya keluar, lalu tutup lagi.' },
+      { kapan: 'Bulan 1–2', judul: 'Makin cokelat', isi: 'Gelembung berkurang, cairan makin cokelat dan keruh. Biarkan tertutup di tempat teduh.' },
+      { kapan: 'Bulan 3', judul: 'Siap disaring', isi: 'Cairan cokelat berbau asam segar. Saring, simpan cairannya untuk pembersih atau pupuk cair yang diencerkan.' }
+    ] }
 ];
 
 /* Galeri DIY. bahan dipakai untuk filter "saya punya…" */
