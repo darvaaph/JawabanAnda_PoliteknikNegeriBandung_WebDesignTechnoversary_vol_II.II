@@ -112,7 +112,7 @@ JN.STATUS_PLASTIK = { umum: 'Umum diterima bank sampah', terbatas: 'Diterima seb
 
 /* Langkah Olah */
 JN.PANDUAN = [
-  { id: 'kompos', ikon: 'ember', judul: 'Kompos ember', tingkat: 'Sedang', waktu: 'Beberapa minggu',
+  { id: 'kompos', ikon: 'ember', judul: 'Kompos ember', tingkat: 'Sedang', waktu: '6–8 minggu',
     bahan: ['Ember atau pot bekas berlubang', 'Sisa sayur dan buah', 'Daun kering atau kardus sobek', 'Sedikit tanah'],
     langkah: ['Lubangi dasar dan sisi ember supaya ada udara.', 'Isi lapisan bawah dengan tanah atau daun kering.', 'Masukkan sisa sayur dan buah yang sudah dipotong kecil.', 'Tutup dengan lapisan daun kering atau kardus sobek setiap kali menambah sisa dapur.', 'Aduk seminggu sekali. Kompos siap saat berwarna gelap dan berbau seperti tanah.'],
     hindari: 'Jangan masukkan daging, tulang, susu, dan minyak: menimbulkan bau dan mengundang lalat.',
@@ -124,7 +124,7 @@ JN.PANDUAN = [
       { kapan: 'Minggu 3–5', judul: 'Makin gelap', isi: 'Potongan sisa dapur makin kecil dan menghitam. Volumenya menyusut, jadi kamu bisa terus menambah sisa dapur.' },
       { kapan: 'Minggu 6–8', judul: 'Kompos matang', isi: 'Warnanya gelap, teksturnya remah, dan baunya seperti tanah. Siap dicampur ke media tanam.' }
     ] },
-  { id: 'eco-enzyme', ikon: 'toples', judul: 'Eco-enzyme', tingkat: 'Sedang', waktu: 'Fermentasi ±3 bulan',
+  { id: 'eco-enzyme', ikon: 'toples', judul: 'Eco-enzyme', tingkat: 'Sedang', waktu: '±3 bulan',
     bahan: ['Wadah plastik bertutup', 'Gula merah atau molase', 'Kulit buah dan sayur segar', 'Air bersih'],
     langkah: ['Pakai perbandingan yang umum dipakai: 1 bagian gula, 3 bagian kulit buah, 10 bagian air.', 'Larutkan gula dalam air, lalu masukkan potongan kulit buah.', 'Sisakan ruang kosong di atas, lalu tutup rapat.', 'Buka tutupnya sebentar setiap hari di minggu pertama untuk membuang gas.', 'Simpan di tempat teduh sekitar 3 bulan, lalu saring.'],
     hindari: 'Jangan pakai wadah kaca atau logam yang ditutup rapat: gas fermentasi bisa membuatnya pecah.',

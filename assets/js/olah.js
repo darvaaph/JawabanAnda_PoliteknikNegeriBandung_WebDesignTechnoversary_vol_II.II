@@ -7,14 +7,14 @@ JN.mulai = () => {
       ${svg(p.ikon, '', 'ilus')}
       <div>
         <h3>${p.judul}</h3>
-        <div class="meta" style="margin-top:8px"><span>${p.tingkat}</span><span>${p.waktu}</span></div>
+        <div class="meta" style="margin-top:8px"><span>Kesulitan: ${p.tingkat}</span><span>Waktu: ${p.waktu}</span></div>
         <div class="kolom">
           <div><h4>Bahan</h4><ul>${p.bahan.map(b => `<li>${b}</li>`).join('')}</ul></div>
           <div><h4>Langkah</h4><ol>${p.langkah.map(l => `<li>${l}</li>`).join('')}</ol></div>
         </div>
         ${p.tahap ? prosesHTML(p) : ''}
         <p class="hindari"><strong>Hindari:</strong> ${p.hindari}</p>
-        <p style="margin-top:14px"><button type="button" class="simpan-ide" data-simpan="${p.id}" aria-pressed="false">Simpan ide ini</button></p>
+        <p style="margin-top:14px"><button type="button" class="simpan-ide" data-simpan="${p.id}" aria-pressed="false">＋ Aku mau coba</button></p>
       </div>
     </article>`).join('');
 
@@ -30,20 +30,20 @@ JN.mulai = () => {
     $('#daftar-diy').innerHTML = hasil.map(d => `
       <article class="kartu-isi kertas selotip" id="${d.id}">${svg(d.ikon, '', 'ilus')}
         <h3>${d.judul}</h3>
-        <div class="meta"><span>${d.tingkat}</span><span>${d.waktu}</span></div>
+        <div class="meta"><span>Kesulitan: ${d.tingkat}</span><span>Waktu: ${d.waktu}</span></div>
         <details><summary>Lihat ${d.langkah.length} langkah</summary><ol>${d.langkah.map(l => `<li>${l}</li>`).join('')}</ol></details>
-        <button type="button" class="simpan-ide" data-simpan="${d.id}" aria-pressed="false">Simpan ide ini</button>
+        <button type="button" class="simpan-ide" data-simpan="${d.id}" aria-pressed="false">＋ Aku mau coba</button>
       </article>`).join('');
     sinkronSimpan();
   }
-  // "Simpan ide ini" = aksi jejak langkah Olah; ide yang disimpan masuk ke Kartu Jejak-ku
+  // "Aku mau coba" = aksi jejak langkah Olah: ide yang dipilih masuk ke Kartu Jejak-ku sebagai rencana
   function sinkronSimpan() {
     const tersimpan = JN.jejak.data().olah.simpan;
     $$('[data-simpan]').forEach(b => {
       const on = tersimpan.includes(b.dataset.simpan);
       b.setAttribute('aria-pressed', on);
       b.disabled = false;
-      b.textContent = on ? '✓ Tersimpan' : 'Simpan ide ini';
+      b.textContent = on ? '✓ Masuk rencanaku' : '＋ Aku mau coba';
     });
   }
   document.addEventListener('jejakberubah', sinkronSimpan);

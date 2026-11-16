@@ -22,7 +22,7 @@ const simpan = {
 JN.LANGKAH = [
   { id: 'pilah',   nama: 'Pilah',   warna: 'var(--anorganik)', url: 'pilah.html',   tugas: 'Selesaikan Pilah Cepat, buka 3 barang di Jelajah ruangan, atau cari 1 barang.' },
   { id: 'kurangi', nama: 'Kurangi', warna: 'var(--stempel)',   url: 'kurangi.html', tugas: 'Pilih minimal 1 barang yang sanggup kamu ganti.' },
-  { id: 'olah',    nama: 'Olah',    warna: 'var(--organik)',   url: 'olah.html',    tugas: 'Simpan 1 panduan atau ide yang ingin kamu coba.' },
+  { id: 'olah',    nama: 'Olah',    warna: 'var(--organik)',   url: 'olah.html',    tugas: 'Tekan “Aku mau coba” pada 1 ide yang ingin kamu lakukan.' },
   { id: 'setor',   nama: 'Setor',   warna: 'var(--setor)',     url: 'setor.html',   tugas: 'Centang kelima persiapan sebelum menyetor.' }
 ];
 const KUNCI_JEJAK = 'jejaknol:jejak', KUNCI_BARIS = 'jejaknol:baris';
@@ -186,8 +186,11 @@ JN.lompat = () => {
   if (JN.kurangGerak) return;
   $$('.kardi .loncat').forEach(g => { g.classList.remove('lompat'); g.getBoundingClientRect(); g.classList.add('lompat'); });
 };
-JN.bilang = t => {
+/* Di HP gelembung otomatis sering menutupi tombol, jadi Kardi hanya bicara bila diketuk (diketuk = true). */
+const layarKecil = matchMedia('(max-width:860px)');
+JN.bilang = (t, diketuk) => {
   const gel = $('.gelembung'); if (!gel) return;
+  if (layarKecil.matches && !diketuk) return;
   $('#gelembung').textContent = t; gel.hidden = false;
   clearTimeout(jedaGel); jedaGel = setTimeout(() => { gel.hidden = true; }, 5000);
 };
@@ -200,11 +203,12 @@ function pasangTeman() {
     <button type="button" class="teman-badan" aria-label="Minta tips dari Kardi">${JN.kardiSVG(false, '')}</button>
   </div>`);
   const teman = $('#teman');
+  if (layarKecil.matches) $('.gelembung', teman).hidden = true;
   let ditutup = simpan.ambil('jejaknol:kardi-tutup') === true;
   $('#tutup-teman').addEventListener('click', () => { ditutup = true; teman.hidden = true; simpan.taruh('jejaknol:kardi-tutup', true); });
   const TIPS = ['Bilas botol sebelum disetor, biar bank sampah mau terima.', 'Simpan satu tas kain di tasmu atau bagasi motor.', 'Baterai bekas jangan dicampur, ya!', 'Sisa sayur bisa jadi kompos.', 'Pisahkan tutup dari botolnya.'];
   let ke = 0;
-  $('.teman-badan').addEventListener('click', () => { JN.lompat(); JN.eks('senang', 1200); JN.bilang(TIPS[ke++ % TIPS.length]); });
+  $('.teman-badan').addEventListener('click', () => { JN.lompat(); JN.eks('senang', 1200); JN.bilang(TIPS[ke++ % TIPS.length], true); });
   const kepala = $('.hero, .halaman-kepala');
   if (kepala) new IntersectionObserver(([e]) => { if (!ditutup) teman.hidden = e.isIntersecting; }, { threshold: 0.15 }).observe(kepala);
   else if (!ditutup) teman.hidden = false;
@@ -449,7 +453,7 @@ function pasangIstilah() {
   const main = $('main');
   if (!main || !JN.ISTILAH) return;
   const daftar = JN.ISTILAH.map(t => ({ t, re: new RegExp(`(?<![\\p{L}\\p{N}-])(?:${t.cocok})(?![\\p{L}\\p{N}])`, t.huruf ? 'u' : 'iu') }));
-  const LEWATI = 'a,button,input,textarea,select,option,label,summary,legend,output,h1,h2,h3,b,strong,mark,svg,nav,.cap,.label,.saran,.istilah,.tong-kecil,.tong-mini,#daftar-mitos p.m,[role=button],[data-tanpa-istilah]';
+  const LEWATI = 'a,button,input,textarea,select,option,label,summary,legend,output,h1,h2,h3,b,strong,mark,svg,nav,.cap,.label,.saran,.istilah,.tong-kecil,.tong-mini,.kepala-tong,#daftar-mitos p.m,[role=button],[data-tanpa-istilah]';
   function tandai() {
     $$('section', main).forEach(sec => {
       const ada = new Set($$('.istilah', sec).filter(el => el.closest('section') === sec).map(el => el.dataset.istilah));
@@ -530,6 +534,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (JN.mulai) JN.mulai();
   JN.jejak.tampilkan();
   pasangIstilah();
+
+  /* Tautan ke lipatan (mis. kurangi.html#cara) langsung membuka isinya */
+  const bukaLipatan = () => {
+    const t = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (t && t.tagName === 'DETAILS') t.open = true;
+  };
+  bukaLipatan(); addEventListener('hashchange', bukaLipatan);
 
   /* Pulihkan posisi scroll saat pengunjung kembali ke halaman sebelumnya (Back/Forward) */
   const kunciScroll = 'jejaknol:scroll:' + location.pathname + location.search;

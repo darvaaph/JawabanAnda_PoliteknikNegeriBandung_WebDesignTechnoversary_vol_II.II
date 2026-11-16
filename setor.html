@@ -39,10 +39,6 @@
         <nav class="remah" aria-label="Posisi halaman"><a href="index.html"><svg class="ikon-rumah" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.5 12 4.5l8.5 7M6.5 9.5V19.5h4v-5h3v5h4V9.5"/></svg><span>Beranda</span></a><span class="remah-sep" aria-hidden="true">›</span><span class="cap" aria-current="page">Langkah 4 dari 4</span></nav>
         <h1 class="judul-halaman"><mark class="stabilo">Setor</mark> ke tempat yang benar.</h1>
         <p class="intinya"><span>Intinya</span><span>Anorganik yang bersih ke bank sampah, B3 ke drop point khusus, dan residu ke TPS.</span></p>
-        <p class="pengantar">Setelah membaca halaman ini, kamu bisa tahu 5 persiapan sebelum menyetor dan mencari satu tempat setor terdekat.</p>
-        <nav class="langkah-nav" aria-label="Empat langkah">
-          <a style="--w:var(--anorganik)" href="pilah.html">Pilah</a><a style="--w:var(--stempel)" href="kurangi.html">Kurangi</a><a style="--w:var(--organik)" href="olah.html">Olah</a><a style="--w:var(--setor)" href="setor.html" aria-current="page">Setor</a>
-        </nav>
         <div class="tugas" data-tugas="setor" aria-live="polite"></div>
         <p class="sdg-baris">Mendukung <a href="tentang.html#sdgs">SDG 11.6 dan 12.5</a></p>
       </div>
@@ -55,14 +51,18 @@
       <div class="kepala-bagian">
         <span class="cap">Sebelum setor</span>
         <h2 class="judul-bagian">Lima hal yang perlu <mark class="stabilo">disiapkan.</mark></h2>
-        <p class="pengantar">Bank sampah biasanya hanya menerima sampah anorganik yang bersih, kering, dan sudah dikelompokkan. Centang yang sudah kamu pahami, lalu lihat tumpukan sampahnya berubah.</p>
+        <p class="pengantar">Bank sampah biasanya hanya menerima sampah anorganik yang bersih, kering, dan sudah dikelompokkan. Centang yang sudah kamu pahami, lalu lihat gambar di sampingnya berubah dari “sebelum” ke “sesudah”.</p>
       </div>
-      <div class="setor-siap">
-      <figure class="setor-panggung" id="setor-panggung" aria-labelledby="setor-status">
-        <div id="setor-gambar"></div>
-        <div class="setor-progres" aria-hidden="true"><i></i></div>
-        <figcaption id="setor-status" aria-live="polite"></figcaption>
-      </figure>
+      <!-- Sebelum → Sesudah: tiap baris punya ilustrasi kecil yang berubah saat dicentang -->
+      <div class="setor-siap" id="setor-siap">
+      <div class="siap-atas">
+        <span class="siap-karung" aria-hidden="true"></span>
+        <div class="siap-info">
+          <p id="setor-status" aria-live="polite"></p>
+          <div class="setor-progres" aria-hidden="true"><i></i></div>
+        </div>
+        <span class="siap-stempel" aria-hidden="true">Siap disetor ✓</span>
+      </div>
       <ul class="checklist" id="checklist">
         <li><label><input type="checkbox" value="0"><span><b>Pilah sesuai tong</b>Pisahkan organik, anorganik, B3, dan residu sejak di rumah.</span></label></li>
         <li><label><input type="checkbox" value="1"><span><b>Bilas</b>Botol, gelas, dan kaleng dibilas dari sisa minuman atau makanan.</span></label></li>
@@ -86,16 +86,6 @@
         <button type="button" data-mode="pilah" aria-pressed="false">Dipilah dulu</button>
       </div>
       <div class="jalur-sampah kertas" id="jalur-sampah" data-mode="campur"></div>
-    </div>
-  </section>
-
-  <section class="bagian gelap" id="tempat" data-sobek data-pesan="Baterai dan lampu jangan ke bank sampah biasa, ya." data-eks="kaget">
-    <div class="isi">
-      <div class="kepala-bagian">
-        <span class="cap">Jenis tempat</span>
-        <h2 class="judul-bagian">Tiap sampah punya <mark class="stabilo">tujuannya.</mark></h2>
-      </div>
-      <div class="grid-4" id="jenis-tempat"></div>
     </div>
   </section>
 
