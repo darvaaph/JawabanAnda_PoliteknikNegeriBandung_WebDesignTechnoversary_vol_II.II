@@ -55,8 +55,13 @@
       <div class="kepala-bagian">
         <span class="cap">Sebelum setor</span>
         <h2 class="judul-bagian">Lima hal yang perlu <mark class="stabilo">disiapkan.</mark></h2>
-        <p class="pengantar">Bank sampah biasanya hanya menerima sampah anorganik yang bersih, kering, dan sudah dikelompokkan. Centang yang sudah kamu pahami.</p>
+        <p class="pengantar">Bank sampah biasanya hanya menerima sampah anorganik yang bersih, kering, dan sudah dikelompokkan. Centang yang sudah kamu pahami, lalu lihat tumpukan sampahnya berubah.</p>
       </div>
+      <div class="setor-siap">
+      <figure class="setor-panggung kertas" id="setor-panggung" aria-labelledby="setor-status">
+        <div id="setor-gambar"></div>
+        <figcaption id="setor-status" aria-live="polite"></figcaption>
+      </figure>
       <ul class="checklist" id="checklist">
         <li><label><input type="checkbox" value="0"><span><b>Pilah sesuai tong</b>Pisahkan organik, anorganik, B3, dan residu sejak di rumah.</span></label></li>
         <li><label><input type="checkbox" value="1"><span><b>Bilas</b>Botol, gelas, dan kaleng dibilas dari sisa minuman atau makanan.</span></label></li>
@@ -64,6 +69,22 @@
         <li><label><input type="checkbox" value="3"><span><b>Kelompokkan per jenis</b>Plastik bersama plastik, kertas bersama kertas, tutup terpisah dari botol.</span></label></li>
         <li><label><input type="checkbox" value="4"><span><b>Cek jadwal</b>Banyak bank sampah hanya buka di hari tertentu. Cek dulu sebelum berangkat.</span></label></li>
       </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bagian" id="jalur" data-pesan="Bandingkan dua jalurnya. Bedanya besar, kan?" data-eks="kaget">
+    <div class="isi">
+      <div class="kepala-bagian">
+        <span class="cap">Ke mana sampahmu pergi?</span>
+        <h2 class="judul-bagian">Dibuang campur atau <mark class="stabilo">dipilah dulu?</mark></h2>
+        <p class="pengantar">Pilih salah satu jalur, lalu lihat ke mana sampah dari rumahmu berakhir.</p>
+      </div>
+      <div class="jalur-pilih" role="group" aria-label="Pilih jalur sampah">
+        <button type="button" data-mode="campur" aria-pressed="true">Dibuang campur</button>
+        <button type="button" data-mode="pilah" aria-pressed="false">Dipilah dulu</button>
+      </div>
+      <div class="jalur-sampah kertas" id="jalur-sampah" data-mode="campur"></div>
     </div>
   </section>
 

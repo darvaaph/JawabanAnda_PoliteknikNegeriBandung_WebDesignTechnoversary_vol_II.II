@@ -72,32 +72,55 @@
       </div>
     </section>
 
-    <!-- 2. Masalah -->
+    <!-- 2. Masalah: scrollytelling. Tong menempel di samping (di HP: di atas), teks bergulir per tahap,
+         dan setiap tahap mengubah isi tong. Angka diisi dari JN.KOMPOSISI (data-jml). -->
     <section class="bagian gelap" id="masalah" data-sobek
       data-pesan="Botol tadi cuma satu dari banyak. Ikuti terus, ya." data-eks="kaget">
-      <div class="isi">
-        <div class="kepala-bagian">
-          <span class="cap">Kenapa ini penting</span>
-          <h2 class="judul-bagian">Masalahnya dimulai dari tempat sampah <mark class="stabilo">kita sendiri.</mark></h2>
-          <p class="pengantar">Banyak orang sebenarnya mau memilah, tapi bingung: barang ini masuk tong mana, apa
-            penggantinya, dan sisanya disetor ke mana.</p>
-        </div>
-        <!-- Hook: 100 sampah di satu tong. Botol dari hero jatuh ke salah satu kotaknya, lalu ikut dipilah. -->
-        <div class="tong100" id="tong100">
-          <div class="t100-panel">
-            <span class="label" id="t100-tahap">Isi tong sampah Indonesia</span>
-            <p class="t100-soal">Kalau semua sampah di Indonesia dikumpulkan lalu diambil <b>100 buah</b>, isinya kira-kira
-              <mark class="stabilo">begini.</mark></p>
-            <div class="t100-pesan" id="t100-pesan" aria-live="polite"></div>
-            <button class="btn" id="t100-pilah" type="button">Pilah isinya!</button>
-            <span class="coret t100-coret">botol tadi ikut masuk ke tong ini</span>
-          </div>
+      <div class="isi cerita">
+        <div class="cerita-panggung" id="panggung" data-tahap="kosong">
           <div class="t100-tong">
-            <div class="t100-grid" id="t100-grid" role="img" aria-label="100 sampah tercampur di dalam satu tong"></div>
-            <div class="t100-kelompok" id="t100-kelompok" hidden></div>
+            <div class="t100-grid" id="t100-grid" role="img" aria-label="Tong sampah kosong"></div>
+          </div>
+          <p class="t100-sumber" id="t100-sumber"></p>
+        </div>
+        <div class="cerita-teks">
+          <div class="kepala-bagian">
+            <span class="cap">Kenapa ini penting</span>
+            <h2 class="judul-bagian">Masalahnya dimulai dari tempat sampah <mark class="stabilo">kita sendiri.</mark></h2>
+            <p class="pengantar">Banyak orang sebenarnya mau memilah, tapi bingung: barang ini masuk tong mana, apa
+              penggantinya, dan sisanya disetor ke mana. Gulir pelan-pelan, lalu lihat isi tong di sampingmu.</p>
+          </div>
+          <div class="tahap" data-tahap="isi">
+            <span class="label">1 dari 5</span>
+            <p class="tahap-besar">Tong ini mewakili <b>seluruh sampah Indonesia</b>. Satu kotak = 1%.</p>
+            <p>Botol dari awal halaman tadi ikut jatuh ke dalamnya. Persentasenya dihitung dari berat sampah (SIPSN 2025).</p>
+          </div>
+          <div class="tahap" data-tahap="makanan">
+            <span class="label">2 dari 5</span>
+            <p class="tahap-besar"><b class="angka" data-jml="makanan">41</b> kotak adalah <mark class="stabilo">sisa makanan.</mark></p>
+            <p>Jenis sampah paling banyak: nasi sisa, kulit buah, sayur yang tidak habis.</p>
+          </div>
+          <div class="tahap" data-tahap="plastik">
+            <span class="label">3 dari 5</span>
+            <p class="tahap-besar"><b class="angka" data-jml="plastik">21</b> kotak adalah <mark class="stabilo">plastik.</mark></p>
+            <p>Botol, gelas, kresek, dan kemasan. Botol tadi termasuk di sini.</p>
+          </div>
+          <div class="tahap" data-tahap="lain">
+            <span class="label">4 dari 5</span>
+            <p class="tahap-besar">Sisanya kertas, ranting, kaleng, kain, dan lain-lain. <mark class="stabilo">Semuanya tercampur.</mark></p>
+            <p>Kayu &amp; ranting <b data-jml="daun">13</b>, kertas &amp; karton <b data-jml="kertas">11</b>, logam &amp; kaca
+              <b data-jml="logam">5</b>, lainnya <b data-jml="lainnya">9</b>. Kalau sudah bercampur, sampah jadi basah, bau, dan sulit diolah.</p>
+          </div>
+          <div class="tahap" data-tahap="pilah">
+            <span class="label">5 dari 5</span>
+            <p class="tahap-besar">Sekarang, kita <mark class="stabilo">pilah.</mark></p>
+            <p id="t100-pesan"></p>
+            <div class="t100-kelompok" id="t100-kelompok"></div>
+            <p><a class="tautan-tahap" href="#jalan">Lihat keempat langkahnya ↓</a></p>
           </div>
         </div>
-        <p class="t100-sumber" id="t100-sumber"></p>
+      </div>
+      <div class="isi">
         <div class="fakta-lokal" aria-label="Fakta sampah terbaru">
           <div><strong>56,7%</strong><span>sampah nasional berasal dari rumah tangga, sumber terbesar (SIPSN 2025).</span>
             <small><a href="https://goodstats.id/article/persentase-sumber-sampah-indonesia-2025-rumah-tangga-dominasi-timbulan-nasional-GR9A5" target="_blank" rel="noopener">GoodStats</a>, data SIPSN KLH 2025</small></div>
@@ -128,7 +151,7 @@
             <span class="bulat" aria-hidden="true">1</span>
             <h3>Pilah</h3>
             <p>Cari tahu setiap barang di rumahmu masuk tong mana, dan bagaimana menyiapkannya sebelum dibuang.</p>
-            <p class="tugas-mini"><b>Jejak</b> Buka 3 barang di Jelajah ruangan <span class="status-jejak"
+            <p class="tugas-mini"><b>Jejak</b> Main Pilah Cepat atau buka 3 barang <span class="status-jejak"
                 data-status-jejak="pilah">Belum</span></p>
             <div class="aksi"><a class="btn kecil" href="pilah.html">Buka Pilah →</a><span class="coret">botol → tong
                 kuning</span></div>

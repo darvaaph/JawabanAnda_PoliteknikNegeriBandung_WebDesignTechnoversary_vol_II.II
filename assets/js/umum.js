@@ -20,7 +20,7 @@ const simpan = {
    Setiap langkah punya satu aksi kecil. Disimpan di browser, jadi tetap ada saat pindah halaman.
    Pengunjung bebas mulai dan menyelesaikan langkah dari mana saja tanpa dikunci berurutan. */
 JN.LANGKAH = [
-  { id: 'pilah',   nama: 'Pilah',   warna: 'var(--anorganik)', url: 'pilah.html',   tugas: 'Buka 3 barang di Jelajah ruangan, atau cari 1 barang.' },
+  { id: 'pilah',   nama: 'Pilah',   warna: 'var(--anorganik)', url: 'pilah.html',   tugas: 'Selesaikan Pilah Cepat, buka 3 barang di Jelajah ruangan, atau cari 1 barang.' },
   { id: 'kurangi', nama: 'Kurangi', warna: 'var(--stempel)',   url: 'kurangi.html', tugas: 'Pilih minimal 1 barang yang sanggup kamu ganti.' },
   { id: 'olah',    nama: 'Olah',    warna: 'var(--organik)',   url: 'olah.html',    tugas: 'Simpan 1 panduan atau ide yang ingin kamu coba.' },
   { id: 'setor',   nama: 'Setor',   warna: 'var(--setor)',     url: 'setor.html',   tugas: 'Centang kelima persiapan sebelum menyetor.' }
@@ -29,11 +29,11 @@ const KUNCI_JEJAK = 'jejaknol:jejak', KUNCI_BARIS = 'jejaknol:baris';
 JN.jejak = {
   data() {
     const s = simpan.ambil(KUNCI_JEJAK) || {};
-    return { nama: s.nama || '', pilah: { dilihat: [], cari: false, ...(s.pilah || {}) }, kurangi: { janji: false, ...(s.kurangi || {}) },
+    return { nama: s.nama || '', pilah: { dilihat: [], cari: false, main: false, skor: 0, ...(s.pilah || {}) }, kurangi: { janji: false, ...(s.kurangi || {}) },
       olah: { simpan: [], ...(s.olah || {}) }, setor: { centang: [], ...(s.setor || {}) } };
   },
   status(d = this.data()) {
-    return { pilah: d.pilah.dilihat.length >= 3 || d.pilah.cari, kurangi: !!d.kurangi.janji, olah: d.olah.simpan.length > 0, setor: d.setor.centang.length >= 5 };
+    return { pilah: d.pilah.dilihat.length >= 3 || d.pilah.cari || d.pilah.main, kurangi: !!d.kurangi.janji, olah: d.olah.simpan.length > 0, setor: d.setor.centang.length >= 5 };
   },
   terbuka() { return true; },
   jumlah(st = this.status()) { return Object.values(st).filter(Boolean).length; },
@@ -94,7 +94,7 @@ JN.isiKartuJejak = (d = JN.jejak.data()) => {
     judul: n === 4 ? `${nama} menyelesaikan 4 langkah!` : `Jejak ${nama} sejauh ini`,
     total: janji.reduce((s, x) => s + x.dicegah, 0),
     baris: {
-      pilah: d.pilah.dilihat.length ? `Sudah mengenali tong untuk ${d.pilah.dilihat.length} barang.` : 'Sudah mencari tahu tong yang benar.',
+      pilah: d.pilah.main ? `Memilah ${d.pilah.skor} dari 8 barang dengan benar di Pilah Cepat.` : d.pilah.dilihat.length ? `Sudah mengenali tong untuk ${d.pilah.dilihat.length} barang.` : 'Sudah mencari tahu tong yang benar.',
       kurangi: janji.length ? `Ganti ${janji.slice(0, 3).map(x => `${x.b.nama.toLowerCase()} dengan ${x.b.hitung.ganti}`).join('; ')}${janji.length > 3 ? `, dan ${janji.length - 3} lainnya` : ''}.` : '',
       olah: `Akan mencoba: ${judulIde.slice(0, 3).join(', ')}${judulIde.length > 3 ? `, dan ${judulIde.length - 3} lainnya` : ''}.`,
       setor: 'Siap menyetor sampah yang bersih, kering, dan terpilah.'
