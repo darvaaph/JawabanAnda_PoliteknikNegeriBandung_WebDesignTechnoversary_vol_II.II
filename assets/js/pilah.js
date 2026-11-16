@@ -1,18 +1,26 @@
 /* Pilah: jelajah ruangan, empat tong, kode plastik. */
 JN.mulai = () => {
-  const { $, svg, KAT } = JN;
+  const { $, $$, svg, KAT } = JN;
   JN.pasangJelajah($('#jelajah'));
 
+  /* 3 contoh tampil; sisanya dibuka di tempat dengan tombol "Lihat n lainnya" (kartu memanjang) */
   $('#kartu-tong').innerHTML = Object.entries(KAT).map(([k, t]) => {
-    const contoh = JN.BARANG.filter(b => b.kat === k);
+    const contoh = JN.BARANG.filter(b => b.kat === k), lebih = contoh.length - 3;
     return `<article class="kartu-tong${k === 'anorganik' ? '' : ' putih-teks'}" style="--w:${t.warna}">
-      <div class="kepala-tong"><b>${t.nama}</b><span>${t.ke}</span></div>
+      <div class="kepala-tong"><b>${t.nama}</b><span class="tujuan-tong">→ ${t.ke}</span></div>
       <div class="badan-tong">
         <p>${t.isi}</p>
-        <div class="contoh">${contoh.map(b => `<span>${svg(b.ikon)}${b.nama}</span>`).join('')}</div>
+        <div class="contoh" id="contoh-${k}">${contoh.map((b, i) => `<span${i >= 3 ? ' class="lebih"' : ''}>${svg(b.ikon)}${b.nama}</span>`).join('')}</div>
+        ${lebih > 0 ? `<button type="button" class="contoh-buka" aria-expanded="false" aria-controls="contoh-${k}" data-lebih="${lebih}">Lihat ${lebih} lainnya ▾</button>` : ''}
       </div>
     </article>`;
   }).join('');
+  $$('.contoh-buka').forEach(b => b.addEventListener('click', () => {
+    const buka = b.getAttribute('aria-expanded') !== 'true';
+    b.setAttribute('aria-expanded', buka);
+    b.closest('.kartu-tong').classList.toggle('buka', buka);
+    b.textContent = buka ? 'Sembunyikan ▴' : `Lihat ${b.dataset.lebih} lainnya ▾`;
+  }));
 
   const segitiga = n => `<svg class="segitiga" viewBox="0 0 60 60" role="img" aria-label="Kode plastik ${n}">
     <path d="M30 6 L54 50 H6 Z" fill="none" stroke="#1B1712" stroke-width="4" stroke-linejoin="round" stroke-dasharray="20 6"/>

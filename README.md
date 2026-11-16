@@ -13,7 +13,7 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 | **Pilah** (`pilah.html`) | Pencarian barang, jelajah ruangan (dapur, kamar mandi, belajar/kerja & kos, belanja), isi empat tong, mini-game **Pilah Cepat** (8 barang acak, ketuk tong atau tekan 1–4, barang terlempar ke tong, umpan balik langsung, skor masuk Kartu Jejak-ku), arti kode plastik 1–7 |
 | **Kurangi** (`kurangi.html`) | Kalkulator barang sekali pakai yang bisa dicegah per tahun, perbandingan tumpukan sebelum dan sesudah, cara menghitung, daftar pengganti |
 | **Olah** (`olah.html`) | Panduan kompos ember dan eco-enzyme dengan **slider waktu “Lihat prosesnya”** (geser atau putar: ember kompos berubah dari sisa sayur jadi kompos bertunas, cairan eco-enzyme berubah warna, bergelembung, lalu siap disaring), galeri daur ulang dengan filter “saya punya…”, tombol simpan ide, Mitos vs Fakta |
-| **Setor** (`setor.html`) | Checklist persiapan dengan **tumpukan sampah yang berubah per centang** (pisang ke kompos, baterai ke B3, noda dan lalat hilang, kardus kering, masuk karung per jenis, jadwal dicek, lalu stempel “Siap disetor”), perbandingan **dua jalur sampah** (dibuang campur: 100 dari 100 bagian ke TPA; dipilah: hanya bagian residu), jenis tempat setor, direktori lokasi di Kuningan |
+| **Setor** (`setor.html`) | Checklist persiapan **“Sebelum → Sesudah”** (setiap baris punya ilustrasi kecil yang berbalik saat dicentang: kantong campur jadi tiga tong, botol bernoda jadi bersih, kardus basah jadi kering, barang berserakan masuk karung, kalender “?” jadi “SABTU ✓”; karung di atas terisi sampai stempel “Siap disetor”), perbandingan **dua jalur sampah** (dibuang campur: 100 dari 100 bagian ke TPA; dipilah: hanya bagian residu), direktori lokasi di Kuningan |
 | **Kartu Jejak-ku** (`kartu.html`) | Akhir perjalanan: rangkuman keempat langkah yang bisa **diunduh sebagai gambar 1080×1920** (pas untuk Instagram Story) atau dibagikan langsung dari HP |
 
 ### Alur pengunjung
@@ -24,11 +24,11 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 
 ### Dibuat untuk orang awam
 
-- **Selalu bisa pulang ke Beranda:** logo, penanda posisi *Beranda › Langkah n dari 4* di atas setiap halaman, tautan “Kembali ke Beranda” di akhir halaman langkah, dan **bar navigasi bawah di HP** (Beranda + empat langkah).
-- **Kerangka yang sama di keempat langkah:** posisi → judul → kotak **Intinya** (satu kalimat) → tujuan halaman → aksi jejak → isi → langkah berikutnya.
+- **Selalu bisa pulang ke Beranda:** logo, penanda posisi *Beranda › Langkah n dari 4* di atas setiap halaman, dan tautan “Kembali ke Beranda” di akhir halaman langkah.
+- **Kerangka yang sama di keempat langkah:** posisi → judul → kotak **Intinya** (satu kalimat) → aksi jejak → isi → langkah berikutnya.
 - **Istilah bisa diketuk:** kata seperti B3, residu, TPS3R, kompos, dan bank sampah diberi garis putus-putus; diketuk → penjelasan satu kalimat. Kamusnya ada di `JN.ISTILAH` (`assets/js/data.js`).
 
-Setiap langkah punya satu aksi kecil yang meninggalkan **jejak** (buka 3 barang atau cari 1 barang, pilih 1 barang yang sanggup diganti, simpan 1 ide, centang 5 persiapan). Titik berwarna di menu terisi saat jejak langkah itu tercatat. Keempat langkah dapat diselesaikan **dalam urutan apa pun** tanpa dikunci. Kemajuan disimpan di browser, dan bisa dihapus lewat tombol di halaman Kartu Jejak-ku.
+Setiap langkah punya satu aksi kecil yang meninggalkan **jejak** (buka 3 barang atau cari 1 barang, pilih 1 barang yang sanggup diganti, pilih 1 ide yang mau dicoba lewat tombol “Aku mau coba”, centang 5 persiapan). Titik berwarna di menu terisi saat jejak langkah itu tercatat. Keempat langkah dapat diselesaikan **dalam urutan apa pun** tanpa dikunci. Kemajuan disimpan di browser, dan bisa dihapus lewat tombol di halaman Kartu Jejak-ku.
 | **Tentang** (`tentang.html`) | Masalah, audiens, cara menghitung, sumber data, tim |
 | **Kontak** (`kontak.html`) | Formulir pertanyaan, usulan lokasi, dan usulan barang |
 

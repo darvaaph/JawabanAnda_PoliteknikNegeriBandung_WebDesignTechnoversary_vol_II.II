@@ -39,10 +39,6 @@
         <nav class="remah" aria-label="Posisi halaman"><a href="index.html"><svg class="ikon-rumah" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.5 12 4.5l8.5 7M6.5 9.5V19.5h4v-5h3v5h4V9.5"/></svg><span>Beranda</span></a><span class="remah-sep" aria-hidden="true">›</span><span class="cap" aria-current="page">Langkah 2 dari 4</span></nav>
         <h1 class="judul-halaman"><mark class="stabilo">Kurangi</mark> yang sekali pakai.</h1>
         <p class="intinya"><span>Intinya</span><span>Sampah yang paling mudah diurus adalah sampah yang tidak pernah ada. Mulai dengan mengganti satu barang sekali pakai.</span></p>
-        <p class="pengantar">Setelah membaca halaman ini, kamu bisa tahu angka nyata barang sekali pakai dari kebiasaanmu sendiri dan memilih satu barang untuk diganti.</p>
-        <nav class="langkah-nav" aria-label="Empat langkah">
-          <a style="--w:var(--anorganik)" href="pilah.html">Pilah</a><a style="--w:var(--stempel)" href="kurangi.html" aria-current="page">Kurangi</a><a style="--w:var(--organik)" href="olah.html">Olah</a><a style="--w:var(--setor)" href="setor.html">Setor</a>
-        </nav>
         <div class="tugas" data-tugas="kurangi" aria-live="polite"></div>
         <p class="sdg-baris">Mendukung <a href="tentang.html#sdgs">SDG 12.5 dan 14.1</a></p>
       </div>
@@ -58,21 +54,16 @@
         <span class="coret">tambah barang lain di bawah daftar!</span>
       </div>
       <div id="kalkulator"></div>
-    </div>
-  </section>
-
-  <section class="bagian gelap" id="cara" data-sobek data-pesan="Rumusnya sederhana, tanpa angka tebakan." data-eks="senang">
-    <div class="isi dua-kolom">
-      <div class="prosa">
-        <span class="cap" style="align-self:flex-start">Cara kami menghitung</span>
-        <h2 style="color:var(--kertas)">Hanya jumlah barang, tanpa tebakan.</h2>
-        <p style="color:#E3D7C1">Kalkulator ini menghitung <strong>jumlah barang</strong>, bukan berat atau emisi. Jumlah barang bisa kamu bayangkan dan hitung sendiri, sedangkan berat dan emisi per barang sangat berbeda antar merek dan penelitian.</p>
-        <p style="color:#E3D7C1">“Seberapa sering kamu sanggup” diubah menjadi persen: belum bisa 0%, kadang-kadang 25%, sering 50%, hampir selalu 75%, selalu 100%.</p>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <div class="rumus">barang per tahun = jumlah × <span>365</span> (per hari) / <span>52</span> (per minggu) / <span>12</span> (per bulan)<br><br>dicegah = barang per tahun × <span>persen sanggup</span></div>
-        <div class="rumus">Contoh: 2 botol per hari, hampir selalu diganti tumbler<br>2 × 365 = <span>730</span> botol per tahun<br>730 × 75% = <span>548</span> botol tidak jadi sampah</div>
-      </div>
+      <!-- cara menghitung: dilipat supaya halaman ringkas; tautan kurangi.html#cara tetap membukanya -->
+      <details class="lipat" id="cara">
+        <summary>Bagaimana cara menghitungnya?</summary>
+        <div class="lipat-isi">
+          <p>Kalkulator ini menghitung <strong>jumlah barang</strong>, bukan berat atau emisi. Jumlah barang bisa kamu bayangkan dan hitung sendiri, sedangkan berat dan emisi per barang sangat berbeda antar merek dan penelitian.</p>
+          <p>“Seberapa sering kamu sanggup” diubah menjadi persen: belum bisa 0%, kadang-kadang 25%, sering 50%, hampir selalu 75%, selalu 100%.</p>
+          <div class="rumus">barang per tahun = jumlah × <span>365</span> (per hari) / <span>52</span> (per minggu) / <span>12</span> (per bulan)<br>dicegah = barang per tahun × <span>persen sanggup</span></div>
+          <div class="rumus">Contoh: 2 botol per hari, hampir selalu diganti tumbler<br>2 × 365 = <span>730</span> botol per tahun<br>730 × 75% = <span>548</span> botol tidak jadi sampah</div>
+        </div>
+      </details>
     </div>
   </section>
 

@@ -32,13 +32,13 @@ JN.mulai = () => {
     menunggu = false;
     const y = scrollY, s = y + innerHeight * 0.55;
     /* Titik biasa: botol tiba dan berangkat di posisi yang sama (masuk = keluar).
-       Titik ber-data-singgah-tahan (kotak di tong cerita): botol tiba saat tahap pertama cerita mendekat
+       Titik ber-data-singgah-tahan (kotak di tong cerita): botol tiba saat bagian cerita mulai terbaca
        dan baru berangkat saat seluruh teks cerita lewat; selama itu botol ikut kotaknya yang menempel. */
     const titik = singgah.map(el => {
       const r = el.getBoundingClientRect(), doc = r.top + r.height / 2 + y;
       const tahan = el.dataset.singgahTahan && document.querySelector(el.dataset.singgahTahan);
       return { x: r.left + r.width / 2, y: r.top + r.height / 2, w: r.width,
-        masuk: tahan ? $('.tahap', tahan).getBoundingClientRect().top + y : doc,
+        masuk: tahan ? tahan.getBoundingClientRect().top + y : doc,
         keluar: tahan ? tahan.getBoundingClientRect().bottom + y : doc };
     });
     const n = titik.length - 1;
@@ -90,7 +90,7 @@ JN.mulai = () => {
       || (b === campur[iBotol]) - (a === campur[iBotol]));
     const posisi = new Map(terurut.map((s, i) => [s, i]));
     grid.innerHTML = campur.map((s, i) => i === iBotol
-      ? `<span class="t100-sel t100-botol" data-jenis="${s.k.id}" data-singgah data-singgah-tahan="#masalah .cerita-teks" style="--w:${JN.KAT[s.k.kat].warna};--i:${i}"></span>`
+      ? `<span class="t100-sel t100-botol" data-jenis="${s.k.id}" data-singgah data-singgah-tahan="#masalah .cerita" style="--w:${JN.KAT[s.k.kat].warna};--i:${i}"></span>`
       : `<span class="t100-sel" data-jenis="${s.k.id}" style="--w:${JN.KAT[s.k.kat].warna};--i:${i}">${svg(s.ikon)}</span>`).join('');
     const sels = $$('.t100-sel', grid);
     const jml = kat => K.filter(k => k.kat === kat).reduce((s, k) => s + k.jumlah, 0);
@@ -140,16 +140,44 @@ JN.mulai = () => {
       if (t === 'makanan') JN.eks('kaget', 1800);
       if (t === 'pilah') { JN.eks('senang', 2200); JN.lompat(); }
     }
-    /* garis baca: di desktop tengah layar; di HP lebih bawah karena tong menempel di atas */
-    const garis = matchMedia('(max-width:860px)').matches ? 0.62 : 0.5;
-    if (!('IntersectionObserver' in window)) { aktif('pilah'); return; }
-    /* tahap aktif = tahap terakhir yang bagian atasnya sudah melewati garis baca (aman untuk lompatan jauh) */
+    /* HP: "langkah ketuk". Satu kartu tahap tampil di bawah tong, pindah dengan tombol Kembali/Lanjut. */
+    const hp = matchMedia('(max-width:860px)');
+    const urutan = tahap.map(el => el.dataset.tahap);
+    const kontrol = document.createElement('div');
+    kontrol.className = 'cerita-kontrol';
+    kontrol.innerHTML = `<button type="button" class="btn putih kecil" data-arah="-1">← Kembali</button>
+      <span class="cerita-titik" aria-hidden="true">${urutan.map(() => '<span></span>').join('')}</span>
+      <button type="button" class="btn kecil" data-arah="1">Lanjut →</button>`;
+    $('#masalah .cerita-teks').append(kontrol);
+    const [tKembali, tLanjut] = $$('button', kontrol);
+    function segarkanKontrol() {
+      const i = Math.max(0, urutan.indexOf(kini));
+      tKembali.disabled = i === 0;
+      tLanjut.textContent = i === urutan.length - 1 ? '4 langkah ↓' : 'Lanjut →';
+      $$('.cerita-titik span', kontrol).forEach((s, k) => s.classList.toggle('kini', k === i));
+    }
+    $$('button', kontrol).forEach(b => b.addEventListener('click', () => {
+      const i = Math.max(0, urutan.indexOf(kini)) + Number(b.dataset.arah);
+      if (i >= urutan.length) return $('#jalan').scrollIntoView({ behavior: JN.kurangGerak ? 'auto' : 'smooth' });
+      aktif(urutan[Math.max(0, i)]); segarkanKontrol();
+    }));
+
+    if (!('IntersectionObserver' in window)) { aktif(hp.matches ? 'isi' : 'pilah'); segarkanKontrol(); return; }
+    /* desktop: tahap aktif = tahap terakhir yang bagian atasnya sudah melewati garis tengah layar (aman untuk lompatan jauh) */
+    const garis = 0.5;
     const hitung = () => {
+      if (hp.matches) return;
       const g = innerHeight * garis;
       const lewat = tahap.filter(el => el.getBoundingClientRect().top <= g);
       aktif(lewat.length ? lewat[lewat.length - 1].dataset.tahap : 'kosong');
     };
     const pengamat = new IntersectionObserver(hitung, { rootMargin: `-${garis * 100}% 0px -${(1 - garis) * 100 - 1}% 0px` });
     tahap.forEach(el => pengamat.observe(el));
+    /* HP: tong terisi saat pertama kali terlihat */
+    new IntersectionObserver(es => {
+      if (hp.matches && kini === 'kosong' && es.some(e => e.isIntersecting)) { aktif('isi'); segarkanKontrol(); }
+    }, { threshold: 0.35 }).observe(panggung);
+    hp.addEventListener('change', () => { if (hp.matches) { if (kini === 'kosong') aktif('isi'); segarkanKontrol(); } else hitung(); });
+    segarkanKontrol();
   }
 };

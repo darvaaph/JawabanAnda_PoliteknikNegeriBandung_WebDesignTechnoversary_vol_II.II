@@ -7,14 +7,14 @@ JN.mulai = () => {
       ${svg(p.ikon, '', 'ilus')}
       <div>
         <h3>${p.judul}</h3>
-        <div class="meta" style="margin-top:8px"><span>${p.tingkat}</span><span>${p.waktu}</span></div>
+        <div class="meta" style="margin-top:8px"><span>Kesulitan: ${p.tingkat}</span><span>Waktu: ${p.waktu}</span></div>
         <div class="kolom">
           <div><h4>Bahan</h4><ul>${p.bahan.map(b => `<li>${b}</li>`).join('')}</ul></div>
           <div><h4>Langkah</h4><ol>${p.langkah.map(l => `<li>${l}</li>`).join('')}</ol></div>
         </div>
         ${p.tahap ? prosesHTML(p) : ''}
         <p class="hindari"><strong>Hindari:</strong> ${p.hindari}</p>
-        <p style="margin-top:14px"><button type="button" class="simpan-ide" data-simpan="${p.id}" aria-pressed="false">Simpan ide ini</button></p>
+        <p style="margin-top:14px"><button type="button" class="simpan-ide" data-simpan="${p.id}" aria-pressed="false">＋ Aku mau coba</button></p>
       </div>
     </article>`).join('');
 
@@ -30,20 +30,20 @@ JN.mulai = () => {
     $('#daftar-diy').innerHTML = hasil.map(d => `
       <article class="kartu-isi kertas selotip" id="${d.id}">${svg(d.ikon, '', 'ilus')}
         <h3>${d.judul}</h3>
-        <div class="meta"><span>${d.tingkat}</span><span>${d.waktu}</span></div>
+        <div class="meta"><span>Kesulitan: ${d.tingkat}</span><span>Waktu: ${d.waktu}</span></div>
         <details><summary>Lihat ${d.langkah.length} langkah</summary><ol>${d.langkah.map(l => `<li>${l}</li>`).join('')}</ol></details>
-        <button type="button" class="simpan-ide" data-simpan="${d.id}" aria-pressed="false">Simpan ide ini</button>
+        <button type="button" class="simpan-ide" data-simpan="${d.id}" aria-pressed="false">＋ Aku mau coba</button>
       </article>`).join('');
     sinkronSimpan();
   }
-  // "Simpan ide ini" = aksi jejak langkah Olah; ide yang disimpan masuk ke Kartu Jejak-ku
+  // "Aku mau coba" = aksi jejak langkah Olah: ide yang dipilih masuk ke Kartu Jejak-ku sebagai rencana
   function sinkronSimpan() {
     const tersimpan = JN.jejak.data().olah.simpan;
     $$('[data-simpan]').forEach(b => {
       const on = tersimpan.includes(b.dataset.simpan);
       b.setAttribute('aria-pressed', on);
       b.disabled = false;
-      b.textContent = on ? '✓ Tersimpan' : 'Simpan ide ini';
+      b.textContent = on ? '✓ Masuk rencanaku' : '＋ Aku mau coba';
     });
   }
   document.addEventListener('jejakberubah', sinkronSimpan);
@@ -112,16 +112,17 @@ const GAMBAR_PROSES = {
   </svg>`
 };
 function prosesHTML(p) {
-  return `<div class="proses" data-tahap="0" data-jenis="${p.proses}">
-    <div class="proses-atas"><h4>Lihat prosesnya</h4><button type="button" class="proses-putar" aria-pressed="false">▶ Putar</button></div>
-    <div class="proses-isi">
-      ${GAMBAR_PROSES[p.proses]}
-      <div class="proses-teks" aria-live="polite"><span class="proses-kapan"></span><b class="proses-judul"></b><p class="proses-ket"></p></div>
+  /* ringkas: gambar kecil di kiri; label, teks, dan slider di kanan */
+  return `<div class="proses" data-tahap="0" data-jenis="${p.proses}" title="${p.satuan} perkiraan, bisa lebih cepat atau lambat tergantung cuaca dan bahan">
+    ${GAMBAR_PROSES[p.proses]}
+    <div class="proses-kanan">
+      <div class="proses-atas"><span class="proses-tajuk">Lihat prosesnya · <span class="proses-kapan"></span></span>
+        <button type="button" class="proses-putar" aria-pressed="false" aria-label="Putar prosesnya">▶</button></div>
+      <div class="proses-teks" aria-live="polite"><b class="proses-judul"></b><p class="proses-ket"></p></div>
+      <label class="sr" for="geser-${p.id}">${p.satuan} (perkiraan)</label>
+      <input type="range" class="proses-geser" id="geser-${p.id}" min="0" max="${p.tahap.length - 1}" step="1" value="0">
+      <div class="proses-label">${p.tahap.map((t, i) => `<button type="button" data-ke="${i}">${t.kapan}</button>`).join('')}</div>
     </div>
-    <label class="sr" for="geser-${p.id}">${p.satuan}</label>
-    <input type="range" class="proses-geser" id="geser-${p.id}" min="0" max="${p.tahap.length - 1}" step="1" value="0">
-    <div class="proses-label">${p.tahap.map((t, i) => `<button type="button" data-ke="${i}">${t.kapan}</button>`).join('')}</div>
-    <p class="proses-catatan">${p.satuan}: perkiraan, bisa lebih cepat atau lambat tergantung cuaca dan bahan.</p>
   </div>`;
 }
 function pasangProses(el) {
@@ -139,14 +140,14 @@ function pasangProses(el) {
     $('.proses-ket', el).textContent = t.isi;
     $$('.proses-label button', el).forEach((b, k) => b.setAttribute('aria-pressed', k === i));
   }
-  function henti() { clearInterval(jalan); jalan = null; putar.textContent = '▶ Putar'; putar.setAttribute('aria-pressed', 'false'); }
+  function henti() { clearInterval(jalan); jalan = null; putar.textContent = '▶'; putar.setAttribute('aria-pressed', 'false'); }
   geser.addEventListener('input', () => { henti(); atur(Number(geser.value)); });
   $$('.proses-label button', el).forEach(b => b.addEventListener('click', () => { henti(); atur(Number(b.dataset.ke)); }));
   putar.addEventListener('click', () => {
     if (jalan) return henti();
     let i = Number(geser.value) >= akhir ? 0 : Number(geser.value);
     atur(i);
-    putar.textContent = '❚❚ Jeda'; putar.setAttribute('aria-pressed', 'true');
+    putar.textContent = '❚❚'; putar.setAttribute('aria-pressed', 'true');
     jalan = setInterval(() => { i++; atur(i); if (i >= akhir) henti(); }, 2200);
   });
   atur(0);
