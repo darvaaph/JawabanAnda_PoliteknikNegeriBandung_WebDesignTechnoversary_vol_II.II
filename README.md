@@ -1,6 +1,6 @@
 # Jejak Nol
 
-**Media informasi zero-waste untuk pelajar dan mahasiswa.**
+**Media informasi zero-waste untuk kamu dan keluargamu (rumah tangga & anak kos).**
 Karya Lomba Web Design Techno Versary Vol. II, HIMA-TI FKOM Universitas Kuningan. Tema: *EcoDigital For Environment*, sub-tema *Media Informasi Zero-waste Lifestyle dan Daur Ulang Sampah*.
 
 ## Deskripsi
@@ -10,7 +10,7 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 | Halaman | Isi |
 |---|---|
 | **Beranda** (`index.html`) | Cerita singkat: pencarian cepat “Ini dibuang ke mana?”, masalah sampah dengan data bersumber, jalan empat langkah yang dilalui satu botol sampai masuk tong, dan contoh Kartu Jejak-ku |
-| **Pilah** (`pilah.html`) | Pencarian barang, jelajah ruangan (dapur, kamar mandi, kos & kampus, belanja), isi empat tong, arti kode plastik 1–7 |
+| **Pilah** (`pilah.html`) | Pencarian barang, jelajah ruangan (dapur, kamar mandi, belajar/kerja & kos, belanja), isi empat tong, arti kode plastik 1–7 |
 | **Kurangi** (`kurangi.html`) | Kalkulator barang sekali pakai yang bisa dicegah per tahun, perbandingan tumpukan sebelum dan sesudah, cara menghitung, daftar pengganti |
 | **Olah** (`olah.html`) | Panduan kompos ember dan eco-enzyme, galeri daur ulang dengan filter “saya punya…”, tombol simpan ide, Mitos vs Fakta |
 | **Setor** (`setor.html`) | Checklist persiapan sebelum menyetor, jenis tempat setor, direktori lokasi di Kuningan |
@@ -18,11 +18,11 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 
 ### Alur pengunjung
 
-- **Butuh jawaban cepat:** ketik barang di pencarian Beranda atau Pilah, langsung tahu tongnya.
+- **Butuh jawaban cepat:** ketik barang di pencarian Beranda atau Pilah, langsung tahu tong, cara menyiapkan, dan penggantinya.
 - **Pengunjung baru:** Beranda → *Mulai perjalanan* → Pilah → Kurangi → Olah → Setor → Kartu Jejak-ku (`kartu.html`).
-- **Pengunjung lama:** langsung lewat menu.
+- **Pengunjung bebas:** langsung mulai atau melengkapi langkah mana pun lewat menu.
 
-Setiap langkah punya satu aksi kecil yang meninggalkan **jejak** (buka 3 barang, pilih 1 barang yang sanggup diganti, simpan 1 ide, centang 5 persiapan). Titik berwarna di menu terisi saat jejak langkah itu tercatat. Jejak harus dikumpulkan **berurutan** (Pilah → Kurangi → Olah → Setor): aksi jejak di langkah berikutnya terkunci 🔒 sampai langkah sebelumnya selesai. **Isi semua halaman tetap bebas dibaca**, jadi pengunjung yang hanya butuh informasi tidak terhalang. Kemajuan disimpan di browser, dan bisa dihapus lewat tombol di halaman Kartu Jejak-ku.
+Setiap langkah punya satu aksi kecil yang meninggalkan **jejak** (buka 3 barang atau cari 1 barang, pilih 1 barang yang sanggup diganti, simpan 1 ide, centang 5 persiapan). Titik berwarna di menu terisi saat jejak langkah itu tercatat. Keempat langkah dapat diselesaikan **dalam urutan apa pun** tanpa dikunci. Kemajuan disimpan di browser, dan bisa dihapus lewat tombol di halaman Kartu Jejak-ku.
 | **Tentang** (`tentang.html`) | Masalah, audiens, cara menghitung, sumber data, tim |
 | **Kontak** (`kontak.html`) | Formulir pertanyaan, usulan lokasi, dan usulan barang |
 

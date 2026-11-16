@@ -13,10 +13,10 @@ JN.mulai = () => {
     const st = JN.jejak.status(), n = JN.jejak.jumlah(st), b = JN.jejak.berikut(st);
     $('#judul-kartu').innerHTML = n === 4 ? 'Perjalananmu <mark class="stabilo">selesai!</mark>' : `Kartu Jejak-ku: <mark class="stabilo">${n} dari 4</mark>`;
     $('#teks-kartu').innerHTML = n === 4
-      ? 'Keempat jejakmu lengkap. Kartu ini merangkum semua yang sudah kamu lakukan di Jejak Nol. Unduh, lalu bagikan supaya temanmu ikut.'
+      ? 'Setelah menyelesaikan keempat langkah, kamu mendapat rangkuman semua aksi nyatamu di Jejak Nol. Unduh, lalu bagikan supaya keluarga dan temanmu ikut.'
       : n === 0
-        ? 'Kartu ini akan terisi saat kamu menyelesaikan empat langkah. Mulai dari <a class="tautan-lanjut" href="pilah.html">Langkah 1: Pilah →</a>'
-        : `Masih ada ${4 - n} langkah lagi. Berikutnya: <a class="tautan-lanjut" href="${b.url}">${b.nama} →</a> Kartu yang belum lengkap tetap bisa diunduh.`;
+        ? 'Setelah melengkapi langkah-langkah Jejak Nol, kamu akan mendapat rangkuman aksi dan alasan untuk berbagi. Mulai dari <a class="tautan-lanjut" href="pilah.html">Langkah 1: Pilah →</a>'
+        : `Sudah ${n} dari 4 langkah tercatat. Masih ada ${4 - n} langkah lagi (<a class="tautan-lanjut" href="${b.url}">${b.nama} →</a>), atau kamu tetap bisa mengunduh kartu rangkumanmu sekarang.`;
   };
 
   let yakin = false;
@@ -74,25 +74,31 @@ JN.mulai = () => {
     bungkus(ctx, isi.judul, LEBAR).forEach(b => { ctx.fillText(b, X, y); y += 76; });
     y += 30;
 
-    // empat baris langkah
+    // empat baris langkah (maks 2 baris per langkah agar area total & Kardi di bawah selalu lega)
     JN.LANGKAH.forEach(l => {
       const sudah = st[l.id], warna = getComputedStyle(document.documentElement).getPropertyValue(l.warna.slice(4, -1)).trim() || '#1B1712';
       ctx.globalAlpha = sudah ? 1 : 0.45;
       ctx.beginPath(); ctx.arc(X + 18, y - 14, 18, 0, Math.PI * 2);
       ctx.fillStyle = sudah ? warna : '#FBF7EE'; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = '#1B1712'; ctx.stroke();
-      ctx.fillStyle = '#1B1712'; ctx.font = '900 46px Archivo'; ctx.fillText(l.nama.toUpperCase(), X + 56, y);
-      y += 50; ctx.font = '600 33px "Plus Jakarta Sans"'; ctx.fillStyle = '#4A3E2E';
-      bungkus(ctx, sudah ? isi.baris[l.id] : 'Belum diselesaikan.', LEBAR - 56).slice(0, 4).forEach(b => { ctx.fillText(b, X + 56, y); y += 44; });
-      y += 34; ctx.globalAlpha = 1;
+      ctx.fillStyle = '#1B1712'; ctx.font = '900 44px Archivo'; ctx.fillText(l.nama.toUpperCase(), X + 56, y);
+      y += 46; ctx.font = '600 32px "Plus Jakarta Sans"'; ctx.fillStyle = '#4A3E2E';
+      const barisTeks = bungkus(ctx, sudah ? isi.baris[l.id] : 'Belum diselesaikan.', LEBAR - 56);
+      barisTeks.slice(0, 2).forEach((b, idx) => {
+        const teksBaris = idx === 1 && barisTeks.length > 2 ? b.replace(/\s+\S*$/, '') + '…' : b;
+        ctx.fillText(teksBaris, X + 56, y); y += 42;
+      });
+      y += 28; ctx.globalAlpha = 1;
     });
 
-    // total
+    // total (diletakkan aman di kiri Kardi dan di dalam batas kertas bawah)
     if (total) {
+      const yGaris = Math.min(y, 1380);
       ctx.setLineDash([14, 12]); ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(27,23,18,.4)';
-      ctx.beginPath(); ctx.moveTo(X, y - 10); ctx.lineTo(X + LEBAR, y - 10); ctx.stroke(); ctx.setLineDash([]);
-      y += 150; ctx.fillStyle = '#A8231B'; ctx.font = '900 170px Archivo'; ctx.fillText(JN.fmt(total), X, y);
-      y += 56; ctx.fillStyle = '#1B1712'; ctx.font = '800 34px "Plus Jakarta Sans"';
-      bungkus(ctx, 'barang sekali pakai per tahun tidak jadi sampah', LEBAR - 260).forEach(b => { ctx.fillText(b, X, y); y += 44; });
+      ctx.beginPath(); ctx.moveTo(X, yGaris); ctx.lineTo(X + LEBAR, yGaris); ctx.stroke(); ctx.setLineDash([]);
+      let yTotal = yGaris + 150;
+      ctx.fillStyle = '#A8231B'; ctx.font = '900 160px Archivo'; ctx.fillText(JN.fmt(total), X, yTotal, LEBAR - 340);
+      yTotal += 54; ctx.fillStyle = '#1B1712'; ctx.font = '800 33px "Plus Jakarta Sans"';
+      bungkus(ctx, 'barang sekali pakai per tahun tidak jadi sampah', LEBAR - 340).forEach(b => { ctx.fillText(b, X, yTotal); yTotal += 42; });
     }
 
     // Kardi + kaki kartu

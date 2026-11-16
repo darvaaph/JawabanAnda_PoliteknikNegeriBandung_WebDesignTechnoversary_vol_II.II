@@ -35,23 +35,17 @@ JN.mulai = () => {
   }
   // "Simpan ide ini" = aksi jejak langkah Olah; ide yang disimpan masuk ke Kartu Jejak-ku
   function sinkronSimpan() {
-    const tersimpan = JN.jejak.data().olah.simpan, terbuka = JN.jejak.terbuka('olah');
+    const tersimpan = JN.jejak.data().olah.simpan;
     $$('[data-simpan]').forEach(b => {
       const on = tersimpan.includes(b.dataset.simpan);
       b.setAttribute('aria-pressed', on);
-      b.disabled = !terbuka;
-      b.innerHTML = !terbuka ? `${JN.GEMBOK} Simpan ide ini` : on ? '✓ Tersimpan' : 'Simpan ide ini';
-      // keterangan kunci ada di luar tombol, supaya tombol tidak terlihat bisa diklik
-      let cat = b.nextElementSibling;
-      if (!cat || !cat.classList.contains('catatan-kunci')) { b.insertAdjacentHTML('afterend', '<span class="catatan-kunci"></span>'); cat = b.nextElementSibling; }
-      const awal = JN.jejak.berikut();
-      cat.hidden = terbuka;
-      cat.innerHTML = terbuka ? '' : `Terbuka setelah Pilah &amp; Kurangi selesai · <a href="${awal.url}">${JN.jejak.jumlah() ? "Lanjut ke" : "Mulai dari"} ${awal.nama} →</a>`;
+      b.disabled = false;
+      b.textContent = on ? '✓ Tersimpan' : 'Simpan ide ini';
     });
   }
   document.addEventListener('jejakberubah', sinkronSimpan);
   document.addEventListener('click', e => {
-    const b = e.target.closest('[data-simpan]'); if (!b || !JN.jejak.terbuka('olah')) return;
+    const b = e.target.closest('[data-simpan]'); if (!b) return;
     const id = b.dataset.simpan;
     JN.jejak.ubah(d => { d.olah.simpan = d.olah.simpan.includes(id) ? d.olah.simpan.filter(x => x !== id) : [...d.olah.simpan, id]; });
     sinkronSimpan();
