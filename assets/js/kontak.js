@@ -10,9 +10,16 @@ JN.mulai = () => {
   const aturLokasi = () => { lokasi.hidden = jenis.value !== 'lokasi'; };
   jenis.addEventListener('change', aturLokasi); aturLokasi();
 
+  const EMAIL_RE = /^[a-zA-Z0-9_%+-]+(?:\.[a-zA-Z0-9_%+-]+)*@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
+  const EMAIL_TYPO_RE = /@(?:gamil|gmial|gmal|gnail|yaho|yhoo)\.|(?:\.(?:con|cmo|ocm))$/i;
   const ATURAN = {
     nama: v => v.trim().length >= 2 || 'Tulis namamu, minimal 2 huruf.',
-    email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) || 'Tulis email yang lengkap, contoh: nama@email.com.',
+    email: v => {
+      const s = v.trim();
+      if (!EMAIL_RE.test(s)) return 'Tulis alamat email yang valid (akhiran seperti .com atau .ac.id), contoh: nama@email.com.';
+      if (EMAIL_TYPO_RE.test(s)) return 'Sepertinya ada salah ketik di penulisan emailmu (misal @gmail.com atau .com).';
+      return true;
+    },
     pesan: v => v.trim().length >= 10 || 'Tulis pesanmu, minimal 10 huruf, supaya kami paham maksudnya.',
     'nama-lokasi': v => jenis.value !== 'lokasi' || v.trim().length >= 3 || 'Tulis nama tempat yang ingin kamu usulkan.'
   };
@@ -23,7 +30,11 @@ JN.mulai = () => {
     galat.hidden = !salah; galat.textContent = salah ? hasil : '';
     return !salah;
   }
-  Object.keys(ATURAN).forEach(id => $('#' + id).addEventListener('blur', () => { if ($('#' + id).value) cek(id); }));
+  Object.keys(ATURAN).forEach(id => {
+    const el = $('#' + id);
+    el.addEventListener('blur', () => { if (el.value) cek(id); });
+    el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') cek(id); });
+  });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
