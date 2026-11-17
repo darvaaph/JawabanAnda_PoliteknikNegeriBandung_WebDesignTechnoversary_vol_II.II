@@ -29,6 +29,7 @@ JN.mulai = () => {
     e.preventDefault();
     const salah = Object.keys(ATURAN).filter(id => !cek(id));
     if (salah.length) { $('#' + salah[0]).focus(); JN.eks('bingung', 2000); return; }
+    const lamaGalat = $('#galat-kirim'); if (lamaGalat) lamaGalat.remove();
     const tombol = $('button[type="submit"]', form);
     tombol.disabled = true; tombol.textContent = 'Mengirim…';
     let teks;
@@ -36,12 +37,21 @@ JN.mulai = () => {
     if (endpoint) {
       try {
         const r = await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
-        if (!r.ok) throw new Error(r.status);
+        if (!r.ok) {
+          let pesanErr = r.status === 422
+            ? 'Pesan belum terkirim. Periksa kembali format alamat email dan isi formulir.'
+            : 'Pesan belum terkirim karena koneksi bermasalah. Coba kirim lagi sebentar lagi.';
+          try {
+            const j = await r.json();
+            if (j && Array.isArray(j.errors) && j.errors[0]?.message) pesanErr = `Pesan belum terkirim: ${j.errors[0].message}`;
+          } catch (_) {}
+          throw new Error(pesanErr);
+        }
         teks = 'Pesanmu sudah kami terima. Kami akan membalas lewat email dalam beberapa hari.';
       } catch (err) {
         tombol.disabled = false; tombol.textContent = 'Kirim pesan';
         JN.eks('kaget', 2000);
-        alertGalat('Pesan belum terkirim karena koneksi bermasalah. Coba kirim lagi sebentar lagi.');
+        alertGalat(err && err.message && err.message.startsWith('Pesan belum') ? err.message : 'Pesan belum terkirim karena koneksi bermasalah. Coba kirim lagi sebentar lagi.');
         return;
       }
     } else {
