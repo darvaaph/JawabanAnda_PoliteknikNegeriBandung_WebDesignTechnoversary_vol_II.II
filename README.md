@@ -73,12 +73,15 @@ python -m http.server 8000
 ```
 Lalu buka `http://localhost:8000` di browser. Alternatif: ekstensi *Live Server* di VS Code, atau `npx serve`.
 
-**Versi online:** https://darvaaph.github.io/webdesign_JawabanAnda_technoversary_vol.II/
+**Versi online:** https://webdesignzerowaste.vercel.app/
 
-### Menerbitkan ke GitHub Pages
+### Menerbitkan ke Vercel
 1. Push folder ini ke repository GitHub.
-2. Buka *Settings → Pages*, pilih *Deploy from a branch*, branch `main`, folder `/ (root)`.
-3. Tunggu sekitar satu menit, lalu buka tautan yang muncul.
+2. Di vercel.com pilih *Add New → Project*, lalu impor repository ini.
+3. Biarkan *Framework Preset* di **Other**, tanpa *Build Command*, dan *Root Directory* di root repo (tempat `index.html` berada).
+4. Klik *Deploy*. Setiap push ke `main` otomatis diterbitkan ulang.
+
+(Alternatif: GitHub Pages lewat *Settings → Pages → branch `main`, folder `/ (root)`*.)
 
 ## Mengubah data
 
