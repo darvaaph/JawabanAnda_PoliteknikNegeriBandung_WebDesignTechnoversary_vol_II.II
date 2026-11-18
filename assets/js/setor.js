@@ -117,12 +117,12 @@ function pasangJalur(wadah) {
   const panah = '<span class="j-panah" aria-hidden="true"><i></i></span>';
   const MODE = {
     campur: {
-      angka: 100, ket: 'dari 100 bagian sampah berakhir di TPA',
+      angka: 100, ket: 'sampah berakhir di TPA',
       jalur: [[node('kresek', 'Rumah', 'semua dalam satu kantong'), node('ember', 'TPS'), node('', 'Truk sampah'), node('', 'TPA Ciniru', 'ditimbun', 'var(--residu)')]],
       catatan: 'Di TPA, sampah tercampur ditimbun. Sisa makanan membusuk jadi gas metana dan air lindi, dan timbunan bisa terbakar seperti TPA Ciniru pada 12 Agustus 2026.'
     },
     pilah: {
-      angka: jml('residu'), ket: 'dari 100 bagian yang masih harus ke TPA',
+      angka: jml('residu'), ket: 'yang masih harus ke TPA',
       jalur: [
         [node('pisang', KAT.organik.nama, `${jml('organik')} bagian`, KAT.organik.warna), node('ember', 'Kompos di rumah', 'atau TPS3R desa/kelurahan: dikompos jadi pupuk')],
         [node('botol', KAT.anorganik.nama, `${jml('anorganik')} bagian`, KAT.anorganik.warna), node('kardus', 'Bank sampah', 'ditimbang, nilainya dicatat seperti tabungan'), node('', 'Didaur ulang')],
@@ -135,7 +135,7 @@ function pasangJalur(wadah) {
   function gambar(mode) {
     const m = MODE[mode];
     wadah.dataset.mode = mode;
-    wadah.innerHTML = `<div class="j-angka"><b data-target="${m.angka}">${m.angka}</b><span>${m.ket}</span></div>
+    wadah.innerHTML = `<div class="j-angka"><b data-target="${m.angka}">${m.angka}</b><span class="j-dari">dari 100 bagian</span><span class="j-ket">${m.ket}</span></div>
       <div class="j-jalur">${m.jalur.map((baris, i) => `<div class="j-baris" style="--i:${i}">${baris.join(panah)}</div>`).join('')}</div>
       <p class="j-catatan">${m.catatan}</p>`;
     $$('.jalur-pilih button').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === mode));

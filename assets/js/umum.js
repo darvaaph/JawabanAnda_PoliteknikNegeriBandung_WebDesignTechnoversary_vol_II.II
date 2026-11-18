@@ -465,7 +465,7 @@ JN.pasangKalkulator = root => {
           <small class="batas" data-batas="${r.id}" hidden>Maksimal 30. Kalau lebih, pilih satuan waktu yang lebih pendek.</small>
         </div>
         <div class="tanya">
-          <span class="kalimat">Kalau pakai <b>${h.ganti}</b>, dari 4 kesempatan aku bisa ganti…</span>
+          <span class="kalimat">Dari tiap 4 ${h.satuan}, berapa yang bisa kuganti dengan <b>${h.ganti}</b>?</span>
           ${pilihan('k-' + r.id, SANGGUP, 'data-k', r.id, r.k, `Seberapa sering ${b.nama} bisa diganti ${h.ganti}`)}
         </div>
         <div class="batang" data-hb="${r.id}"></div>
