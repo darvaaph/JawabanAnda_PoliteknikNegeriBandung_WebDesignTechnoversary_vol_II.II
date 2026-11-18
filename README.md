@@ -11,11 +11,11 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 |---|---|
 | **Beranda** (`index.html`) | Cerita singkat: pencarian cepat “Ini dibuang ke mana?”, cerita gulir (*scrollytelling*) **“tong sampah Indonesia”**: tong 100 kotak (1 kotak = 1% berat sampah, SIPSN 2025) menempel di samping teks dan berubah di setiap tahap bacaan (isi tong, sisa makanan, plastik, sisanya, lalu dipilah menjadi tiga kelompok yang masing-masing menuju satu langkah), dengan botol dari awal halaman ikut jatuh ke dalamnya, jalan empat langkah yang dilalui satu botol sampai masuk tong, dan contoh Kartu Jejak-ku |
 | **Pilah** (`pilah.html`) | Pencarian barang, jelajah ruangan (dapur, kamar mandi, belajar/kerja & kos, belanja), isi empat tong, mini-game **Pilah Cepat** (8 barang acak, ketuk tong atau tekan 1–4, barang terlempar ke tong, umpan balik langsung, skor masuk Kartu Jejak-ku), arti kode plastik 1–7 |
-| **Kurangi** (`kurangi.html`) | Kalkulator barang sekali pakai yang bisa dicegah per tahun: tiap barang berupa satu kalimat (“Aku pakai 2 botol setiap hari”) dengan chip pilihan, label **contoh** pada angka bawaan, batang mini setahun vs setelah ganti, hasil dalam skala mingguan dan kelas/kos/RT, tombol **“Ini janjiku”** yang mencatat jejak, chip **“barang → pengganti”** untuk menambah barang, bar hasil yang menempel di bawah layar HP, perbandingan tumpukan sebelum dan sesudah, lipatan cara menghitung |
-| **Olah** (`olah.html`) | Tab panduan kompos ember / eco-enzyme (desktop: panel proses besar di kiri, bahan + langkah di kanan; **langkah yang relevan disorot mengikuti slider**) dengan **slider waktu “Lihat prosesnya”** (geser atau putar: ember kompos berubah dari sisa sayur jadi kompos bertunas, cairan eco-enzyme berubah warna, bergelembung, lalu siap disaring), galeri daur ulang dengan filter “saya punya…” (2 kolom di HP), **kuis “Mitos atau fakta?”** yang membuka jawaban dan sumbernya setelah ditebak, tombol simpan ide, Mitos vs Fakta |
+| **Kurangi** (`kurangi.html`) | Kalkulator barang sekali pakai yang bisa dicegah per tahun: tiap barang berupa satu kalimat (“Aku pakai 2 botol setiap hari”) dengan chip pilihan, pertanyaan **“Dari tiap 4 botol, berapa yang bisa kuganti dengan tumbler?”** (Belum, Kadang, Sering, Hampir selalu, Selalu = 0–4 dari 4) beserta kalimat **“Artinya: …”** yang menjelaskan pilihan itu, label **contoh** pada angka bawaan, batang mini setahun vs setelah ganti, hasil dalam skala mingguan, perandaian **“Bagaimana kalau orang lain ikut?”** (satu kelas/kos/RT, lengkap dengan rumus perkaliannya), tombol **“Ini janjiku”** yang mencatat jejak, chip **“barang → pengganti”** untuk menambah barang, bar hasil yang menempel di bawah layar HP, perbandingan tumpukan sebelum dan sesudah, lipatan cara menghitung |
+| **Olah** (`olah.html`) | Tab panduan kompos ember / eco-enzyme (desktop: panel proses besar di kiri, bahan + langkah di kanan; **langkah yang relevan disorot mengikuti slider**) dengan **slider waktu “Lihat prosesnya”** (geser atau putar: ember kompos berubah dari sisa sayur jadi kompos bertunas, cairan eco-enzyme berubah warna, bergelembung, lalu siap disaring), galeri daur ulang dengan filter “saya punya…” (2 kolom di HP), **kuis “Mitos atau fakta?”** yang membuka jawaban dan sumbernya setelah ditebak, tombol **“＋ Aku mau coba”** yang memasukkan ide ke Kartu Jejak-ku |
 | **Setor** (`setor.html`) | Checklist persiapan **“Sebelum → Sesudah”** (setiap baris punya ilustrasi kecil yang berbalik saat dicentang: kantong campur jadi tiga tong, botol bernoda jadi bersih, kardus basah jadi kering, barang berserakan masuk karung, kalender “?” jadi “SABTU ✓”; karung di atas terisi sampai stempel “Siap disetor”), perbandingan **dua jalur sampah** (dibuang campur: 100 dari 100 bagian ke TPA; dipilah: hanya bagian residu), **“Cari tempat setor”**: tombol pencarian peta (bank sampah, drop point B3/e-waste, toko refill) yang berlaku di kota mana pun, plus contoh lokasi dari Kabupaten Kuningan |
-| **Kartu Jejak-ku** (`kartu.html`) | Akhir perjalanan: rangkuman keempat langkah yang bisa **diunduh sebagai gambar 1080×1920** (pas untuk Instagram Story) atau dibagikan langsung dari HP |
-| **Tentang** (`tentang.html`) | Masalah, audiens, cara menghitung, sumber data, tim |
+| **Kartu Jejak-ku** (`kartu.html`) | Akhir perjalanan: kartu pribadi berisi nama dan **gelar** yang dipilih dari aksi pengunjung (mis. *Si Pemilah Jeli*, *Penjaga Tumbler*, *Peracik Eco-enzyme*), **empat stempel** langkah bertanggal, daftar **Aksi-ku**, lalu total barang yang dicegah per tahun beserta deretan ikonnya (atau ilustrasi **“Pilah jadi 4, beda tujuan”** bila belum ada angka). Bisa **diunduh sebagai gambar 1080×1920** (pas untuk Instagram Story) atau dibagikan langsung dari HP |
+| **Tentang** (`tentang.html`) | Masalah, audiens, cara menghitung, sumber data, kaitan dengan SDGs, tim beserta foto |
 | **Kontak** (`kontak.html`) | Formulir pertanyaan, usulan lokasi, dan usulan barang |
 
 ### Alur pengunjung
@@ -29,7 +29,7 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 - **Selalu bisa pulang ke Beranda:** logo, penanda posisi *Beranda › Langkah n dari 4* di atas setiap halaman, dan tautan “Kembali ke Beranda” di akhir halaman langkah.
 - **Kerangka yang sama di keempat langkah:** posisi → judul → kotak **Intinya** (satu kalimat) → aksi jejak → isi → langkah berikutnya.
 - **Mudah bernavigasi di halaman panjang:** chip **“Lompat ke:”** di kepala halaman Pilah, Olah, dan Setor; tombol **↑** kembali ke atas; chip **“Jejak n/4”** di header yang selalu menunjukkan progres dan membuka Kartu Jejak-ku.
-- **Istilah bisa diketuk:** kata seperti B3, residu, TPS3R, kompos, dan bank sampah diberi garis putus-putus; diketuk → penjelasan satu kalimat. Kamusnya ada di `JN.ISTILAH` (`assets/js/data.js`).
+- **Istilah bisa diketuk:** kata seperti B3, residu, TPS3R, kompos, dan bank sampah diberi garis putus-putus dan tanda **?** (di kotak Intinya cukup garis putus-putus); diketuk → penjelasan satu kalimat. Kamusnya ada di `JN.ISTILAH` (`assets/js/data.js`).
 
 Setiap langkah punya satu aksi kecil yang meninggalkan **jejak** (buka 3 barang atau cari 1 barang, atur kalkulator lalu tekan “Ini janjiku”, pilih 1 ide yang mau dicoba lewat tombol “Aku mau coba”, centang 5 persiapan). Titik berwarna di menu terisi saat jejak langkah itu tercatat. Keempat langkah dapat diselesaikan **dalam urutan apa pun** tanpa dikunci. Kemajuan disimpan di browser, dan bisa dihapus lewat tombol di halaman Kartu Jejak-ku.
 
@@ -39,7 +39,7 @@ Fitur pendukung: maskot **Kardi** yang bereaksi terhadap aksi pengguna, tampilan
 
 - HTML, CSS, dan JavaScript murni. **Tanpa framework, tanpa proses build, tanpa komponen berbayar.**
 - Huruf dari Google Fonts (lisensi terbuka): Archivo, Plus Jakarta Sans, Space Mono, Permanent Marker.
-- Semua ilustrasi, ikon, dan maskot dibuat sendiri sebagai SVG di dalam kode.
+- Semua ilustrasi, ikon, dan maskot dibuat sendiri sebagai SVG di dalam kode. Satu-satunya gambar raster adalah foto tim (WebP, ±6 KB per foto).
 - Data barang, panduan, dan direktori ada di satu file: `assets/js/data.js`.
 
 ## Struktur folder
@@ -50,6 +50,7 @@ webdesign_JawabanAnda_technoversary_vol.II/
 ├─ README.md
 └─ assets/
    ├─ favicon.svg
+   ├─ img/                  ← foto tim (tim-darva.webp, tim-citra.webp, tim-denta.webp)
    ├─ css/gaya.css          ← semua gaya
    └─ js/
       ├─ data.js            ← data barang, tong, plastik, panduan, DIY, mitos, direktori
@@ -86,7 +87,7 @@ Lalu buka `http://localhost:8000` di browser. Alternatif: ekstensi *Live Server*
 ## Mengubah data
 
 - **Menambah barang:** tambahkan objek baru di `JN.BARANG` (`assets/js/data.js`). Isi `hitung` hanya jika barang itu sekali pakai dan punya pengganti jelas.
-- **Menambah contoh lokasi setor:** tambahkan ke `JN.DIREKTORI` (kini berisi contoh dari Kabupaten Kuningan). Cantumkan hanya lokasi yang sudah dicek langsung, dengan tanggal di kolom `dicek`.
+- **Menambah contoh lokasi setor:** tambahkan ke `JN.DIREKTORI` (kini berisi contoh dari Kabupaten Kuningan). Lokasi yang sudah dicek langsung diberi tanggal di kolom `dicek` (tampil “Dicek tim”); lokasi yang baru ditemukan dari dokumen publik diberi kolom `sumber` (tampil “Belum dikonfirmasi”).
 - **Mengaktifkan formulir kontak:** buat formulir gratis di layanan seperti Formspree, lalu isi alamatnya di atribut `data-endpoint` pada `<form id="form-kontak">` di `kontak.html`. Tanpa itu, formulir berjalan dalam mode demo dan memberi tahu pengguna bahwa pesan belum terkirim.
 
 ## Kaitan dengan SDGs
@@ -95,7 +96,7 @@ Jejak Nol mendukung **SDG 12** (Konsumsi dan Produksi yang Bertanggung Jawab), t
 
 ## Sumber data
 
-Semua data dan berita berasal dari **5 tahun terakhir (2021–2026)**, diperbarui 16 November 2026. Peraturan yang lebih lama hanya dicantumkan sebagai dasar hukum yang masih berlaku.
+Semua data dan berita berasal dari **5 tahun terakhir (2021–2026)**, diperbarui 18 November 2026. Daftar ini sama dengan bagian *Sumber data* di halaman Tentang. Peraturan yang lebih lama hanya dicantumkan sebagai dasar hukum yang masih berlaku.
 
 - **SIPSN Kementerian Lingkungan Hidup**, komposisi sampah berdasarkan jenis, data 2025: https://sampahnasional.kemenlh.go.id/portal-indikatif/data/komposisi-sampah (ringkasan nasional: GoodStats, 21 Mei 2026, https://data.goodstats.id/statistic/komposisi-sampah-nasional-2025-didominasi-sisa-makanan-pgp9R). Sisa makanan 40,77%, plastik 20,52%, kayu-ranting 13,13%, kertas-karton 11,4%, logam 3,11%, kain 2,51%, kaca 2,39%.
 - **Sumber sampah 2025**: rumah tangga 56,7% (GoodStats, data SIPSN): https://goodstats.id/article/persentase-sumber-sampah-indonesia-2025-rumah-tangga-dominasi-timbulan-nasional-GR9A5
@@ -108,8 +109,9 @@ Semua data dan berita berasal dari **5 tahun terakhir (2021–2026)**, diperbaru
 - **Daur ulang PET dan PP**: Kompas.com, 27 Februari 2025: https://lestari.kompas.com/read/2025/02/27/165716186/fakta-daur-ulang-di-balik-plastik-pet-kemasan-besar-yang-jadi-primadona
 - **Panduan kompos ember**: DLH Kota Bima, *Petunjuk Teknis Pengolahan Sampah Organik MAIKAKURA* (Desember 2025), bagian Ember Tumpuk: https://dlh.bimakota.go.id/upload/download/1771898092_98082612d1a1c8140236.pdf
 - **Panduan eco-enzyme**: Anomsari, S.D., materi Eco Enzyme, BRMP Pertanian Jawa Tengah (Kementan): https://jateng.brmp.pertanian.go.id/storage/assets/uploads/file/zeFPP9HCpOZEKaGMoeUEgD3YHhuJ05VBEg1tfKZY.pdf
+- **Contoh lokasi setor di Kabupaten Kuningan** (halaman Setor, berlabel “Belum dikonfirmasi”): Bank Sampah Induk Cipari (KLH, serah terima fasilitas, 31 Desember 2024): https://info3r.kemenlh.go.id/berita/detail/Z25jank4ZkkxK1lJcmhOSkFiVnNmbVh4UkE1MmRHZ0R4RXNrOVhBbHFNYz0 ; Bank Sampah Situsari Sejahtera (Peta Minim Sampah, Zero Waste Indonesia): https://zerowaste.id/peta-minim-sampah/bassis-bank-sampah-situsari-sejahtera/ ; TPS3R Cibinuang dan Padamenak (Pemkab Kuningan, peluncuran 8 TPS3R, 10 Februari 2022): https://kuningankab.go.id/home/8-desa-siap-kelola-sampah-melalui-tps-3r/
 - **Dasar hukum yang masih berlaku**: UU No. 18 Tahun 2008 tentang Pengelolaan Sampah; Permen LHK No. 14 Tahun 2021 tentang Pengelolaan Sampah pada Bank Sampah
-- **Lainnya**: PBB, Sustainable Development Goals (https://sdgs.un.org/goals); ASTM D7611, Resin Identification Code (kode plastik 1–7)
+- **Lainnya**: PBB, Sustainable Development Goals, Goal 12 (https://sdgs.un.org/goals/goal12); ASTM D7611, Resin Identification Code (kode plastik 1–7)
 
 ## Tim
 
