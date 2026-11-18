@@ -15,6 +15,8 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 | **Olah** (`olah.html`) | Tab panduan kompos ember / eco-enzyme (desktop: panel proses besar di kiri, bahan + langkah di kanan; **langkah yang relevan disorot mengikuti slider**) dengan **slider waktu “Lihat prosesnya”** (geser atau putar: ember kompos berubah dari sisa sayur jadi kompos bertunas, cairan eco-enzyme berubah warna, bergelembung, lalu siap disaring), galeri daur ulang dengan filter “saya punya…” (2 kolom di HP), **kuis “Mitos atau fakta?”** yang membuka jawaban dan sumbernya setelah ditebak, tombol simpan ide, Mitos vs Fakta |
 | **Setor** (`setor.html`) | Checklist persiapan **“Sebelum → Sesudah”** (setiap baris punya ilustrasi kecil yang berbalik saat dicentang: kantong campur jadi tiga tong, botol bernoda jadi bersih, kardus basah jadi kering, barang berserakan masuk karung, kalender “?” jadi “SABTU ✓”; karung di atas terisi sampai stempel “Siap disetor”), perbandingan **dua jalur sampah** (dibuang campur: 100 dari 100 bagian ke TPA; dipilah: hanya bagian residu), **“Cari tempat setor”**: tombol pencarian peta (bank sampah, drop point B3/e-waste, toko refill) yang berlaku di kota mana pun, plus contoh lokasi dari Kabupaten Kuningan |
 | **Kartu Jejak-ku** (`kartu.html`) | Akhir perjalanan: rangkuman keempat langkah yang bisa **diunduh sebagai gambar 1080×1920** (pas untuk Instagram Story) atau dibagikan langsung dari HP |
+| **Tentang** (`tentang.html`) | Masalah, audiens, cara menghitung, sumber data, tim |
+| **Kontak** (`kontak.html`) | Formulir pertanyaan, usulan lokasi, dan usulan barang |
 
 ### Alur pengunjung
 
@@ -30,8 +32,6 @@ Banyak orang sebenarnya mau memilah sampah, tapi berhenti di tiga pertanyaan: ba
 - **Istilah bisa diketuk:** kata seperti B3, residu, TPS3R, kompos, dan bank sampah diberi garis putus-putus; diketuk → penjelasan satu kalimat. Kamusnya ada di `JN.ISTILAH` (`assets/js/data.js`).
 
 Setiap langkah punya satu aksi kecil yang meninggalkan **jejak** (buka 3 barang atau cari 1 barang, atur kalkulator lalu tekan “Ini janjiku”, pilih 1 ide yang mau dicoba lewat tombol “Aku mau coba”, centang 5 persiapan). Titik berwarna di menu terisi saat jejak langkah itu tercatat. Keempat langkah dapat diselesaikan **dalam urutan apa pun** tanpa dikunci. Kemajuan disimpan di browser, dan bisa dihapus lewat tombol di halaman Kartu Jejak-ku.
-| **Tentang** (`tentang.html`) | Masalah, audiens, cara menghitung, sumber data, tim |
-| **Kontak** (`kontak.html`) | Formulir pertanyaan, usulan lokasi, dan usulan barang |
 
 Fitur pendukung: maskot **Kardi** yang bereaksi terhadap aksi pengguna, tampilan responsif dari HP sampai desktop, perpindahan halaman yang mulus (View Transitions di Chrome/Edge), dan dukungan pengguna yang mematikan animasi (`prefers-reduced-motion`).
 
@@ -73,7 +73,7 @@ python -m http.server 8000
 ```
 Lalu buka `http://localhost:8000` di browser. Alternatif: ekstensi *Live Server* di VS Code, atau `npx serve`.
 
-**Versi online:** `<isi tautan GitHub Pages>`
+**Versi online:** https://darvaaph.github.io/webdesign_JawabanAnda_technoversary_vol.II/
 
 ### Menerbitkan ke GitHub Pages
 1. Push folder ini ke repository GitHub.
@@ -118,17 +118,3 @@ Semua data dan berita berasal dari **5 tahun terakhir (2021–2026)**, diperbaru
 | Citra Mutia Lestari | Anggota |
 | Denta Dwipawasesa | Anggota |
 
----
-
-### Daftar periksa sebelum submit (hapus bagian ini setelah selesai)
-
-- [x] Isi `JN.KOMPOSISI` dari SIPSN 2025 dan semua sumber bertanda “ISI” (16 Nov 2026)
-- [ ] Cek ulang angka komposisi langsung di portal SIPSN (sampahnasional.kemenlh.go.id) sebelum submit; angka bisa bergeser bila kabupaten/kota menambah laporan
-- [ ] Cocokkan bunyi target SDG 11.6, 14.1, 13.3, 4.7 dan kode ASTM D7611 dengan sumber resminya
-- [ ] Cocokkan pengelompokan tong dengan aturan bank sampah/TPS di Kuningan
-- [ ] **Konfirmasi 4 lokasi di `JN.DIREKTORI`** (2 bank sampah, 2 TPS3R; sekarang berchip “Belum dikonfirmasi”): telepon/kunjungi, isi `jam`, `menerima`, lalu ganti `sumber` dengan `dicek: 'tanggal'`. Cari juga drop point B3 dan toko refill (belum ada satu pun)
-- [x] Nama tim dan anggota terisi (Tentang, README)
-- [ ] Cocokkan “kebiasaan zero-waste” tiap anggota di Tentang dengan kenyataan (draf awal); email tim sudah terisi (Kontak), Instagram tidak dicantumkan; sebutkan peran masing-masing anggota bila ingin dicantumkan
-- [x] Aktifkan formulir kontak (`data-endpoint` — Formspree)
-- [ ] Terbitkan ke GitHub Pages dan isi tautannya di atas
-- [ ] Cek dengan Lighthouse (Chrome DevTools) dan di HP
