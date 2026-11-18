@@ -40,8 +40,12 @@ JN.mulai = () => {
       .replace(/<g class="eks eks-(\w+)">/g, (m, n) => n === 'senang' ? '<g>' : '<g style="display:none">');
     return new Promise(ok => { const img = new Image(); img.onload = () => ok(img); img.onerror = () => ok(null); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s); });
   }
+  function gambarIkon(n) {
+    const s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="120" height="120">${JN.IKON[n] || ''}</svg>`;
+    return new Promise(ok => { const img = new Image(); img.onload = () => ok(img); img.onerror = () => ok(null); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s); });
+  }
   async function buatGambar() {
-    await Promise.all(['900 60px Archivo', '400 60px "Permanent Marker"', '600 34px "Plus Jakarta Sans"', '800 34px "Plus Jakarta Sans"', '700 28px "Space Mono"']
+    await Promise.all(['900 60px Archivo', '400 60px "Permanent Marker"', '600 34px "Plus Jakarta Sans"', '800 34px "Plus Jakarta Sans"', '700 28px "Space Mono"', '400 24px "Space Mono"']
       .map(f => document.fonts.load(f).catch(() => null)));
     const d = JN.jejak.data(), st = JN.jejak.status(d), n = JN.jejak.jumlah(st);
     const isi = JN.isiKartuJejak(d), total = isi.total;
@@ -69,41 +73,120 @@ JN.mulai = () => {
     ctx.strokeStyle = '#A8231B'; ctx.lineWidth = 5; ctx.strokeRect(-lc / 2, -36, lc, 66); ctx.lineWidth = 2; ctx.strokeRect(-lc / 2 + 7, -29, lc - 14, 52);
     ctx.fillStyle = '#A8231B'; ctx.textAlign = 'center'; ctx.fillText(cap, 0, 12); ctx.restore(); ctx.textAlign = 'left';
 
-    // nama
-    y += 120; ctx.fillStyle = '#1B1712'; ctx.font = '400 64px "Permanent Marker"';
-    bungkus(ctx, isi.judul, LEBAR).forEach(b => { ctx.fillText(b, X, y); y += 76; });
-    y += 30;
+    const TINTA = '#1B1712';
+    // nama + gelar (pita stabilo kuning)
+    y += 130; ctx.fillStyle = TINTA; ctx.font = '400 80px "Permanent Marker"'; ctx.fillText(isi.nama, X, y, LEBAR);
+    y += 42; ctx.font = '900 58px Archivo';
+    const teksGelar = isi.gelar.toUpperCase(), lebarGelar = Math.min(LEBAR, ctx.measureText(teksGelar).width + 44);
+    ctx.save(); ctx.translate(X, y); ctx.rotate(-0.025);
+    ctx.fillStyle = TINTA; roundRect(ctx, 8, 8, lebarGelar, 80, 10); ctx.fill();
+    ctx.fillStyle = '#F2C230'; roundRect(ctx, 0, 0, lebarGelar, 80, 10); ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = TINTA; ctx.stroke();
+    ctx.fillStyle = TINTA; ctx.fillText(teksGelar, 22, 60, lebarGelar - 44); ctx.restore();
 
-    // empat baris langkah (maks 2 baris per langkah agar area total & Kardi di bawah selalu lega)
-    JN.LANGKAH.forEach(l => {
-      const sudah = st[l.id], warna = getComputedStyle(document.documentElement).getPropertyValue(l.warna.slice(4, -1)).trim() || '#1B1712';
-      ctx.globalAlpha = sudah ? 1 : 0.45;
-      ctx.beginPath(); ctx.arc(X + 18, y - 14, 18, 0, Math.PI * 2);
-      ctx.fillStyle = sudah ? warna : '#FBF7EE'; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = '#1B1712'; ctx.stroke();
-      ctx.fillStyle = '#1B1712'; ctx.font = '900 44px Archivo'; ctx.fillText(l.nama.toUpperCase(), X + 56, y);
-      y += 46; ctx.font = '600 32px "Plus Jakarta Sans"'; ctx.fillStyle = '#4A3E2E';
-      const barisTeks = bungkus(ctx, sudah ? isi.baris[l.id] : 'Belum diselesaikan.', LEBAR - 56);
-      barisTeks.slice(0, 2).forEach((b, idx) => {
-        const teksBaris = idx === 1 && barisTeks.length > 2 ? b.replace(/\s+\S*$/, '') + '…' : b;
-        ctx.fillText(teksBaris, X + 56, y); y += 42;
-      });
-      y += 28; ctx.globalAlpha = 1;
+    // empat stempel langkah
+    const R = 86, D = R * 2, jarak = (LEBAR - D * 4) / 3, cy = y + 88 + 70 + R;
+    isi.stempel.forEach((s, i) => {
+      const cx = X + R + i * (D + jarak);
+      const warna = getComputedStyle(document.documentElement).getPropertyValue(s.l.warna.slice(4, -1)).trim() || TINTA;
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(s.putar * Math.PI / 180);
+      if (s.sudah) {
+        ctx.beginPath(); ctx.arc(0, 0, R + 6, 0, Math.PI * 2); ctx.fillStyle = TINTA; ctx.fill();
+        ctx.beginPath(); ctx.arc(0, 0, R, 0, Math.PI * 2); ctx.fillStyle = warna; ctx.fill();
+        ctx.beginPath(); ctx.arc(0, 0, R - 14, 0, Math.PI * 2); ctx.fillStyle = '#FBF7EE'; ctx.fill();
+        ctx.setLineDash([8, 7]); ctx.lineWidth = 2.5; ctx.strokeStyle = 'rgba(27,23,18,.45)';
+        ctx.beginPath(); ctx.arc(0, 0, R - 24, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+      } else {
+        ctx.globalAlpha = 0.45; ctx.setLineDash([12, 9]); ctx.lineWidth = 4; ctx.strokeStyle = TINTA;
+        ctx.beginPath(); ctx.arc(0, 0, R, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+      }
+      ctx.textAlign = 'center'; ctx.fillStyle = TINTA;
+      ctx.font = '900 34px Archivo'; ctx.fillText(s.l.nama.toUpperCase(), 0, 4, D - 72);
+      ctx.font = '700 22px "Space Mono"'; ctx.fillStyle = '#4A3E2E'; ctx.fillText((s.sudah ? (s.tgl || '✓') : 'belum').toUpperCase(), 0, 40);
+      ctx.restore();
+      // keterangan singkat di bawah stempel (maks 2 baris)
+      ctx.save(); ctx.globalAlpha = s.sudah ? 1 : 0.5; ctx.textAlign = 'center'; ctx.fillStyle = TINTA; ctx.font = '800 26px "Plus Jakarta Sans"';
+      bungkus(ctx, s.sudah ? s.ket : 'Belum', D + jarak - 8).slice(0, 2).forEach((b, k) => ctx.fillText(b, cx, cy + R + 52 + k * 34));
+      ctx.restore();
     });
-
-    // total (diletakkan aman di kiri Kardi dan di dalam batas kertas bawah)
-    if (total) {
-      const yGaris = Math.min(y, 1380);
+    const garisPutus = yy => {
       ctx.setLineDash([14, 12]); ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(27,23,18,.4)';
-      ctx.beginPath(); ctx.moveTo(X, yGaris); ctx.lineTo(X + LEBAR, yGaris); ctx.stroke(); ctx.setLineDash([]);
-      let yTotal = yGaris + 150;
-      ctx.fillStyle = '#A8231B'; ctx.font = '900 160px Archivo'; ctx.fillText(JN.fmt(total), X, yTotal, LEBAR - 340);
-      yTotal += 54; ctx.fillStyle = '#1B1712'; ctx.font = '800 33px "Plus Jakarta Sans"';
-      bungkus(ctx, 'barang sekali pakai per tahun tidak jadi sampah', LEBAR - 340).forEach(b => { ctx.fillText(b, X, yTotal); yTotal += 42; });
+      ctx.beginPath(); ctx.moveTo(X, yy); ctx.lineTo(X + LEBAR, yy); ctx.stroke(); ctx.setLineDash([]);
+    };
+    const sub = (teks, yy) => { ctx.fillStyle = '#A8231B'; ctx.font = '700 26px "Space Mono"'; ctx.fillText(teks.toUpperCase().split('').join(String.fromCharCode(8202)), X, yy); };
+    const ATAS = cy + R + 52 + 34 + 46, BAWAH = 1385; // area Aksi-ku; blok bawah mulai di BAWAH
+    garisPutus(ATAS);
+
+    // Aksi-ku: ikon dalam lingkaran warna langkah + teks maks 2 baris; diletakkan di tengah area
+    if (isi.aksi.length) {
+      ctx.font = '800 31px "Plus Jakarta Sans"';
+      const baris = isi.aksi.map(a => bungkus(ctx, a.teks, LEBAR - 104).slice(0, 2));
+      const tinggi = baris.map(b => Math.max(76, b.length * 40)), SELA = 20;
+      const total2 = 52 + tinggi.reduce((s, t) => s + t + SELA, 0) - SELA;
+      let ya = ATAS + Math.max(40, (BAWAH - ATAS - total2) / 2);
+      sub('Aksi-ku', ya + 20); ya += 52;
+      const gb = await Promise.all(isi.aksi.map(a => gambarIkon(a.ikon)));
+      isi.aksi.forEach((a, i) => {
+        const warna = getComputedStyle(document.documentElement).getPropertyValue(a.l.warna.slice(4, -1)).trim() || TINTA;
+        const tengah = ya + tinggi[i] / 2;
+        ctx.beginPath(); ctx.arc(X + 38, tengah, 38, 0, Math.PI * 2); ctx.fillStyle = warna; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = TINTA; ctx.stroke();
+        ctx.beginPath(); ctx.arc(X + 38, tengah, 29, 0, Math.PI * 2); ctx.fillStyle = '#FBF7EE'; ctx.fill();
+        if (gb[i]) ctx.drawImage(gb[i], X + 38 - 25, tengah - 25, 50, 50);
+        ctx.fillStyle = TINTA; ctx.font = '800 31px "Plus Jakarta Sans"';
+        const awal = tengah - (baris[i].length * 40) / 2 + 30;
+        baris[i].forEach((b, k) => ctx.fillText(b, X + 104, awal + k * 40));
+        ya += tinggi[i] + SELA;
+      });
+    }
+    garisPutus(BAWAH);
+
+    // blok bawah (kiri Kardi): total + ikon bila ada janji, kalau belum ada: ilustrasi 4 tong pilah
+    const KANAN = W - M - 260; // batas kiri Kardi
+    if (total) {
+      ctx.fillStyle = '#A8231B'; ctx.font = '900 140px Archivo'; const teksTotal = JN.fmt(total);
+      const lebarTotal = Math.min(ctx.measureText(teksTotal).width, 420); ctx.fillText(teksTotal, X, BAWAH + 150, 420);
+      // ikon di kanan angka, 2 baris, satuan dipilih supaya muat
+      const UK = 50, SL = 8, x0 = X + lebarTotal + 36, kolom = Math.max(1, Math.floor((KANAN - x0 + SL) / (UK + SL)));
+      const jml = u => isi.ikon.reduce((s, x) => s + Math.max(1, Math.round(x.dicegah / u)), 0);
+      const satuan = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 5000].find(u => jml(u) <= kolom * 2) || 10000;
+      const gb = await Promise.all(isi.ikon.map(x => gambarIkon(x.ikon)));
+      let k = 0;
+      isi.ikon.forEach((x, j) => {
+        for (let m = 0; m < Math.max(1, Math.round(x.dicegah / satuan)) && k < kolom * 2; m++, k++) {
+          if (gb[j]) ctx.drawImage(gb[j], x0 + (k % kolom) * (UK + SL), BAWAH + 36 + Math.floor(k / kolom) * (UK + SL), UK, UK);
+        }
+      });
+      let yt = BAWAH + 205; ctx.fillStyle = TINTA; ctx.font = '800 32px "Plus Jakarta Sans"';
+      bungkus(ctx, 'barang sekali pakai per tahun tidak jadi sampah', KANAN - X - 20).forEach(b => { ctx.fillText(b, X, yt); yt += 40; });
+      ctx.fillStyle = '#4A3E2E'; ctx.font = '700 24px "Space Mono"';
+      if (isi.perMinggu) { ctx.fillText(`≈ ${JN.fmt(isi.perMinggu)} barang setiap minggu`, X, yt + 8); yt += 36; }
+      ctx.font = '400 22px "Space Mono"'; ctx.fillText(`1 ikon = ${JN.fmt(satuan)} barang`, X, yt + 8);
+    } else {
+      sub(JN.TONG_KARTU_JUDUL, BAWAH + 52);
+      const gb = await Promise.all(isi.tong.map(t => gambarIkon(t.ikon)));
+      const LB = 124, SL = 22, yTutup = BAWAH + 86;
+      isi.tong.forEach((t, i) => {
+        const x = X + i * (LB + SL), warna = getComputedStyle(document.documentElement).getPropertyValue(t.warna.slice(4, -1)).trim() || TINTA;
+        // badan tong (trapesium) + tutup + pegangan
+        ctx.beginPath(); ctx.moveTo(x, yTutup + 26); ctx.lineTo(x + LB, yTutup + 26); ctx.lineTo(x + LB - 10, yTutup + 188); ctx.lineTo(x + 10, yTutup + 188); ctx.closePath();
+        ctx.fillStyle = warna; ctx.fill(); ctx.lineWidth = 5; ctx.strokeStyle = TINTA; ctx.lineJoin = 'round'; ctx.stroke();
+        ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(x + 16, yTutup + 38, 9, 120);
+        ctx.fillStyle = TINTA; roundRect(ctx, x - 8, yTutup, LB + 16, 28, 8); ctx.fill();
+        roundRect(ctx, x + LB / 2 - 22, yTutup - 14, 44, 16, 6); ctx.fill();
+        // ikon dalam lingkaran putih + nama tong
+        ctx.beginPath(); ctx.arc(x + LB / 2, yTutup + 84, 34, 0, Math.PI * 2); ctx.fillStyle = '#FBF7EE'; ctx.fill(); ctx.lineWidth = 4; ctx.stroke();
+        if (gb[i]) ctx.drawImage(gb[i], x + LB / 2 - 24, yTutup + 60, 48, 48);
+        ctx.fillStyle = '#FBF7EE'; roundRect(ctx, x + 12, yTutup + 132, LB - 24, 36, 6); ctx.fill();
+        ctx.fillStyle = TINTA; ctx.textAlign = 'center';
+        ctx.font = '900 24px Archivo'; ctx.fillText(t.nama.toUpperCase(), x + LB / 2, yTutup + 158, LB - 32);
+        // tujuan tong di bawahnya
+        ctx.font = '700 18px "Space Mono"'; ctx.fillText('→ ' + t.ke, x + LB / 2, yTutup + 222, LB + SL - 16);
+        ctx.textAlign = 'left';
+      });
     }
 
     // Kardi + kaki kartu
     const kardi = await gambarKardi();
-    if (kardi) ctx.drawImage(kardi, W - M - 330, H - 180 - 300, 300, 278);
+    if (kardi) ctx.drawImage(kardi, W - M - 245, 1740 - 30 - 208, 225, 208);
     ctx.fillStyle = '#1B1712'; ctx.font = '700 30px "Space Mono"'; ctx.textAlign = 'center';
     ctx.fillText('Pilah · Kurangi · Olah · Setor', W / 2, H - 92); ctx.textAlign = 'left';
     return c;

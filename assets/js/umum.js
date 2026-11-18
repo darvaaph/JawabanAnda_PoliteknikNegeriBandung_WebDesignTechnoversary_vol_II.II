@@ -30,7 +30,7 @@ JN.jejak = {
   data() {
     const s = simpan.ambil(KUNCI_JEJAK) || {};
     return { nama: s.nama || '', pilah: { dilihat: [], cari: false, main: false, skor: 0, ...(s.pilah || {}) }, kurangi: { janji: false, ...(s.kurangi || {}) },
-      olah: { simpan: [], ...(s.olah || {}) }, setor: { centang: [], ...(s.setor || {}) } };
+      olah: { simpan: [], ...(s.olah || {}) }, setor: { centang: [], ...(s.setor || {}) }, tgl: { ...(s.tgl || {}) } };
   },
   status(d = this.data()) {
     return { pilah: d.pilah.dilihat.length >= 3 || d.pilah.cari || d.pilah.main, kurangi: !!d.kurangi.janji, olah: d.olah.simpan.length > 0, setor: d.setor.centang.length >= 5 };
@@ -40,8 +40,11 @@ JN.jejak = {
   berikut(st = this.status()) { return JN.LANGKAH.find(l => !st[l.id]); },
   ubah(fn) {
     const d = this.data(), sebelum = this.status(d);
-    fn(d); simpan.taruh(KUNCI_JEJAK, d);
+    fn(d);
     const sesudah = this.status(d), n = this.jumlah(sesudah);
+    // tanggal stempel: dicatat saat langkah baru selesai, dihapus bila langkahnya dibatalkan
+    JN.LANGKAH.forEach(l => { if (!sebelum[l.id] && sesudah[l.id]) d.tgl[l.id] = Date.now(); else if (!sesudah[l.id]) delete d.tgl[l.id]; });
+    simpan.taruh(KUNCI_JEJAK, d);
     JN.LANGKAH.forEach(l => { if (!sebelum[l.id] && sesudah[l.id]) rayakan(l, n); });
     this.tampilkan();
   },
@@ -74,6 +77,7 @@ JN.jejak = {
       if (b) { a.href = b.url; a.textContent = `Lanjutkan: ${b.nama} →`; } else { a.href = 'kartu.html'; a.textContent = 'Lihat Kartu Jejak-ku →'; }
     });
     $$('[data-kartu-jejak]').forEach(JN.gambarKartuJejak);
+    $$('[data-kartu-contoh]').forEach(JN.gambarKartuContoh);
     $$('.progres-jejak').forEach(p => {
       $$('[data-pj]', p).forEach(i => i.classList.toggle('penuh', st[i.dataset.pj]));
       $('[data-pj-n]', p).textContent = `${n}/4`;
@@ -88,34 +92,88 @@ function rayakan(l, n) {
 }
 JN.hitungJanji = baris => (baris || []).filter(r => JN.byId[r.id] && JN.byId[r.id].hitung && JN.PER[r.per])
   .map(r => ({ r, b: JN.byId[r.id], dicegah: Math.round(r.jumlah * JN.PER[r.per] * r.k) }));
-/* isi Kartu Jejak-ku sebagai teks biasa: dipakai kartu di halaman dan gambar yang diunduh */
-JN.isiKartuJejak = (d = JN.jejak.data()) => {
-  const n = JN.jejak.jumlah(JN.jejak.status(d));
-  const janji = JN.hitungJanji(simpan.ambil(KUNCI_BARIS)).filter(x => x.r.k > 0);
+/* ---------- Kartu Jejak-ku ----------
+   Gelar pribadi dipilih dari aksi pengunjung sendiri, urutan prioritas: Pilah sempurna → janji Kurangi terbesar
+   → ide Olah pertama → langkah lain. */
+const GELAR_BARANG = { botol: 'Penjaga Tumbler', gelas: 'Penjaga Tumbler', kresek: 'Pembawa Tas Kain', styrofoam: 'Pembawa Wadah Makan',
+  sedotan: 'Peminum Tanpa Sedotan', sachet: 'Pemburu Kemasan Besar', sampo: 'Setia Isi Ulang', bubble: 'Penolak Bubble Wrap' };
+const GELAR_OLAH = { kompos: 'Peramu Kompos', 'eco-enzyme': 'Peracik Eco-enzyme', ecobrick: 'Penyusun Ecobrick' };
+JN.gelarJejak = (d, janji, st) => {
+  if (d.pilah.main && d.pilah.skor >= 8) return 'Si Pemilah Jeli';
+  if (janji.length) return GELAR_BARANG[[...janji].sort((a, b) => b.dicegah - a.dicegah)[0].b.id] || 'Pengurang Sampah';
+  if (d.olah.simpan.length) return GELAR_OLAH[d.olah.simpan[0]] || 'Si Tangan Kreatif';
+  if (st.pilah) return 'Pemilah Pemula';
+  if (st.setor) return 'Penyetor Teladan';
+  return 'Calon Penjejak';
+};
+JN.STEMPEL_PUTAR = [-8, 5, -4, 9]; // derajat, supaya cap terlihat dicap tangan
+/* isi Kartu Jejak-ku sebagai data biasa: dipakai kartu di halaman, contoh di Beranda, dan gambar yang diunduh */
+JN.isiKartuJejak = (d = JN.jejak.data(), baris = simpan.ambil(KUNCI_BARIS)) => {
+  const st = JN.jejak.status(d), n = JN.jejak.jumlah(st);
+  const janji = JN.hitungJanji(baris).filter(x => x.r.k > 0 && x.dicegah > 0);
   const semuaIde = [...JN.PANDUAN, ...JN.DIY];
   const judulIde = d.olah.simpan.map(id => (semuaIde.find(x => x.id === id) || {}).judul).filter(Boolean);
-  const nama = d.nama || 'Aku';
+  const total = janji.reduce((s, x) => s + x.dicegah, 0);
+  const ket = {
+    pilah: d.pilah.main ? `${d.pilah.skor}/8 benar` : d.pilah.dilihat.length ? `${d.pilah.dilihat.length} barang dikenali` : 'Tong yang benar',
+    kurangi: janji.length ? `${janji.length} kebiasaan diganti` : 'Janji dibuat',
+    olah: `${judulIde.length || 1} ide dipilih`,
+    setor: '5/5 siap setor'
+  };
+  // Aksi-ku: satu baris berikon per langkah yang sudah selesai
+  const ideUtama = semuaIde.find(x => x.id === d.olah.simpan[0]);
+  const janjiUtama = [...janji].sort((a, b) => b.dicegah - a.dicegah)[0];
+  const lagi = (k, kata) => k > 0 ? `, dan ${k} ${kata} lain` : '';
+  const aksiSemua = {
+    pilah: { ikon: 'botol', teks: d.pilah.main ? `Memilah ${d.pilah.skor} dari 8 barang dengan benar` : d.pilah.dilihat.length ? `Mengenali tong untuk ${d.pilah.dilihat.length} barang` : 'Mencari tahu tong yang benar untuk sampahku' },
+    kurangi: janjiUtama
+      ? { ikon: janjiUtama.b.ikon, teks: `Ganti ${janjiUtama.b.nama.toLowerCase()} dengan ${janjiUtama.b.hitung.ganti}${lagi(janji.length - 1, 'kebiasaan')}` }
+      : { ikon: 'tas', teks: 'Berjanji mengurangi barang sekali pakai' },
+    olah: { ikon: ideUtama ? ideUtama.ikon : 'ember', teks: `Akan mencoba ${ideUtama ? ideUtama.judul.toLowerCase() : 'mengolah sampah'}${lagi(judulIde.length - 1, 'ide')}` },
+    setor: { ikon: 'kardus', teks: 'Siap menyetor sampah yang bersih, kering, dan terpilah' }
+  };
+  const tanggal = t => t ? new Date(t).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) : '';
+  // satu ikon mewakili sekian barang, dipilih supaya deretnya paling banyak 24 ikon
+  const jml = u => janji.reduce((s, x) => s + Math.max(1, Math.round(x.dicegah / u)), 0);
+  const satuan = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 5000].find(u => jml(u) <= 24) || 10000;
   return {
-    judul: n === 4 ? `${nama} menyelesaikan 4 langkah!` : `Jejak ${nama} sejauh ini`,
-    total: janji.reduce((s, x) => s + x.dicegah, 0),
-    baris: {
-      pilah: d.pilah.main ? `Memilah ${d.pilah.skor} dari 8 barang dengan benar di Pilah Cepat.` : d.pilah.dilihat.length ? `Sudah mengenali tong untuk ${d.pilah.dilihat.length} barang.` : 'Sudah mencari tahu tong yang benar.',
-      kurangi: janji.length ? `Ganti ${janji.slice(0, 3).map(x => `${x.b.nama.toLowerCase()} dengan ${x.b.hitung.ganti}`).join('; ')}${janji.length > 3 ? `, dan ${janji.length - 3} lainnya` : ''}.` : '',
-      olah: `Akan mencoba: ${judulIde.slice(0, 3).join(', ')}${judulIde.length > 3 ? `, dan ${judulIde.length - 3} lainnya` : ''}.`,
-      setor: 'Siap menyetor sampah yang bersih, kering, dan terpilah.'
-    }
+    n, nama: d.nama || 'Aku', gelar: JN.gelarJejak(d, janji, st), total,
+    perMinggu: Math.round(total / 52), satuan,
+    ikon: janji.map(x => ({ ikon: x.b.ikon, nama: x.b.nama, dicegah: x.dicegah, n: Math.max(1, Math.round(x.dicegah / satuan)) })),
+    stempel: JN.LANGKAH.map((l, i) => ({ l, sudah: st[l.id], tgl: tanggal(d.tgl[l.id]), ket: ket[l.id], putar: JN.STEMPEL_PUTAR[i] })),
+    aksi: JN.LANGKAH.filter(l => st[l.id]).map(l => ({ l, ...aksiSemua[l.id] })),
+    tong: JN.TONG_KARTU
   };
 };
-JN.gambarKartuJejak = el => {
-  const d = JN.jejak.data(), st = JN.jejak.status(d), n = JN.jejak.jumlah(st);
-  const isi = JN.isiKartuJejak(d), total = isi.total;
-  el.innerHTML = `<div class="kartu-jejak">
-    <div class="kj-atas"><span class="kj-logo">Jejak Nol</span><span class="kj-cap">${n === 4 ? 'Lengkap' : n + '/4 jejak'}</span></div>
-    <div class="kj-nama">${JN.esc(isi.judul)}</div>
-    ${JN.LANGKAH.map(l => `<div class="kj-baris${st[l.id] ? '' : ' belum'}" style="--w:${l.warna}"><span><b>${l.nama}</b>${st[l.id] ? JN.esc(isi.baris[l.id]) : `Belum. <a href="${l.url}">Selesaikan langkah ini →</a>`}</span></div>`).join('')}
-    ${total ? `<div class="kj-total"><span class="kj-angka">${JN.fmt(total)}</span><br><strong>barang sekali pakai per tahun tidak jadi sampah</strong></div>` : ''}
+/* 4 tong pilah + ke mana isinya pergi: ilustrasi di kartu saat belum ada angka total */
+JN.TONG_KARTU_JUDUL = 'Pilah jadi 4, beda tujuan';
+JN.TONG_KARTU = [['organik', 'pisang', 'Dikompos'], ['anorganik', 'botol', 'Bank sampah'], ['b3', 'baterai', 'Drop point'], ['residu', 'sachet', 'Ke TPS']]
+  .map(([kat, ikon, ke]) => ({ kat, ikon, ke, nama: JN.KAT[kat].nama, warna: JN.KAT[kat].warna }));
+JN.htmlKartuJejak = isi => `<div class="kartu-jejak">
+    <div class="kj-atas"><span class="kj-logo">Jejak Nol</span><span class="kj-cap">${isi.n === 4 ? 'Lengkap' : isi.n + '/4 jejak'}</span></div>
+    <div class="kj-nama">${JN.esc(isi.nama)}</div>
+    <div class="kj-gelar"><span>${JN.esc(isi.gelar)}</span></div>
+    <ul class="kj-stempel" aria-label="Empat langkah">${isi.stempel.map(s => `<li class="${s.sudah ? 'sudah' : 'belum'}" style="--w:${s.l.warna};--r:${s.putar}deg">
+      <span class="kj-bulat" aria-hidden="true"><b>${s.l.nama}</b><small>${s.sudah ? (s.tgl || '✓') : 'belum'}</small></span>
+      <span class="kj-ket"><span class="sr-only">${s.l.nama}: </span>${s.sudah ? JN.esc(s.ket) : `<a href="${s.l.url}">Mulai →</a>`}</span></li>`).join('')}</ul>
+    ${isi.aksi.length ? `<div class="kj-aksi"><span class="kj-sub">Aksi-ku</span><ul>${isi.aksi.map(a => `<li style="--w:${a.l.warna}"><i>${JN.svg(a.ikon)}</i><span>${JN.esc(a.teks)}</span></li>`).join('')}</ul></div>` : ''}
+    ${isi.total ? `<div class="kj-total"><span class="kj-angka">${JN.fmt(isi.total)}</span>
+      <strong>barang sekali pakai per tahun tidak jadi sampah</strong>
+      ${isi.perMinggu ? `<span class="kj-minggu">≈ ${JN.fmt(isi.perMinggu)} barang setiap minggu</span>` : ''}
+      <div class="kj-ikon" role="img" aria-label="${JN.esc(isi.ikon.map(x => x.nama).join(', '))}">${isi.ikon.map(x => JN.svg(x.ikon).repeat(x.n)).join('')}</div>
+      <small class="kj-satuan">1 ikon = ${JN.fmt(isi.satuan)} barang</small></div>`
+    : `<div class="kj-tong-bagian"><span class="kj-sub">${JN.TONG_KARTU_JUDUL}</span><ul class="kj-tong">${isi.tong.map(t => `<li style="--w:${t.warna}"><span class="kj-badan"><i>${JN.svg(t.ikon)}</i><b>${t.nama}</b></span><small>→ ${t.ke}</small></li>`).join('')}</ul></div>`}
     <div class="kj-kardi">${JN.kardiSVG(false, '')}</div>
   </div>`;
+JN.gambarKartuJejak = el => { el.innerHTML = JN.htmlKartuJejak(JN.isiKartuJejak()); };
+/* kartu contoh di Beranda memakai data contoh, tidak membaca jejak pengunjung */
+const hariContoh = h => new Date(2026, 10, h).getTime();
+JN.gambarKartuContoh = el => {
+  el.innerHTML = JN.htmlKartuJejak(JN.isiKartuJejak({
+    nama: 'Raka', pilah: { dilihat: [], cari: false, main: true, skor: 7 }, kurangi: { janji: true },
+    olah: { simpan: ['kompos'] }, setor: { centang: [1, 2, 3, 4, 5] },
+    tgl: { pilah: hariContoh(10), kurangi: hariContoh(11), olah: hariContoh(13), setor: hariContoh(14) }
+  }, [{ id: 'botol', jumlah: 2, per: 'hari', k: .75 }, { id: 'kresek', jumlah: 5, per: 'minggu', k: 1 }]));
 };
 
 /* ---------- ikon (SVG 48×48, garis tinta) ---------- */
@@ -540,7 +598,7 @@ function pasangIstilah() {
   const main = $('main');
   if (!main || !JN.ISTILAH) return;
   const daftar = JN.ISTILAH.map(t => ({ t, re: new RegExp(`(?<![\\p{L}\\p{N}-])(?:${t.cocok})(?![\\p{L}\\p{N}])`, t.huruf ? 'u' : 'iu') }));
-  const LEWATI = 'a,button,input,textarea,select,option,label,summary,legend,output,h1,h2,h3,b,strong,mark,svg,nav,.cap,.label,.saran,.istilah,.chip,.kebiasaan-anggota small,.tong-kecil,.tong-mini,.kepala-tong,#daftar-mitos p.m,[role=button],[data-tanpa-istilah]';
+  const LEWATI = 'a,button,input,textarea,select,option,label,summary,legend,output,h1,h2,h3,b,strong,mark,svg,nav,.cap,.label,.saran,.istilah,.chip,.kebiasaan-anggota small,.tong-kecil,.tong-mini,.kepala-tong,#daftar-mitos p.m,[role=button],[data-tanpa-istilah],.kartu-jejak';
   function tandai() {
     $$('section', main).forEach(sec => {
       const ada = new Set($$('.istilah', sec).filter(el => el.closest('section') === sec).map(el => el.dataset.istilah));
@@ -657,16 +715,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const kunciScroll = 'jejaknol:scroll:' + location.pathname + location.search;
   const simpanScroll = () => { try { sessionStorage.setItem(kunciScroll, String(Math.round(scrollY))); } catch (e) { /* abaikan */ } };
   addEventListener('pagehide', simpanScroll);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') simpanScroll(); });
   document.addEventListener('click', e => { if (e.target.closest('a[href]')) simpanScroll(); });
   const nav = performance.getEntriesByType?.('navigation')?.[0];
-  if (!location.hash && nav?.type === 'back_forward') {
+  /* Back/Forward: posisi tersimpan menang, juga bila URL punya #hash (kalau tidak, browser lompat ke jangkar).
+     Tinggi halaman bisa bertambah setelah font/gambar/skrip selesai, jadi pemulihan diulang beberapa kali
+     sampai posisinya tercapai, dan berhenti begitu pengunjung menggulir sendiri. */
+  if (nav?.type === 'back_forward') {
     let y = 0;
     try { y = Number(sessionStorage.getItem(kunciScroll) || 0); } catch (e) { /* abaikan */ }
     if (y > 0) {
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-      const pulihkan = () => { window.scrollTo({ top: y, behavior: 'instant' }); dispatchEvent(new Event('scroll')); };
+      let selesai = false;
+      const html = document.documentElement;
+      const berhenti = () => { selesai = true; html.style.scrollBehavior = ''; };
+      ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(n => addEventListener(n, berhenti, { once: true, passive: true }));
+      const pulihkan = () => {
+        if (selesai) return;
+        html.style.scrollBehavior = 'auto';
+        window.scrollTo({ top: y, behavior: 'instant' });
+        dispatchEvent(new Event('scroll'));
+        if (Math.abs(scrollY - y) <= 2 && document.readyState === 'complete') setTimeout(berhenti, 300);
+      };
       requestAnimationFrame(pulihkan);
       document.fonts?.ready.then(pulihkan);
+      addEventListener('load', pulihkan);
+      [150, 500, 1200, 2500].forEach(ms => setTimeout(pulihkan, ms));
+      setTimeout(berhenti, 3000);
     }
   }
 });

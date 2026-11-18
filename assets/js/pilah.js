@@ -106,7 +106,7 @@ function pasangPilahCepat(wadah) {
       <span class="label">Hasil Pilah Cepat</span>
       <p class="g-skor-besar"><b>${skor}</b>/${soal.length}</p><p class="g-pesan">${pesan}</p>
       ${salah.length ? `<ul class="g-salah">${salah.map(x => `<li style="--w:${KAT[x.b.kat].warna}">${svg(x.b.ikon)}<span><b>${esc(x.b.nama)}</b> masuk tong ${KAT[x.b.kat].nama}, bukan ${KAT[x.pilih].nama}.</span></li>`).join('')}</ul>` : ''}
-      <div class="g-aksi"><button type="button" class="btn putih" id="g-ulang">Main lagi</button><a class="btn" href="kurangi.html">Lanjut ke Kurangi →</a></div>
+      <div class="g-aksi"><button type="button" class="btn putih" id="g-ulang">Main lagi</button></div>
     </div>`;
     $('#g-ulang', wadah).addEventListener('click', () => { mulai(); wadah.focus({ preventScroll: true }); });
   }

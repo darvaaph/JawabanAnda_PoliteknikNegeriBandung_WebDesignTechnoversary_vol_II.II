@@ -57,7 +57,7 @@ JN.mulai = () => {
       const on = tersimpan.includes(b.dataset.simpan);
       b.setAttribute('aria-pressed', on);
       b.disabled = false;
-      b.textContent = on ? '✓ Masuk rencanaku' : '＋ Aku mau coba';
+      b.textContent = on ? '✓ Masuk Kartu Jejak-ku' : '＋ Aku mau coba';
     });
   }
   document.addEventListener('jejakberubah', sinkronSimpan);
