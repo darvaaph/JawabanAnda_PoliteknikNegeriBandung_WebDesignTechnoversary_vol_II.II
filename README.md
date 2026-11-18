@@ -99,12 +99,12 @@ Semua data dan berita berasal dari **5 tahun terakhir (2021–2026)**, diperbaru
 - **Kuningan**: DLH Kuningan, timbulan 495 ton/hari dan 260 ton/hari ke TPA Ciniru (Metrotvnews, 12 Maret 2026): https://www.metrotvnews.com/read/bVDCPjAP-dlh-kuningan-siapkan-tpst-pengganti-tpa-ciniru; kebakaran TPA Ciniru 12 Agustus 2026 (ANTARA, 13 Agustus 2026): https://www.antaranews.com/berita/5693389/bpbd-kuningan-200-personel-masih-tangani-kebakaran-tpsa-ciniru
 - **Perpres No. 12 Tahun 2025 (RPJMN 2025–2029)**: target 100% sampah terkelola pada 2029: https://kemenlh.go.id/news/detail/indonesia-bersih-2029-klhbplh-pacu-pengelolaan-sampah-100
 - **Permen LHK No. 9 Tahun 2024** tentang Pengelolaan Sampah yang Mengandung B3 dan Limbah B3: https://peraturan.bpk.go.id/Details/291985
-- **KLH/BPLH**: 343 TPA masih open dumping (9 September 2025); kewajiban pilah dari sumber (24 April 2026): https://kemenlh.go.id/news/detail/menteri-lh-pilah-sampah-harus-100-tuntas-di-tingkat-kelurahan
+- **KLH/BPLH**: 343 TPA masih open dumping, kebijakan sampah organik jadi pupuk (9 September 2025): https://kemenlh.go.id/news/detail/klhbplh-luncurkan-kebijakan-pemanfaatan-sampah-organik-untuk-pupuk-organik-dorong-swasembada-pangan-berkelanjutan ; kewajiban pilah dari sumber (24 April 2026): https://kemenlh.go.id/news/detail/menteri-lh-pilah-sampah-harus-100-tuntas-di-tingkat-kelurahan
 - **Sachet multilayer**: riset BRUIN 2022–2024 dan Ecoton (Mongabay Indonesia, 11 Juli 2025): https://mongabay.co.id/2025/07/11/riset-sebut-sampah-saset-penuhi-sungai-di-indonesia/
 - **Sisa makanan, metana, dan lindi di TPA**: KLH dalam Kompas.com, 11 April 2026: https://lestari.kompas.com/read/2026/04/11/130300186/klh-dorong-pemda-untuk-bereskan-setengah-sampah-dari-rumah
 - **Daur ulang PET dan PP**: Kompas.com, 27 Februari 2025: https://lestari.kompas.com/read/2025/02/27/165716186/fakta-daur-ulang-di-balik-plastik-pet-kemasan-besar-yang-jadi-primadona
-- **Panduan kompos**: Krisdianto dkk. (2024), *Tatalaksana dan Pemanfaatan Limbah Dapur Menjadi Pupuk Kompos di Desa Senggreng*, KOPEMAS Vol. 5 No. 1: https://new-conference.unisma.ac.id/index.php/KOPEMAS/article/view/396
-- **Panduan eco-enzyme**: Marmi dkk. (2023), J-ABDI Vol. 3 No. 7, https://doi.org/10.53625/jabdi.v3i7.6959
+- **Panduan kompos ember**: DLH Kota Bima, *Petunjuk Teknis Pengolahan Sampah Organik MAIKAKURA* (Desember 2025), bagian Ember Tumpuk: https://dlh.bimakota.go.id/upload/download/1771898092_98082612d1a1c8140236.pdf
+- **Panduan eco-enzyme**: Anomsari, S.D., materi Eco Enzyme, BRMP Pertanian Jawa Tengah (Kementan): https://jateng.brmp.pertanian.go.id/storage/assets/uploads/file/zeFPP9HCpOZEKaGMoeUEgD3YHhuJ05VBEg1tfKZY.pdf
 - **Dasar hukum yang masih berlaku**: UU No. 18 Tahun 2008 tentang Pengelolaan Sampah; Permen LHK No. 14 Tahun 2021 tentang Pengelolaan Sampah pada Bank Sampah
 - **Lainnya**: PBB, Sustainable Development Goals (https://sdgs.un.org/goals); ASTM D7611, Resin Identification Code (kode plastik 1–7)
 
