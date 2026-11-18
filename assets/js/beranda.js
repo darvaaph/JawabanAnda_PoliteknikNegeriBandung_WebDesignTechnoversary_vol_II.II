@@ -192,8 +192,13 @@ JN.mulai = () => {
       const lewat = tahap.filter(el => el.getBoundingClientRect().top <= g);
       aktif(lewat.length ? lewat[lewat.length - 1].dataset.tahap : 'kosong');
     };
-    const pengamat = new IntersectionObserver(hitung, { rootMargin: `-${garis * 100}% 0px -${(1 - garis) * 100 - 1}% 0px` });
-    tahap.forEach(el => pengamat.observe(el));
+    /* dipicu oleh scroll (bukan IntersectionObserver): pita pengamat setipis 1% bisa terpicu sesaat sebelum
+       bagian atas tahap melewati garis, lalu tidak terpicu lagi, sehingga tahap pertama tetap redup */
+    let hitungMenunggu = false;
+    const hitungRaf = () => { if (hitungMenunggu) return; hitungMenunggu = true; requestAnimationFrame(() => { hitungMenunggu = false; hitung(); }); };
+    addEventListener('scroll', hitungRaf, { passive: true });
+    addEventListener('resize', hitungRaf);
+    hitung();
     /* HP: tong terisi saat pertama kali terlihat */
     new IntersectionObserver(es => {
       if (hp.matches && kini === 'kosong' && es.some(e => e.isIntersecting)) { aktif('isi'); segarkanKontrol(); }
