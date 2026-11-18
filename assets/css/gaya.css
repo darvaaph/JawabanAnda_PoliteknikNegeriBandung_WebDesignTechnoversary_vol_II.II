@@ -717,6 +717,9 @@ footer a:hover{text-decoration:underline}
 .istilah::after{content:"?";display:inline-grid;place-items:center;width:15px;height:15px;margin-left:3px;border-radius:50%;
   background:var(--anorganik);color:var(--tinta);font:700 10px/1 var(--f-mono);vertical-align:3px;text-decoration:none}
 .istilah:hover::before,.istilah[aria-expanded="true"]::before{border-bottom-style:solid;border-bottom-color:var(--anorganik);opacity:1}
+/* ringkasan Intinya tetap bersih: cukup garis putus-putus, tanpa ikon "?" */
+.intinya .istilah::after{display:none}
+.intinya .istilah::before{right:0}
 .istilah-kotak{position:absolute;z-index:40;width:max-content;max-width:min(320px,calc(100vw - 16px));background:var(--kertas-2);color:var(--tinta);
   border:3px solid var(--tinta);border-radius:14px;padding:12px 14px;box-shadow:0 5px 0 var(--tinta);font:500 14px/1.45 var(--f-teks);animation:muncul .2s both}
 .istilah-kotak b{display:block;font:900 19px/1 var(--f-judul);font-stretch:74%;text-transform:uppercase;margin-bottom:5px}
@@ -1064,6 +1067,8 @@ fieldset.kebiasaan.contoh{border-style:dashed}
 .angka-skala{font-size:15px;margin-top:4px}
 .angka-skala b{color:var(--stempel)}
 .panel-hasil .kelompok{display:flex;flex-direction:column;gap:10px}
+.kelompok-judul{font:700 11px/1.2 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--anorganik)}
+.kelompok-rumus{font:400 13px/1 var(--f-mono);color:rgba(244,236,221,.7);white-space:nowrap}
 .kelompok-pilih{display:flex;flex-wrap:wrap;gap:6px}
 .kelompok-pilih button{border:2px solid rgba(244,236,221,.5);background:none;color:var(--kertas);border-radius:999px;padding:6px 12px;font:700 13px/1 var(--f-teks);cursor:pointer}
 .kelompok-pilih button[aria-pressed="true"]{background:var(--anorganik);border-color:var(--anorganik);color:var(--tinta)}
@@ -1081,7 +1086,11 @@ fieldset.kebiasaan.contoh{border-style:dashed}
 .bar-delta.naik{color:#7FE0A3}.bar-delta.turun{color:#FF9D8F}
 /* 5 pilihan "bisa ganti" selalu satu baris rata */
 .pilih-chip:has(input[data-k]){display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
-.pilih-chip:has(input[data-k]) span{height:100%;justify-content:center;text-align:center;padding:7px 4px}
+.pilih-chip:has(input[data-k]) label{display:flex}
+.arti-k{display:block;margin-top:8px;font-size:13px;line-height:1.35;color:var(--tinta-2)}
+.arti-k b{color:var(--organik)}
+/* kelima pilihan sama lebar dan sama tinggi, apa pun panjang teksnya */
+.pilih-chip:has(input[data-k]) span{display:flex;width:100%;min-height:52px;box-sizing:border-box;justify-content:center;text-align:center;padding:7px 4px}
 @media (max-width:520px){
   .pilih-chip span{padding:6px 9px;font-size:13px}
   .pilih-chip:has(input[data-k]) span{padding:6px 2px;font-size:11px}

@@ -437,7 +437,8 @@ JN.pasangKalkulator = root => {
       </div>
       <p class="keterangan" data-skala>Setiap ikon = 10 barang sekali pakai dalam setahun.</p>
       <div class="kelompok">
-        <div class="kelompok-pilih" role="group" aria-label="Bayangkan kalau yang ikut">${Object.entries(KELOMPOK).map(([k, [n]]) =>
+        <span class="kelompok-judul" id="kelompok-judul">Bagaimana kalau orang lain ikut?</span>
+        <div class="kelompok-pilih" role="group" aria-labelledby="kelompok-judul">${Object.entries(KELOMPOK).map(([k, [n]]) =>
           `<button type="button" data-kelompok="${k}" aria-pressed="${k === kelompok}">${n[0].toUpperCase() + n.slice(1)}</button>`).join('')}</div>
         <p data-n="kelompok"></p>
       </div>
@@ -467,6 +468,7 @@ JN.pasangKalkulator = root => {
         <div class="tanya">
           <span class="kalimat">Dari tiap 4 ${h.satuan}, berapa yang bisa kuganti dengan <b>${h.ganti}</b>?</span>
           ${pilihan('k-' + r.id, SANGGUP, 'data-k', r.id, r.k, `Seberapa sering ${b.nama} bisa diganti ${h.ganti}`)}
+          <small class="arti-k" data-arti="${r.id}" aria-live="polite"></small>
         </div>
         <div class="batang" data-hb="${r.id}"></div>
       </fieldset>`; }).join('') + (sisa.length ? `
@@ -503,7 +505,7 @@ JN.pasangKalkulator = root => {
   $$('[data-kelompok]', root).forEach(b => b.addEventListener('click', () => {
     kelompok = b.dataset.kelompok;
     $$('[data-kelompok]', root).forEach(x => x.setAttribute('aria-pressed', x === b));
-    hitung(true);
+    tulisKelompok(); // hanya kalimat ini yang berubah: tumpukan ikon milikmu tidak digambar ulang
   }));
   /* janji: dicatat ke jejak hanya saat pengunjung menekan tombol */
   $('[data-janji]', root).addEventListener('click', () => {
@@ -524,7 +526,14 @@ JN.pasangKalkulator = root => {
       : `<p>Tekan tombol ini kalau kamu siap mencoba:</p><ul>${daftar}</ul>`;
   }
 
-  let lalu = null, jeda, jedaDelta, hasil = [];
+  let lalu = null, jeda, jedaDelta, hasil = [], totKu = 0;
+  /* "bagaimana kalau": hasilmu dikali jumlah orang/kamar/rumah, tidak mengubah hitunganmu sendiri */
+  function tulisKelompok() {
+    const [nama, orang, unit] = KELOMPOK[kelompok];
+    $('[data-n="kelompok"]', root).innerHTML = totKu
+      ? `Kalau ${nama} (${orang} ${unit}) ikut melakukan hal yang sama: <b>${fmt(totKu * orang)}</b> barang setahun tidak jadi sampah <span class="kelompok-rumus">(${fmt(totKu)} × ${orang} ${unit})</span>.`
+      : `Atur kebiasaanmu di atas dulu, lalu lihat dampaknya kalau ${nama} ikut.`;
+  }
   const tumpuk = (el, daftar, skala) => {
     const ikon = [];
     daftar.forEach(([n, jml]) => { for (let i = 0; i < Math.round(jml / skala); i++) ikon.push(n); });
@@ -537,6 +546,11 @@ JN.pasangKalkulator = root => {
     });
     /* batang mini per barang: setahun vs setelah ganti */
     hasil.forEach(x => {
+      /* arti pilihan "dari tiap 4": berapa kali pakai pengganti, berapa kali masih sekali pakai */
+      const n = Math.round(x.r.k * 4), g = x.b.hitung.ganti, su = x.b.hitung.satuan, arti = $(`[data-arti="${x.r.id}"]`, root);
+      if (arti) arti.innerHTML = n === 0 ? `Artinya: keempatnya masih ${su} sekali pakai.`
+        : n === 4 ? `Artinya: keempatnya <b>${g}</b>, tidak ada ${su} sekali pakai.`
+        : `Artinya: dari 4 kali, <b>${n} kali ${g}</b>, ${4 - n} kali masih ${su} sekali pakai.`;
       const s = x.b.hitung.satuan, pct = x.sekarang ? Math.round(x.setelah / x.sekarang * 100) : 0;
       $(`[data-hb="${x.r.id}"]`, root).innerHTML = `
         <div class="batang-baris"><span>Setahun</span><i style="width:${x.sekarang ? 100 : 0}%"></i><b>${fmt(x.sekarang)} ${s}</b></div>
@@ -551,8 +565,7 @@ JN.pasangKalkulator = root => {
     $('[data-n="skala"]', root).innerHTML = !tot ? '' : perMinggu >= 1
       ? `Artinya sekitar <b>${fmt(Math.round(perMinggu))} barang setiap minggu</b>.`
       : `Artinya sekitar <b>${fmt(Math.max(1, Math.round(tot / 12)))} barang setiap bulan</b>.`;
-    const [nama, orang, unit] = KELOMPOK[kelompok];
-    $('[data-n="kelompok"]', root).innerHTML = `Kalau ${nama} (${orang} ${unit}) ikut melakukan hal yang sama: <b>${fmt(tot * orang)}</b> barang setahun tidak jadi sampah.`;
+    totKu = tot; tulisKelompok();
     $('[data-n="bar"]', root).textContent = fmt(tot);
     if (!diam && lalu !== null && tot !== lalu) {
       const d = $('[data-delta]', root), selisih = tot - lalu;
