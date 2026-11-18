@@ -10,9 +10,16 @@ JN.mulai = () => {
   const aturLokasi = () => { lokasi.hidden = jenis.value !== 'lokasi'; };
   jenis.addEventListener('change', aturLokasi); aturLokasi();
 
+  const EMAIL_RE = /^[a-zA-Z0-9_%+-]+(?:\.[a-zA-Z0-9_%+-]+)*@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
+  const EMAIL_TYPO_RE = /@(?:gamil|gmial|gmal|gnail|yaho|yhoo)\.|(?:\.(?:con|cmo|ocm))$/i;
   const ATURAN = {
     nama: v => v.trim().length >= 2 || 'Tulis namamu, minimal 2 huruf.',
-    email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) || 'Tulis email yang lengkap, contoh: nama@email.com.',
+    email: v => {
+      const s = v.trim();
+      if (!EMAIL_RE.test(s)) return 'Tulis alamat email yang valid (akhiran seperti .com atau .ac.id), contoh: nama@email.com.';
+      if (EMAIL_TYPO_RE.test(s)) return 'Sepertinya ada salah ketik di penulisan emailmu (misal @gmail.com atau .com).';
+      return true;
+    },
     pesan: v => v.trim().length >= 10 || 'Tulis pesanmu, minimal 10 huruf, supaya kami paham maksudnya.',
     'nama-lokasi': v => jenis.value !== 'lokasi' || v.trim().length >= 3 || 'Tulis nama tempat yang ingin kamu usulkan.'
   };
@@ -23,12 +30,17 @@ JN.mulai = () => {
     galat.hidden = !salah; galat.textContent = salah ? hasil : '';
     return !salah;
   }
-  Object.keys(ATURAN).forEach(id => $('#' + id).addEventListener('blur', () => { if ($('#' + id).value) cek(id); }));
+  Object.keys(ATURAN).forEach(id => {
+    const el = $('#' + id);
+    el.addEventListener('blur', () => { if (el.value) cek(id); });
+    el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') cek(id); });
+  });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const salah = Object.keys(ATURAN).filter(id => !cek(id));
     if (salah.length) { $('#' + salah[0]).focus(); JN.eks('bingung', 2000); return; }
+    const lamaGalat = $('#galat-kirim'); if (lamaGalat) lamaGalat.remove();
     const tombol = $('button[type="submit"]', form);
     tombol.disabled = true; tombol.textContent = 'Mengirim…';
     let teks;
@@ -36,12 +48,21 @@ JN.mulai = () => {
     if (endpoint) {
       try {
         const r = await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
-        if (!r.ok) throw new Error(r.status);
+        if (!r.ok) {
+          let pesanErr = r.status === 422
+            ? 'Pesan belum terkirim. Periksa kembali format alamat email dan isi formulir.'
+            : 'Pesan belum terkirim karena koneksi bermasalah. Coba kirim lagi sebentar lagi.';
+          try {
+            const j = await r.json();
+            if (j && Array.isArray(j.errors) && j.errors[0]?.message) pesanErr = `Pesan belum terkirim: ${j.errors[0].message}`;
+          } catch (_) {}
+          throw new Error(pesanErr);
+        }
         teks = 'Pesanmu sudah kami terima. Kami akan membalas lewat email dalam beberapa hari.';
       } catch (err) {
         tombol.disabled = false; tombol.textContent = 'Kirim pesan';
         JN.eks('kaget', 2000);
-        alertGalat('Pesan belum terkirim karena koneksi bermasalah. Coba kirim lagi sebentar lagi.');
+        alertGalat(err && err.message && err.message.startsWith('Pesan belum') ? err.message : 'Pesan belum terkirim karena koneksi bermasalah. Coba kirim lagi sebentar lagi.');
         return;
       }
     } else {

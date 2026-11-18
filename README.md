@@ -129,6 +129,6 @@ Semua data dan berita berasal dari **5 tahun terakhir (2021–2026)**, diperbaru
 - [ ] **Konfirmasi 4 lokasi di `JN.DIREKTORI`** (2 bank sampah, 2 TPS3R; sekarang berchip “Belum dikonfirmasi”): telepon/kunjungi, isi `jam`, `menerima`, lalu ganti `sumber` dengan `dicek: 'tanggal'`. Cari juga drop point B3 dan toko refill (belum ada satu pun)
 - [x] Nama tim dan anggota terisi (Tentang, README)
 - [ ] Cocokkan “kebiasaan zero-waste” tiap anggota di Tentang dengan kenyataan (draf awal); email tim sudah terisi (Kontak), Instagram tidak dicantumkan; sebutkan peran masing-masing anggota bila ingin dicantumkan
-- [ ] Aktifkan formulir kontak (`data-endpoint`)
+- [x] Aktifkan formulir kontak (`data-endpoint` — Formspree)
 - [ ] Terbitkan ke GitHub Pages dan isi tautannya di atas
 - [ ] Cek dengan Lighthouse (Chrome DevTools) dan di HP
